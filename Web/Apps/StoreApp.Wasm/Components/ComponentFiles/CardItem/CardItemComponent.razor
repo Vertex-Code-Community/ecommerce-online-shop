@@ -1,0 +1,11 @@
+﻿@using StoreApp.Wasm.Components.Pages.ProductDetail.Components
+
+<div @onclick="OnCardClick" class="card-item">
+    <div class="card-item-image-wrapper">
+        <img class="card-item-image" src="@ImageSrc" />
+    </div>
+    <div class="card-item-title">@Title</div>
+    <ProductRating Rating="@Rating" RatingText="@RatingText"></ProductRating>
+    <ProductPrice CurrentPrice="@CurrentPrice" Discount="@Discount" OldPrice="@OldPrice"></ProductPrice>
+</div>
+

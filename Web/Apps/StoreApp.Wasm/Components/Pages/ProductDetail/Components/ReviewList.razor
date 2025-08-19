@@ -1,0 +1,56 @@
+@using StoreApp.Wasm.Components.ComponentFiles.Buttons.BasicButton
+@using StoreApp.Wasm.Components.ComponentFiles.Select
+@using StoreApp.Wasm.Enums
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+
+<div class="review-list-wrapper">
+    <div class="review-list-header">
+        <div class="review-list-title">
+            <h3 class="title">All Reviews</h3>
+            <span class="count">(@Reviews.Count)</span>
+        </div>
+
+        <div class="review-actions">
+            <button class="filter-button">
+                <SvgFilterComponent/>
+            </button>
+
+            <div class="custom-select">
+                <BasicSelect TKey="ReviewSortOptions" 
+                             Value="selectedSortOption" 
+                             Options="sortOptions" 
+                             ValueChanged="option => selectedSortOption = option"/>
+            </div>
+            @if (!IsReadOnly)
+            {
+                <button @onclick="() => isReviewFormVisible = true" class="create-review-button">Write a Review</button>
+            }
+        </div>
+    </div>
+
+    <div class="review-list">
+        @foreach (var review in DisplayedReviews())
+        {
+            <ProductReview Review="@review" />
+        }
+    </div>
+
+    @if (Reviews.Count > 6)
+    {
+        <div class="all-review-wrapper">
+            <div class="load-button-wrapper">
+                <div class="load-button">
+                    <BasicButtonComponent 
+                        Text="@ToggleButtonText" 
+                        IsRevert="true" 
+                        OnClick="ToggleShowAll" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (isReviewFormVisible)
+{
+    <ReviewForm OnSubmit="OnWriteReviewClicked" OnClose="() => isReviewFormVisible = false" />
+}

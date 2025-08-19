@@ -1,0 +1,26 @@
+﻿@page "/"
+
+@using StoreApp.Wasm.Components.ComponentFiles.Promo
+@using StoreApp.Wasm.Components.ComponentFiles.Header
+@using StoreApp.Wasm.Components.ComponentFiles.Footer
+@using StoreApp.Wasm.Components.ComponentFiles.Separator
+@using StoreApp.Wasm.Components.Pages.Home.Components.Start
+@using StoreApp.Wasm.Components.Pages.Home.Components.Brands
+@using StoreApp.Wasm.Components.Pages.Home.Components.PromotedProducts
+@using StoreApp.Wasm.Components.Pages.Home.Components.Styles
+@using StoreApp.Wasm.Components.Pages.Home.Components.Customers
+
+
+<div class="home-page-wrapper">
+    <StartComponent />
+    <BrandsComponent />
+    <div class="products-wrapper">
+        <PromotedProductsComponent HeaderText="NEW ARRIVALS" ProductList="NewArrivals" />
+        <div class="separator-wrapper">
+            <SeparatorComponent />
+        </div>
+        <PromotedProductsComponent HeaderText="TOP SELLING" ProductList="TopSelling" />
+    </div>
+    <StylesComponent />
+    <CustomersComponent />
+</div>

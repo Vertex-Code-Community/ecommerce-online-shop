@@ -1,0 +1,115 @@
+﻿@using StoreApp.Wasm.Components.ComponentFiles.Buttons.BasicButton
+@using StoreApp.Wasm.Components.ComponentFiles.Inputs.BasicInput
+@using StoreApp.Wasm.Components.ComponentFiles.Separator
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles.Payments
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles.SocialNetworks
+
+
+<div class="footer-section-wrapper">
+    <div class="newsletter-wrapper">
+        <div class="newsletter">
+            <div class="newsletter-title">STAY UPTO DATE ABOUT OUR LATEST OFFERS</div>
+            <div class="newsletter-input-wrapper">
+                <div class="input-wrapper">
+                    <BasicInputComponent Placeholder="Enter your email address" IconOpacity="0.6">
+                        <Icon>
+                            <SvgMessageComponent />
+                        </Icon>
+                    </BasicInputComponent>
+                </div>
+                <div class="subscribe-button-wrapper">
+                    <BasicButtonComponent Text="Subscribe to Newsletter" IsRevert="true" BackgroundColor="#FFFFFF" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-wrapper">
+        <div class="footer-nav-wrapper">
+            <div class="footer-info">
+                <div class="logo-text">SHOP.CO</div>
+                <div class="footer-description">We have clothes that suits your style 
+                    and which you’re proud to wear. From women to men.
+                </div>
+                <div class="social-networks">
+                    <div class="social-network-item">
+                        <SvgTwitterComponent />
+                    </div>
+                    <div class="social-network-item">
+                        <SvgFacebookComponent />
+                    </div>
+                    <div class="social-network-item">
+                        <SvgInstagramComponent />
+                    </div>
+                    <div class="social-network-item">
+                        <SvgGithubComponent />
+                    </div>
+                </div>
+            </div>
+            <div class="submenu-grid">
+                <div class="submenu-wrapper">
+                    <div class="submenu-header">COMPANY</div>
+                    <div class="submenu-items-wrapper">
+                        <div class="submenu-item">About</div>
+                        <div class="submenu-item">Features</div>
+                        <div class="submenu-item">Works</div>
+                        <div class="submenu-item">Career</div>
+                    </div>
+                </div>
+
+                <div class="submenu-wrapper">
+                    <div class="submenu-header">HELP</div>
+                    <div class="submenu-items-wrapper">
+                        <div class="submenu-item">Customer Support</div>
+                        <div class="submenu-item">Delivery Details</div>
+                        <div class="submenu-item">Terms & Conditions</div>
+                        <div class="submenu-item">Privacy Policy</div>
+                    </div>
+                </div>
+
+                <div class="submenu-wrapper">
+                    <div class="submenu-header">FAQ</div>
+                    <div class="submenu-items-wrapper">
+                        <div class="submenu-item">Account</div>
+                        <div class="submenu-item">Manage Deliveries</div>
+                        <div class="submenu-item">Orders</div>
+                        <div class="submenu-item">Payments</div>
+                    </div>
+                </div>
+
+                <div class="submenu-wrapper">
+                    <div class="submenu-header">RESOURCES</div>
+                    <div class="submenu-items-wrapper">
+                        <div class="submenu-item">Free eBooks</div>
+                        <div class="submenu-item">Development Tutorial</div>
+                        <div class="submenu-item">How to - Blog</div>
+                        <div class="submenu-item">Youtube Playlist</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="separator-wrapper">
+            <SeparatorComponent />
+        </div>
+        <div class="footer-bottom-wrapper">
+            <div class="copyright">Shop.co © 2000-2023, All Rights Reserved</div>
+            <div class="payments-wrapper">
+                <div class="payment-item">
+                    <SvgVisaComponent />
+                </div>
+                <div class="payment-item">
+                    <SvgMastercardComponent />
+                </div>
+                <div class="payment-item">
+                    <SvgPaypalComponent />
+                </div>
+                <div class="payment-item">
+                    <SvgApplePayComponent />
+                </div>
+                <div class="payment-item">
+                    <SvgGooglePayComponent />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

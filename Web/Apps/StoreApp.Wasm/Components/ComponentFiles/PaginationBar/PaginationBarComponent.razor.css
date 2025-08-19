@@ -1,0 +1,75 @@
+﻿.pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.nav-button {
+    display: flex;
+    padding: 8px 14px;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: "Satoshi Regular", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0;
+}
+
+    .nav-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+.page-items {
+    display: flex;
+    gap: 4px;
+}
+
+.page-button {
+    background-color: transparent;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #333;
+    font-family: "Satoshi Regular", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0;
+}
+
+    .page-button.active {
+        background-color: #eee;
+        font-weight: bold;
+        pointer-events: none;
+    }
+
+.dots {
+    padding: 12px 20px;
+    color: #888888;
+    font-family: "Satoshi Regular", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0;
+}
+
+@media (max-width: 640px) {
+    .pagination-wrapper,
+    .page-items {
+        gap: 0;
+    }
+
+    .nav-button,
+    .page-button,
+    .dots {
+        font-size: 12px;
+    }
+}

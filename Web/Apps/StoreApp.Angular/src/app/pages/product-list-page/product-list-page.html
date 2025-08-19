@@ -1,0 +1,25 @@
+<div class="product-list-container">
+  <div class="product-list-header">
+    <h2>Products</h2>
+    <button class="add-product-button" (click)="onAddProduct()">
+      Add Product
+    </button>
+  </div>
+  <app-product-list
+    [products]="products"
+    (productClicked)="onProductSelected($event)"
+    (productDeleted)="onProductDelete($event)"
+  ></app-product-list>
+  <app-loading-spinner
+    class="loading-spinner"
+    *ngIf="isLoading"
+  ></app-loading-spinner>
+
+  <app-pagination
+    [totalItems]="totalCount"
+    [pageSize]="pageSize"
+    [currentPage]="currentPage"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
+  ></app-pagination>
+</div>

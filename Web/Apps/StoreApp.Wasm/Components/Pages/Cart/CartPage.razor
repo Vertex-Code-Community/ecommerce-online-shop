@@ -1,0 +1,133 @@
+@page "/cart"
+
+@using StoreApp.Wasm.Components.ComponentFiles.Inputs.BasicInput
+@using StoreApp.Wasm.Components.ComponentFiles.Buttons.BasicButton
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+@using StoreApp.Wasm.Models
+@using StoreApp.Wasm.Components.ComponentFiles.Breadcrumb
+
+<div class="breadcrumb-container">
+    <BreadcrumbComponent BreadcrumbItems="@_breadcrumbItems" />
+</div>
+
+<div class="cart-page-wrapper">
+    @if (_isLoading)
+    {
+        <div class="cart-page-wrapper">
+            <div class="loading-indicator">
+                <p>Loading...</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="cart-page">
+            <div class="cart-title">YOUR CART</div>
+
+            @if (_items.Count == 0)
+            {
+                <div class="empty-cart">
+                    <p>Your cart is empty.</p>
+                </div>
+            }
+            else
+            {
+                <div class="content">
+                    <div class="items">
+                        @for (var i = 0; i < _items.Count; i++)
+                        {
+                            var item = _items[i];
+                            <div class="cart-item">
+                                <div class="image">
+                                    <img src="@item.ProductModel.ImageSrc" alt="@item.ProductModel.Title" />
+                                </div>
+                                <div class="details">
+                                    <div class="top-row">
+                                        <div class="title">@item.ProductModel.Title</div>
+                                        <button class="remove" @onclick="() => RemoveItem(item)">
+                                            <SvgTrashComponent />
+                                        </button>
+                                    </div>
+                                    <div class="product-options">
+                                        @if (item.SelectedColor != null)
+                                        {
+                                            <div class="option">
+                                                <span class="option-label">Color:</span>
+                                                <div class="color-preview" style="background-color: @item.SelectedColor.HexCode;" title="@item.SelectedColor.Name"></div>
+                                                <span class="option-value">@item.SelectedColor.Name</span>
+                                            </div>
+                                        }
+                                        @if (item.SelectedSize != null)
+                                        {
+                                            <div class="option">
+                                                <span class="option-label">Size:</span>
+                                                <span class="option-value">@item.SelectedSize.Name</span>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="bottom-row">
+                                        <div class="meta">$@item.ProductModel.CurrentPrice</div>
+                                        <div class="quantity">
+                                            <button class="qty-btn" @onclick="() => Decrease(item)">−</button>
+                                            <div class="qty">@item.Quantity</div>
+                                            <button class="qty-btn" @onclick="() => Increase(item)">＋</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (_items.Count > 1 && i < _items.Count - 1)
+                            {
+                                <div class="item-separator"></div>
+                            }
+                        }
+                    </div>
+
+                    <div class="summary">
+                        <div class="summary-title">Order Summary</div>
+                        <div class="row">
+                            <div class="row-title">Subtotal</div>
+                            <div>$@_subtotal</div>
+                        </div>
+                        <div class="row">
+                            <div class="row-title">Discount (@(_promoApplied ? "-20%" : "0%"))</div>
+                            <div class="discount">@(_promoApplied ? $"-$({_discountAmount})" : "$0")</div>
+                        </div>
+                        <div class="row">
+                            <div class="row-title">Delivery Fee</div>
+                            <div>$@_deliveryFee</div>
+                        </div>
+                        <div class="item-separator"></div>
+                        <div class="total">
+                            <div class="row-title">Total</div>
+                            <div>$@_total</div>
+                        </div>
+
+                        <div class="promo">
+                            <BasicInputComponent Placeholder="Add promo code"
+                                                 BackgroundColor="#F0F0F0"
+                                                 Height="auto"
+                                                 Value="@_promoCode"
+                                                 ValueChanged="@(v => _promoCode = v ?? string.Empty)">
+                                <Icon>
+                                    <SvgLabelComponent />
+                                </Icon>
+                            </BasicInputComponent>
+                            <BasicButtonComponent Text="Apply"
+                                                  Width="auto"
+                                                  Height="auto"
+                                                  FontSize="14px"
+                                                  OnClick="ApplyPromoCode" />
+                        </div>
+
+                        <BasicButtonComponent Text="Go to Checkout"
+                                              Width="100%"
+                                              Height="auto"
+                                              FontSize="16px"
+                                              OnClick="GoToCheckout" />
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+</div>

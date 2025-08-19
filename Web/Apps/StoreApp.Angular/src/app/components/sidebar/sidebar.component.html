@@ -1,0 +1,74 @@
+<div class="sidebar" [class.open]="isOpen">
+  <div class="sidebar-content">
+    <button class="sidebar-button" (click)="toggle()">
+      <img
+        src="https://www.svgrepo.com/show/504111/app-lounge.svg"
+        class="icon"
+      />
+      <span class="label" *ngIf="isOpen">Store App</span>
+      <img
+        *ngIf="isOpen"
+        src="https://www.svgrepo.com/show/533625/arrow-square-left.svg"
+        class="icon"
+      />
+    </button>
+
+    <nav>
+      <button class="sidebar-button">
+        <img
+          src="https://www.svgrepo.com/show/502602/dashboard-1.svg"
+          class="icon"
+        />
+        <span class="label" *ngIf="isOpen">Dashboard</span>
+      </button>
+
+      <div class="dropdown">
+        <button class="sidebar-button" (click)="toggleDropdown()">
+          <img
+            src="https://www.svgrepo.com/show/499594/components.svg"
+            class="icon"
+          />
+          <span class="label" *ngIf="isOpen">Components</span>
+          <span
+            *ngIf="isOpen"
+            class="dropdown-arrow"
+            [class.open]="dropdownOpen"
+          >
+            <img
+              src="https://www.svgrepo.com/show/509905/dropdown-arrow.svg"
+              class="icon"
+            />
+          </span>
+        </button>
+
+        <div
+          class="dropdown-menu-wrapper"
+          [class.open]="dropdownOpen && isOpen"
+        >
+          <div class="dropdown-menu">
+            <button class="dropdown-item">Calendar</button>
+            <button class="dropdown-item">Cropper</button>
+            <button class="dropdown-item">Expanded menu</button>
+            <button class="dropdown-item">Modal</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="sidebar-button">
+        <img
+          src="https://www.svgrepo.com/show/502788/payment-card.svg"
+          class="icon"
+        />
+        <span class="label" *ngIf="isOpen">Subscriptions</span>
+      </button>
+    </nav>
+  </div>
+
+  <button *ngIf="!isOpen" class="sidebar-toggle-button" (click)="toggle()">
+    <img
+      src="https://www.svgrepo.com/show/533627/arrow-square-right.svg"
+      class="icon"
+      [class.rotated]="isOpen"
+    />
+  </button>
+</div>

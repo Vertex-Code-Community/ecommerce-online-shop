@@ -1,0 +1,49 @@
+﻿@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+
+
+<div class="customers-section-wrapper">
+    <div class="customers-wrapper">
+        <div class="customers-header">
+            <div class="header-text">
+                OUR HAPPY CUSTOMERS
+            </div>
+            <div class="header-arrows">
+                <button @onclick="ScrollLeft" class="arrow-button">
+                    <SvgArrowComponent />
+                </button>
+                <button @onclick="ScrollRight" class="arrow-button">
+                    <SvgArrowComponent RevertIcon="true" />
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="reviews-outer">
+        <div class="reviews-wrapper" @ref="reviewsWrapperRef">
+            <div class="review-item">
+                <ReviewComponent />
+            </div>
+            <div class="review-item">
+                <ReviewComponent />
+            </div>
+            <div class="review-item">
+                <ReviewComponent />
+            </div>
+            <div class="review-item">
+                <ReviewComponent />
+            </div>
+            <div class="review-item">
+                <ReviewComponent />
+            </div>
+            <div class="review-item">
+                <ReviewComponent />
+            </div>
+            <div class="review-item">
+                <ReviewComponent />
+            </div>
+        </div>
+        <div class="blur-left"></div>
+        <div class="blur-right"></div>
+    </div>
+</div>

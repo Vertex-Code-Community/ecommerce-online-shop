@@ -1,0 +1,5 @@
+﻿.reverted-icon {
+    display: inline-block;
+    transform: rotate(180deg);
+    transform-origin: center center;
+}

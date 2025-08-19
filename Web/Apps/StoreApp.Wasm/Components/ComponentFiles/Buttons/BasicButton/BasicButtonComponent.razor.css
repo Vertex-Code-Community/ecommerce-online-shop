@@ -1,0 +1,45 @@
+﻿.button-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 64px;
+    background-color: #000000;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+    .button-content .text-container {
+        color: #FFFFFF;
+        font-family: 'Satoshi Medium', sans-serif;
+        font-weight: 500;
+        font-size: var(--font-size, 16px);
+        padding: 10px 20px;
+    }
+
+    .button-content.revert .text-container {
+        color: #000000;
+    }
+
+    .button-content.revert {
+        background-color: transparent;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .button-content:active {
+        transform: scale(0.96);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .button-content:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+@media (max-width: 640px) {
+    .button-content .text-container {
+        font-size: 14px;
+    }
+}

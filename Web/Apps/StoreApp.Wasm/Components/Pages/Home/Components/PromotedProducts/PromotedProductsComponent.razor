@@ -1,0 +1,30 @@
+﻿@using StoreApp.Wasm.Components.ComponentFiles.Buttons.BasicButton
+@using StoreApp.Wasm.Components.ComponentFiles.CardItem
+
+
+<div class="promoted-products-wrapper">
+    <div class="promoted-products">
+        <div class="head-text">@HeaderText</div>
+        <div class="cards-list-wrapper">
+            @foreach (var product in ProductList)
+            {
+                <CardItemComponent Id="@product.Id"
+                                   ImageSrc="@product.ImageSrc"
+                                   Title="@product.Title"
+                                   Rating="@product.Rating"
+                                   RatingText="@($"{product.Rating:0.0}/5")"
+                                   CurrentPrice="@product.CurrentPrice"
+                                   OldPrice="@product.OldPrice"
+                                   Discount="@product.Discount" />
+            }
+        </div>
+        @if (IsVisibleViewAllButton)
+        {
+            <div class="view-all-button-wrapper">
+                <div class="view-all-button">
+                    <BasicButtonComponent Text="View All" IsRevert="true" />
+                </div>
+            </div>
+        }
+    </div>
+</div>

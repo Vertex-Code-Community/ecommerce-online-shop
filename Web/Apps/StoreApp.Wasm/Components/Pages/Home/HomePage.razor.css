@@ -1,0 +1,30 @@
+﻿*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.home-page-wrapper {
+
+}
+    .home-page-wrapper .products-wrapper {
+        margin-top: 72px;
+    }
+
+    .home-page-wrapper .products-wrapper .separator-wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 64px 0;
+    }
+
+@media (max-width: 640px) {
+        .home-page-wrapper .products-wrapper {
+            margin-top: 50px;
+        }
+
+            .home-page-wrapper .products-wrapper .separator-wrapper {
+                padding: 40px 0;
+            }
+
+                .home-page-wrapper .products-wrapper .separator-wrapper .separator {
+                    width: 100%;
+                }
+}

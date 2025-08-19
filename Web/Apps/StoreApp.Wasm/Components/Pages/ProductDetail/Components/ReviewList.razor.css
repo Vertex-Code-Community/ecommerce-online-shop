@@ -1,0 +1,132 @@
+.review-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.review-list-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.review-list-title {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 5px
+}
+
+.title {
+    font-family: 'Satoshi Bold', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.count {
+    font-family: 'Satoshi Regular', sans-serif;
+    vertical-align: bottom;
+    font-weight: 400;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.review-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 350px;
+}
+
+.filter-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(240, 240, 240, 1);
+    cursor: pointer;
+}
+
+.date-filter-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 62px;
+    background: rgba(240, 240, 240, 1);
+    min-width: 120px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.create-review-button {
+    font-family: "Satoshi Medium", serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 62px;
+    flex: 1;
+    padding: 16px 0;
+    background-color: black;
+    cursor: pointer;
+}
+
+.review-list {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.all-review-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.all-review-wrapper .load-button-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 52px;
+    margin-top: 36px;
+}
+
+.all-review-wrapper .load-button-wrapper .load-button {
+    width: 216px;
+}
+
+@media (max-width: 640px) {
+    .all-review-wrapper .load-button-wrapper {
+        margin-top: 16px;
+    }
+
+    .date-filter-button {
+        display: none;
+    }
+
+    .create-review-button {
+        min-width: 110px;
+        padding: 12px 0;
+        flex: none;
+        font-size: 14px;
+    }
+
+    .review-actions {
+        min-width: 180px;
+        gap: 8px;
+    }
+
+    .custom-select {
+        display: none;
+    }
+}

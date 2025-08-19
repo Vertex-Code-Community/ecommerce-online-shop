@@ -1,0 +1,190 @@
+* {
+    box-sizing: border-box;
+}
+
+.product-detail {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.product-title {
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-family: 'Integral CF Bold', sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 100%;
+    letter-spacing: 0;
+    vertical-align: middle;
+}
+
+.product-rating {
+    font-size: 16px;
+}
+
+.product-price {
+    font-size: 16px;
+}
+
+.secondary-text {
+    font-family: "Satoshi Regular", serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+}
+
+.selection-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.color-options {
+    display: flex;
+    gap: 10px;
+}
+
+.color-option {
+    border: none;
+    border-radius: 50%;
+    width: 37px;
+    height: 37px;
+    cursor: pointer;
+}
+
+.color-option .checkmark {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.size-options {
+    display: flex;
+    gap: 10px;
+}
+
+.size-option {
+    border: none;
+    padding: 12px 24px;
+    background-color: rgba(240, 240, 240, 1);
+    border-radius: 62px;
+    cursor: pointer;
+}
+
+.size-option.selected {
+    background-color: black;
+    color: white;
+}
+
+.product-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.add-to-cart-button {
+    font-family: "Satoshi Medium", serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 62px;
+    flex: 1;
+    padding: 16px 0;
+    background-color: black;
+    cursor: pointer;
+}
+
+hr {
+    margin: 0;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1024px) and (min-width: 641px) {
+    .product-detail {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .product-info {
+        width: 100%;
+    }
+
+    .product-title {
+        font-size: 32px;
+    }
+
+    .product-rating,
+    .product-price,
+    .secondary-text {
+        font-size: 15px;
+    }
+
+    .product-buttons {
+        flex-wrap: wrap;
+    }
+
+    .add-to-cart-button {
+        min-width: 220px;
+    }
+}
+
+@media (max-width: 640px) {
+    .product-detail {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .product-info {
+        padding: 0;
+        width: 100%;
+    }
+
+    .product-title {
+        font-size: 28px;
+        text-align: left;
+    }
+
+    .product-rating,
+    .product-price,
+    .secondary-text {
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .selection-block {
+        align-items: flex-start;
+    }
+
+    .color-options,
+    .size-options,
+    .product-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .size-option {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .add-to-cart-button {
+        width: 100%;
+        padding: 14px 0;
+    }
+}

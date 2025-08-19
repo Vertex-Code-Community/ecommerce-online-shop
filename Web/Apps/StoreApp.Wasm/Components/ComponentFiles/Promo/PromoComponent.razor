@@ -1,0 +1,17 @@
+﻿@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+
+
+@if (_isVisible)
+{
+    <div class="promo-section-wrapper">
+        <div class="promo-wrapper">
+            <div class="promo-text">
+                Sign up and get 20% off to your first order.&#160;
+                <div class="underline-text"> Sign Up Now</div>
+            </div>
+            <div class="promo-close" @onclick="OnCloseClicked" role="button" aria-label="Close promo">
+                <SvgCloseComponent Color="#FFFFFF" />
+            </div>
+        </div>
+    </div>
+}

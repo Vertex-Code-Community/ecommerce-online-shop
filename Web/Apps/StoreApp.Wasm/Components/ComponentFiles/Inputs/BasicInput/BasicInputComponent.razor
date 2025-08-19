@@ -1,0 +1,16 @@
+﻿@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+
+
+<div class="input-wrapper" style="@GetWrapperStyle()">
+    @if (Icon is not null)
+    {
+        <div class="input-icon-wrapper">
+            <div style="opacity: @IconOpacity;">
+                @Icon
+            </div>
+        </div>
+    }
+    <input type="@Type" value="@Value" placeholder="@Placeholder" style="@GetInputStyle()" 
+           @attributes="AdditionalAttributes"
+           @oninput="HandleInput" />
+</div>

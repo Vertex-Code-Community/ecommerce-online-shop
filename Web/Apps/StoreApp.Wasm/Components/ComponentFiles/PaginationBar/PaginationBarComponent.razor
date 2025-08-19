@@ -1,0 +1,26 @@
+﻿<div class="pagination-wrapper">
+    <button class="nav-button" @onclick="() => SelectPage(CurrentPage - 1)" disabled="@(@CurrentPage == 1)">
+        ← Previous
+    </button>
+
+    <div class="page-items">
+        @foreach (var item in GetPageItems())
+        {
+            if (item is string dots)
+            {
+                <span class="dots">@dots</span>
+            }
+            else if (item is int pg)
+            {
+                <button class="page-button @(pg == CurrentPage ? "active" : "")"
+                        @onclick="() => SelectPage(pg)">
+                    @pg
+                </button>
+            }
+        }
+    </div>
+
+    <button class="nav-button" @onclick="() => SelectPage(CurrentPage + 1)" disabled="@(@CurrentPage == TotalPages)">
+        Next →
+    </button>
+</div>

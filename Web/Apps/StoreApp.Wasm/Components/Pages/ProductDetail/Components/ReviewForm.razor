@@ -1,0 +1,34 @@
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+
+<div class="review-modal">
+    <div class="review-form">
+        <div class="rating-stars" @onmouseleave="ResetHover">
+            @for (var i = 1; i <= 5; i++)
+            {
+                var i1 = i;
+                <span class="star"
+                  @onmouseover="@(() => HoveredRating = i1)"
+                  @onclick="@(() => review.Rating = i1)">
+                @if (HoveredRating >= i1 || review.Rating >= i1)
+                {
+                    <SvgRatingStarComponent />
+                }
+                else
+                {
+                    <SvgRatingStarEmptyComponent />
+                }
+            </span>
+            }
+        </div>
+
+        <textarea @bind="review.Comment"
+                  placeholder="Write your review here..."
+                  class="review-textarea">
+    </textarea>
+
+        <div class="review-actions">
+            <button @onclick="CloseReviewForm" class="cancel-button">Cancel</button>
+            <button @onclick="SubmitReview" class="submit-button">Submit</button>
+        </div>
+    </div>
+</div>

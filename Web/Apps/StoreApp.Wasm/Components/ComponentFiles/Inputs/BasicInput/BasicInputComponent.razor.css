@@ -1,0 +1,23 @@
+﻿.input-wrapper {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    border-radius: 64px;
+    background-color: #FFFFFF;
+    padding: 0 16px;
+}
+
+.input-wrapper .input-icon-wrapper {
+    margin-right: 8px;
+}
+
+.input-wrapper input {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-family: 'Satoshi Regular', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    opacity: 60%;
+}

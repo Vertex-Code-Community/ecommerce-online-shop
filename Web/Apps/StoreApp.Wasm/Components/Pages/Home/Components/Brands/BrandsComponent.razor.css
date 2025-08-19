@@ -1,0 +1,84 @@
+﻿.brands-section-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 122px;
+    background: #000000;
+}
+
+    .brands-section-wrapper .brands-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        max-width: var(--content-max-width);
+        box-sizing: border-box;
+    }
+
+        .brands-section-wrapper .brands-wrapper .brand-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .brands-section-wrapper .brands-wrapper .brand-item:nth-child(1) {
+                /* Versace */
+                max-width: 167px;
+                max-height: 34px;
+            }
+
+            .brands-section-wrapper .brands-wrapper .brand-item:nth-child(2) {
+                /* Zara */
+                max-width: 92px;
+                max-height: 38px;
+            }
+
+            .brands-section-wrapper .brands-wrapper .brand-item:nth-child(3) {
+                /* Gucci */
+                max-width: 157px;
+                max-height: 36px;
+            }
+
+            .brands-section-wrapper .brands-wrapper .brand-item:nth-child(4) {
+                /* Prada */
+                max-width: 195px;
+                max-height: 32px;
+            }
+
+            .brands-section-wrapper .brands-wrapper .brand-item:nth-child(5) {
+                /* Calvin Klein */
+                max-width: 208px;
+                max-height: 34px;
+            }
+
+            .brands-section-wrapper .brands-wrapper .brand-item svg {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+
+@media (max-width: 640px) {
+    .brands-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+        padding: 24px 16px;
+    }
+
+        .brands-wrapper .brand-item {
+            flex: 0 0 auto;
+            max-width: 80px;
+        }
+
+            .brands-wrapper .brand-item:nth-child(-n+3) {
+                order: 0;
+                width: 30%;
+            }
+
+            .brands-wrapper .brand-item:nth-child(n+4) {
+                order: 1;
+                width: 30%;
+            }
+}

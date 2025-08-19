@@ -1,0 +1,39 @@
+@page "/products/{Id:int}"
+
+@using StoreApp.Wasm.Components.Pages.ProductDetail.Components
+@using StoreApp.Wasm.Components.ComponentFiles.Promo
+@using StoreApp.Wasm.Components.ComponentFiles.Header
+@using StoreApp.Wasm.Components.ComponentFiles.Footer
+@using StoreApp.Wasm.Components.Pages.Home.Components.PromotedProducts
+@using StoreApp.Wasm.Components.ComponentFiles.Breadcrumb
+
+<div class="breadcrumb-container">
+    <BreadcrumbComponent BreadcrumbItems="@_breadcrumbItems" />
+</div>
+
+<div class="product-detail-page-wrapper">
+    @if (_isLoading)
+    {
+        <div class="loading-indicator">
+            <p>Loading...</p>
+        </div>
+    }
+    else
+    {
+        <div class="product-detail-page">
+            <ProductInfo OnAddToCartClicked="OnAddToCartClicked" Product="@_product"></ProductInfo>
+
+            <div class="tabs">
+                <button class="tab-button">Product Detail</button>
+                <button class="tab-button active">Rating & Reviews</button>
+                <button class="tab-button">FAQs</button>
+            </div>
+
+            <ReviewList WriteReviewClicked="OnWriteReviewClicked" Reviews="@_reviews"></ReviewList>
+
+            <div class="also-see-wrapper">
+                <PromotedProductsComponent HeaderText="YOU MIGHT ALSO LIKE" ProductList="_alsoLike" IsVisibleViewAllButton="false" />
+            </div>
+        </div>
+    }
+</div>

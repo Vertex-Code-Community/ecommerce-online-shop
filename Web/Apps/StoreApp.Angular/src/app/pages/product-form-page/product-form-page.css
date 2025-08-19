@@ -1,0 +1,33 @@
+.product-form-container {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--fg);
+}
+
+.product-form {
+  width: 350px;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--fg);
+}
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.product-image {
+  max-width: 350px;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}

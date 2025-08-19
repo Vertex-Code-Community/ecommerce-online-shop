@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <NoBuild>true</NoBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="package.json" />
+    <None Include="angular.json" />
+    <None Include="src/**/*" />
+  </ItemGroup>
+</Project>

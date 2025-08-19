@@ -1,0 +1,48 @@
+.separator {
+    border: 1px solid #0000001A;
+}
+
+.breadcrumb-wrapper {
+    padding: 24px 0;
+}
+
+    .breadcrumb-wrapper .breadcrumb {
+        display: flex;
+        align-items: center;
+        font-family: 'Satoshi Regular', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 100%;
+        letter-spacing: 0;
+    }
+
+        .breadcrumb-wrapper .breadcrumb .breadcrumb-link {
+            margin-right: 4px;
+            color: #9CA3AF;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+            .breadcrumb-wrapper .breadcrumb .breadcrumb-link:hover {
+                color: #6B7280;
+            }
+
+        .breadcrumb-wrapper .breadcrumb .arrow-separator {
+            margin-right: 8px;
+            transform: rotate(-90deg);
+        }
+
+        .breadcrumb-wrapper .breadcrumb .current-page {
+            color: #000000;
+            font-weight: 500;
+        }
+
+@media (max-width: 640px) {
+    .breadcrumb-wrapper {
+        padding: 20px 0;
+    }
+
+        .breadcrumb-wrapper .breadcrumb {
+            font-size: 14px;
+        }
+}

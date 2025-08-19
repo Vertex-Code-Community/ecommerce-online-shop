@@ -1,0 +1,9 @@
+﻿<button @onclick="OnClick"
+        class="button-content @(IsRevert ? "revert" : "")"
+        disabled="@Disabled"
+        style="@GetButtonStyle()">
+    @if (!string.IsNullOrEmpty(Text))
+    {
+        <span class="text-container" style="--font-size: @FontSize">@Text</span>
+    }
+</button>

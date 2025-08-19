@@ -1,0 +1,49 @@
+﻿@using StoreApp.Wasm.Components.ComponentFiles.Buttons.BasicButton
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+
+
+<div class="start-section-wrapper">
+    <div class="start-inner-wrapper">
+        <div class="block-container">
+            <div class="headline">
+                FIND CLOTHES THAT MATCHES YOUR STYLE
+            </div>
+            <div class="description">
+                Browse through our diverse range of meticulously crafted garments,
+                designed to bring out your individuality and cater to your sense of style.
+            </div>
+            <div class="shop-button-wrapper">
+                <BasicButtonComponent Text="Shop Now" />
+            </div>
+            <div class="metrics-wrapper">
+                <div class="metrics-row">
+                    <div class="metric-item">
+                        <div class="metric-count">200+</div>
+                        <div class="metric-text">International Brands</div>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="metric-item">
+                        <div class="metric-count">2,000+</div>
+                        <div class="metric-text">High-Quality Products</div>
+                    </div>
+                    <div class="separator second-separator"></div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-count">30,000+</div>
+                    <div class="metric-text">Happy Customers</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-container">
+            <div class="stars-wrapper">
+                <div class="big-star">
+                    <SvgStarComponent Width="100%" Height="100%" />
+                </div>
+                <div class="small-star">
+                    <SvgStarComponent Width="100%" Height="100%" />
+                </div>
+            </div>
+            <img class="hero-image" src="/images/homepage-hero.jpg" />
+        </div>
+    </div>
+</div>

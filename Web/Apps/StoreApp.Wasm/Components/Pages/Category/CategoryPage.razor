@@ -1,0 +1,43 @@
+﻿@page "/category/"
+
+@using StoreApp.Wasm.Components.ComponentFiles.Footer
+@using StoreApp.Wasm.Components.ComponentFiles.Header
+@using StoreApp.Wasm.Components.ComponentFiles.PaginationBar
+@using StoreApp.Wasm.Components.ComponentFiles.Promo
+@using StoreApp.Wasm.Components.ComponentFiles.Separator
+@using StoreApp.Wasm.Components.ComponentFiles.Breadcrumb
+@using StoreApp.Wasm.Components.Pages.Category.Components.Filters
+@using StoreApp.Wasm.Components.Pages.Category.Components.ProductList
+
+
+<div class="breadcrumb-container">
+    <BreadcrumbComponent BreadcrumbItems="@_breadcrumbItems" />
+</div>
+
+<div class="category-page-wrapper">
+    <div class="filters-backdrop @( _isFiltersOpen ? "show" : "hide")" @onclick="CloseFilters"></div>
+    <div class="filter-wrapper @( _isFiltersOpen ? "show" : "hide")">
+        <FiltersComponent IsMobileOverlay="true"
+                          OnClose="CloseFilters"
+                          OnPriceChanged="OnPriceChanged"
+                          OnSearchChanged="OnSearchChanged" />
+    </div>
+    <div class="products-wrapper">
+        @if (_isLoading)
+        {
+            <div class="loading-indicator">
+                <p>Loading...</p>
+            </div>
+        }
+        else
+        {
+            <ProductListComponent ProductList="Casual"
+                                  HeaderText="All Products"
+                                  OnToggleFilters="ToggleFilters" />
+            <div class="separator" />
+            <div class="pagination-bar">
+                <PaginationBarComponent TotalPages="1" CurrentPage="1" MaxVisiblePages="4" />
+            </div>
+        }
+    </div>
+</div>

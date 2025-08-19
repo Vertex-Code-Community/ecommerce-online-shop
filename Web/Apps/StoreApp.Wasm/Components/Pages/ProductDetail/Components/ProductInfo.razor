@@ -1,0 +1,66 @@
+@using StoreApp.Wasm.Components.ComponentFiles.Counter
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+<div class="product-detail">
+    <ImageGallery Images="@Product.Images"></ImageGallery>
+    <div class="product-info">
+        
+        <h3 class="product-title">@Product.Title.ToUpper()</h3>
+        
+        <div class="product-rating">
+            <ProductRating Rating="@Product.Rating" RatingText=@($"{Product.Rating:0.0}/5")></ProductRating>
+        </div>
+        
+        <div class="product-price">
+            <ProductPrice Discount="@Product.Discount" CurrentPrice="@Product.CurrentPrice" OldPrice="@Product.OldPrice"></ProductPrice>
+        </div>
+        
+        <p class="secondary-text">@Product.Description</p>
+
+        <hr/>
+
+        @if (Product.AvailableColors.Any())
+        {
+            <div class="selection-block">
+                <p class="secondary-text">Select Colors</p>
+                <div class="color-options">
+                    @foreach (var (color, index) in Product.AvailableColors.Select((c, i) => (c, i)))
+                    {
+                        <button class="color-option"
+                                style="background-color:@color.HexCode;"
+                                @onclick="() => SelectedColorIndex = index"
+                                title="@color.Name">
+                            @if (SelectedColorIndex == index)
+                            {
+                                <SvgCheckMarkComponent/>
+                            }
+                        </button>
+                    }
+                </div>
+            </div>
+            <hr/>
+        }
+
+        @if (Product.AvailableSizes.Any())
+        {
+            <div class="selection-block">
+                <p class="secondary-text">Choose Size</p>
+                <div class="size-options">
+                    @foreach (var (size, index) in Product.AvailableSizes.Select((s, i) => (s, i)))
+                    {
+                    <button class="size-option secondary-text @(SelectedSizeIndex == index ? "selected" : "")"
+                            @onclick="() => SelectedSizeIndex = index"
+                            title="@size.Description">
+                        @size.Name
+                    </button>
+                    }
+                </div>
+            </div>
+            <hr/>
+        }
+
+        <div class="product-buttons">
+            <CounterComponent @bind-Value="@quantity" Min="1" Max="@GetMaxQuantity()" />
+            <button @onclick="OnAddToCart" class="add-to-cart-button">Add to Cart</button>
+        </div>
+    </div>
+</div>

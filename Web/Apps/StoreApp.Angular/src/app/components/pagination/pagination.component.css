@@ -1,0 +1,68 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--fg);
+}
+
+.pagination.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.pagination-left,
+.pagination-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn {
+  padding: 6px 10px;
+  background: var(--surface-2, var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn.page.active {
+  background: var(--primary);
+  color: var(--primary-fg, #fff);
+  border-color: var(--primary);
+}
+
+.ellipsis {
+  padding: 0 6px;
+}
+
+.size-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+select {
+  padding: 4px 8px;
+  background: var(--surface);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.totals {
+  margin-right: 8px;
+}
+
+
+

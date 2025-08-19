@@ -1,0 +1,27 @@
+@using Microsoft.AspNetCore.Components
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+
+<div class="separator" />
+<div class="breadcrumb-wrapper">
+    <div class="breadcrumb">
+        @foreach (var (item, index) in BreadcrumbItems.Select((item, i) => (item, i)))
+        {
+            @if (index > 0)
+            {
+                <div class="arrow-separator">
+                    <SvgDropdownArrowComponent Color="#00000066" />
+                </div>
+            }
+            
+            @if (index == BreadcrumbItems.Count - 1)
+            {
+                <span class="current-page">@item.Text</span>
+            }
+            else
+            {
+                <a href="@item.Url" class="breadcrumb-link">@item.Text</a>
+            }
+        }
+    </div>
+</div>
+

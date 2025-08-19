@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+}
+
+.counter-controls {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+}
+
+.minus-button {
+    background-color: rgba(240, 240, 240, 1);
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom-left-radius: 62px;
+    border-top-left-radius: 62px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.plus-button {
+    background-color: rgba(240, 240, 240, 1);
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-bottom-right-radius: 62px;
+    border-top-right-radius: 62px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.counter-value {
+    background-color: rgba(240, 240, 240, 1);
+    color: black;
+    padding: 10px 20px;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 640px) {
+    .plus-button {
+        padding-right: 20px;
+        padding-left: 0;
+    }
+
+    .minus-button {
+        padding-right: 0;
+        padding-left: 20px;
+    }
+}

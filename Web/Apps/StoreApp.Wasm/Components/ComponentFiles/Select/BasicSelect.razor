@@ -1,0 +1,56 @@
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+@typeparam TKey where TKey : notnull
+
+<div class="custom-select">
+    <button class="custom-select-button" @onclick="ToggleDropdown">
+        @GetSelectedLabel()
+        <SvgDropdownArrowComponent/>
+    </button>
+
+    @if (isOpen)
+    {
+        <ul class="custom-select-options">
+            @foreach (var option in Options)
+            {
+                <li @onclick="() => Select(option.Key)">
+                    @option.Value
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public Dictionary<TKey, string> Options { get; set; } = new();
+
+    [Parameter]
+    public TKey? Value { get; set; }
+
+    [Parameter]
+    public EventCallback<TKey?> ValueChanged { get; set; }
+    
+    private bool isOpen;
+
+    private void ToggleDropdown() => isOpen = !isOpen;
+
+    private async Task Select(TKey key)
+    {
+        isOpen = false;
+        if (!EqualityComparer<TKey>.Default.Equals(Value, key))
+        {
+            Value = key;
+            await ValueChanged.InvokeAsync(Value);
+        }
+    }
+
+    private string GetSelectedLabel()
+    {
+        if (Value is not null && Options.TryGetValue(Value, out var label))
+        {
+            return label;
+        }
+
+        return Options.Values.FirstOrDefault() ?? "Select";
+    }
+}

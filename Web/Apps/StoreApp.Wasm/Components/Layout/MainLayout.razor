@@ -1,0 +1,14 @@
+﻿@using StoreApp.Wasm.Components.ComponentFiles.Footer
+@using StoreApp.Wasm.Components.ComponentFiles.Header
+@using StoreApp.Wasm.Components.ComponentFiles.Promo
+
+@inherits LayoutComponentBase
+
+<PromoComponent />
+<HeaderComponent />
+<div class="page">
+    <main>
+        @Body
+    </main>
+</div>
+<FooterComponent />

@@ -1,0 +1,14 @@
+﻿.separator {
+    width: 100%;
+    max-width: var(--content-max-width);
+    height: 1px;
+    background-color: #000000;
+    opacity: 10%;
+}
+
+
+@media (max-width: 640px) {
+    .separator {
+        width: 95%;
+    }
+}

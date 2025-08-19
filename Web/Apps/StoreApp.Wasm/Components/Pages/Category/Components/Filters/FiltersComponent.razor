@@ -1,0 +1,233 @@
+﻿@using StoreApp.Wasm.Components.ComponentFiles.Buttons.BasicButton
+@using StoreApp.Wasm.Components.ComponentFiles.Separator
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+
+
+<div class="filters-wrapper @(IsMobileOverlay ? "overlay" : string.Empty)">
+    <div class="head-wrapper header" style="margin-bottom: 0px;">
+        <div class="head-text">Filters</div>
+        <div class="settings-icon">
+            <SvgSettingsComponent />
+        </div>
+        @if (IsMobileOverlay)
+        {
+            <button class="close-overlay-button" @onclick="() => OnClose.InvokeAsync()" aria-label="Close filters">
+                <SvgCloseComponent Width="20" Height="20" Color="#00000066" />
+            </button>
+        }
+    </div>
+    <div class="separator" />
+
+    <div class="category-section-wrapper">
+        <div class="category-list">
+            <div class="category-item">
+                <div class="category-title">T-shirts</div>
+                <div class="category-arrow">
+                    <SvgDropdownArrowComponent />
+                </div>
+            </div>
+            <div class="category-item">
+                <div class="category-title">Shorts</div>
+                <div class="category-arrow">
+                    <SvgDropdownArrowComponent />
+                </div>
+            </div>
+            <div class="category-item">
+                <div class="category-title">Shirts</div>
+                <div class="category-arrow">
+                    <SvgDropdownArrowComponent />
+                </div>
+            </div>
+            <div class="category-item">
+                <div class="category-title">Hoodie</div>
+                <div class="category-arrow">
+                    <SvgDropdownArrowComponent />
+                </div>
+            </div>
+            <div class="category-item">
+                <div class="category-title">Jeans</div>
+                <div class="category-arrow">
+                    <SvgDropdownArrowComponent />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="separator" />
+
+    <div class="price-section-wrapper">
+        <div class="head-wrapper">
+            <div class="head-text">Price</div>
+            <div class="price-arrow">
+                <SvgDropdownArrowComponent />
+            </div>
+        </div>
+        <div class="range-slider">
+            <input type="range" min="0" max="500" id="minRange" @bind="minValue" @bind:event="oninput">
+            <input type="range" min="0" max="500" id="maxRange" @bind="maxValue" @bind:event="oninput">
+            <div class="range-track" id="rangeTrack"></div>
+        </div>
+        <div class="values" id="values">$@minValue - $@maxValue</div>
+    </div>
+    <div class="separator" />
+
+    <div class="colors-section-wrapper">
+        <div class="head-wrapper">
+            <div class="head-text">Colors</div>
+            <div class="color-arrow">
+                <SvgDropdownArrowComponent />
+            </div>
+        </div>
+        <div class="colors-wrapper">
+            <div class="colors-row">
+                <div class="color-item green"></div>
+                <div class="color-item red"></div>
+                <div class="color-item yellow"></div>
+                <div class="color-item orange"></div>
+                <div class="color-item cyan"></div>
+            </div>
+            <div class="colors-row">
+                <div class="color-item blue"></div>
+                <div class="color-item purple"></div>
+                <div class="color-item pink"></div>
+                <div class="color-item white"></div>
+                <div class="color-item black"></div>
+            </div>
+        </div>
+    </div>
+    <div class="separator" />
+
+    <div class="size-section-wrapper">
+        <div class="head-wrapper">
+            <div class="head-text">Colors</div>
+            <div class="size-arrow">
+                <SvgDropdownArrowComponent />
+            </div>
+        </div>
+        <div class="size-wrapper">
+            <BasicButtonComponent Text="XX-Small"
+                                  Width="auto"
+                                  Height="auto"
+                                  IsRevert="true"
+                                  FontSize="14px"
+                                  BackgroundColor="#F0F0F0" />
+            <BasicButtonComponent Text="X-Small"
+                                  Width="auto"
+                                  Height="auto"
+                                  IsRevert="true"
+                                  FontSize="14px"
+                                  BackgroundColor="#F0F0F0" />
+            <BasicButtonComponent Text="Small"
+                                  Width="auto"
+                                  Height="auto"
+                                  IsRevert="true"
+                                  FontSize="14px"
+                                  BackgroundColor="#F0F0F0" />
+            <BasicButtonComponent Text="Medium"
+                                  Width="auto"
+                                  Height="auto"
+                                  IsRevert="true"
+                                  FontSize="14px"
+                                  BackgroundColor="#F0F0F0" />
+            <BasicButtonComponent Text="Large"
+                                  Width="auto"
+                                  Height="auto"
+                                  FontSize="14px" />
+            <BasicButtonComponent Text="X-Large"
+                                  Width="auto"
+                                  Height="auto"
+                                  IsRevert="true"
+                                  FontSize="14px"
+                                  BackgroundColor="#F0F0F0" />
+            <BasicButtonComponent Text="XX-Large"
+                                  Width="auto"
+                                  Height="auto"
+                                  IsRevert="true"
+                                  FontSize="14px"
+                                  BackgroundColor="#F0F0F0" />
+            <BasicButtonComponent Text="3X-Large"
+                                  Width="auto"
+                                  Height="auto"
+                                  IsRevert="true"
+                                  FontSize="14px"
+                                  BackgroundColor="#F0F0F0" />
+            <BasicButtonComponent Text="4X-Large"
+                                  Width="auto"
+                                  Height="auto"
+                                  IsRevert="true"
+                                  FontSize="14px"
+                                  BackgroundColor="#F0F0F0" />
+        </div>
+    </div>
+    <div class="separator" />
+
+    <div class="style-section-wrapper">
+        <div class="head-wrapper">
+            <div class="head-text">Dress Style</div>
+            <div class="style-arrow">
+                <SvgDropdownArrowComponent />
+            </div>
+        </div>
+        <div class="style-list">
+            <div class="style-item">
+                <div class="style-title">Casual</div>
+                <div class="style-arrow">
+                    <SvgDropdownArrowComponent />
+                </div>
+            </div>
+            <div class="style-item">
+                <div class="style-title">Formal</div>
+                <div class="style-arrow">
+                    <SvgDropdownArrowComponent />
+                </div>
+            </div>
+            <div class="style-item">
+                <div class="style-title">Party</div>
+                <div class="style-arrow">
+                    <SvgDropdownArrowComponent />
+                </div>
+            </div>
+            <div class="style-item">
+                <div class="style-title">Gym</div>
+                <div class="style-arrow">
+                    <SvgDropdownArrowComponent />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="apply-button">
+        <BasicButtonComponent Text="Apply Filter"
+                              Height="48px"
+                              FontSize="14px"
+                              OnClick="ApplyPriceFilters" />
+    </div>
+</div>
+
+<script>
+    const minRange = document.getElementById('minRange');
+    const maxRange = document.getElementById('maxRange');
+    const rangeTrack = document.getElementById('rangeTrack');
+    const valuesDisplay = document.getElementById('values');
+
+    function updateRange() {
+        const minValue = parseInt(minRange.value);
+        const maxValue = parseInt(maxRange.value);
+
+        if (minValue > maxValue) {
+            minRange.value = maxValue;
+            return;
+        }
+
+        const minPercent = (minValue / minRange.max) * 100;
+        const maxPercent = (maxValue / maxRange.max) * 100;
+        rangeTrack.style.left = `${minPercent}%`;
+        rangeTrack.style.width = `${maxPercent - minPercent}%`;
+
+        valuesDisplay.textContent = `$${minValue} - $${maxValue}`;
+    }
+
+    minRange.addEventListener('input', updateRange);
+    maxRange.addEventListener('input', updateRange);
+
+    updateRange();
+</script>

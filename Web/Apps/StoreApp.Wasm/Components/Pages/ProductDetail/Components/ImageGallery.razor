@@ -1,0 +1,16 @@
+<div class="image-gallery">
+    <div class="thumbnails">
+        @foreach (var (image, index) in Images.Take(3).Select((img, i) => (img, i)))
+        {
+            <div class="image-wrapper @(SelectedIndex == index ? "selected" : "")">
+                <img src="@image"
+                     class="thumbnail"
+                     @onclick="() => SelectImage(index)" />
+            </div>
+        }
+    </div>
+
+    <div class="image-wrapper-main">
+        <img src="@Images.ElementAtOrDefault(SelectedIndex)" class="thumbnail" alt="Selected image"/>
+    </div>
+</div>

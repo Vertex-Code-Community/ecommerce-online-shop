@@ -1,0 +1,104 @@
+﻿.card-item {
+    cursor: pointer;
+    width: 294px;
+}
+
+    .card-item .card-item-image-wrapper {
+        width: 294px;
+        height: 294px;
+        background-color: #F0EEED;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+        .card-item .card-item-image-wrapper .card-item-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+    .card-item .card-item-title {
+        font-family: 'Satoshi Bold', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 100%;
+        letter-spacing: 0;
+        margin-top: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-item .card-item-rating {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+    }
+
+        .card-item .card-item-rating .rating-stars {
+            display: flex;
+        }
+
+        .card-item .card-item-rating .rating-text {
+            margin-left: 12px;
+            font-family: 'Satoshi Regular', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 100%;
+            letter-spacing: 0;
+        }
+
+    .card-item .card-item-price {
+        display: flex;
+        align-items: center;
+        font-family: 'Satoshi Bold', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 100%;
+        letter-spacing: 0;
+        margin-top: 8px;
+        gap: 0 10px;
+    }
+
+        .card-item .card-item-price .old-price {
+            opacity: 0.4;
+            text-decoration: line-through;
+        }
+
+        .card-item .card-item-price .discount {
+            border-radius: 64px;
+            background-color: rgba(255, 51, 51, 0.1);
+        }
+
+            .card-item .card-item-price .discount .discount-text {
+                font-family: 'Satoshi Medium', sans-serif;
+                font-weight: 500;
+                font-size: 12px;
+                opacity: 1;
+                color: #FF3333;
+                padding: 2px 12px;
+            }
+
+@media (max-width: 640px) {
+    .card-item {
+        width: 172px;
+    }
+
+    .card-item .card-item-image-wrapper {
+        width: 172px;
+        height: 172px;
+    }
+
+    .card-item .card-item-title {
+        font-size: 16px;
+    }
+
+    .card-item .card-item-rating .rating-text {
+        font-size: 14px;
+    }
+
+    .card-item .card-item-price {
+        font-size: 20px;
+    }
+}

@@ -1,0 +1,20 @@
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+<div class="review-wrapper">
+    <div class="review">
+        <div class="review-rating">
+            <ProductRating Rating="@Review.Rating" RatingText="@($"{Review.Rating:0.0}/5")"></ProductRating>
+            <div class="svg-dots-wrapper">
+                <SvgDotsComponent />
+            </div>
+        </div>
+        <div class="review-author">
+            <div class="author-text">@Review.UserName</div>
+            <div class="verified-customer">
+                <SvgСheckedComponent />
+            </div>
+        </div>
+        <div class="review-text">
+            "@Review.Comment"
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+<div class="counter-controls">
+    <button @onclick="Decrement" class="minus-button">
+        <SvgMinusComponent />
+    </button>
+    <span class="counter-value">@Value</span>
+    <button @onclick="Increment" class="plus-button">
+        <SvgPlusComponent />
+    </button>
+</div>

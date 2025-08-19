@@ -1,0 +1,77 @@
+@page "/add-product"
+
+@using Microsoft.AspNetCore.Components.Forms
+
+<div class="add-product-page-wrapper">
+	<h2>Add Product (stub)</h2>
+
+	<EditForm Model="product" OnValidSubmit="HandleSubmit">
+		<DataAnnotationsValidator />
+		<ValidationSummary />
+
+		<div class="form-grid">
+			<div class="form-field">
+				<label>Name</label>
+				<InputText class="form-control" @bind-Value="product.Name" />
+			</div>
+
+			<div class="form-field">
+				<label>Description</label>
+				<InputTextArea class="form-control" @bind-Value="product.Description" />
+			</div>
+
+			<div class="form-field">
+				<label>Price</label>
+				<InputNumber class="form-control" @bind-Value="product.Price" />
+			</div>
+
+			<div class="form-field">
+				<label>Discount (0-1)</label>
+				<InputNumber class="form-control" @bind-Value="product.Discount" />
+			</div>
+
+			<div class="form-field">
+				<label>Units In Stock</label>
+				<InputNumber class="form-control" @bind-Value="product.UnitsInStock" />
+			</div>
+
+			<div class="form-field">
+				<label>Image</label>
+				<InputFile OnChange="OnImageSelected" />
+				@if (!string.IsNullOrWhiteSpace(imagePreviewDataUrl))
+				{
+					<img src="@imagePreviewDataUrl" alt="Preview" style="max-width: 240px; display:block; margin-top: 8px;" />
+				}
+			</div>
+
+			<div class="form-actions">
+				<button type="submit" disabled="@isSubmitting">@((isSubmitting ? "Saving..." : "Save"))</button>
+				@if (!string.IsNullOrWhiteSpace(errorMessage))
+				{
+					<span style="color:red; margin-left:8px;">@errorMessage</span>
+				}
+				@if (isSuccess)
+				{
+					<span style="color:green; margin-left:8px;">Saved</span>
+				}
+			</div>
+		</div>
+	</EditForm>
+
+	@if (lastSavedProduct is not null)
+	{
+		<div class="saved-preview" style="margin-top:16px;">
+			<h4>Last saved (stub)</h4>
+			<div><strong>Name:</strong> @lastSavedProduct.Name</div>
+			<div><strong>Price:</strong> @lastSavedProduct.Price</div>
+			<div><strong>Description:</strong> @lastSavedProduct.Description</div>
+			<div><strong>Units In Stock:</strong> @lastSavedProduct.UnitsInStock</div>
+			@if (!string.IsNullOrWhiteSpace(lastSavedImageDataUrl))
+			{
+				<img src="@lastSavedImageDataUrl" alt="Saved Preview" style="max-width: 240px; display:block; margin-top: 8px;" />
+			}
+		</div>
+	}
+</div>
+
+

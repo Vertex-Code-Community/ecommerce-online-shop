@@ -1,0 +1,32 @@
+﻿@using StoreApp.Wasm.Components.ComponentFiles.CardItem
+@using StoreApp.Wasm.Components.ComponentFiles.SvgFiles
+
+
+<div class="product-list-wrapper">
+    <div class="products-header">
+        <div class="head-text">@(!string.IsNullOrWhiteSpace(HeaderText) ? HeaderText : "Casual")</div>
+        <div class="selector">
+            <span class="selector-text">
+                Showing @ProductList.Count Products   Sort by:
+            </span>
+            @* TODO: implement selector *@
+
+            <div class="toggle-filters-button" @onclick="() => OnToggleFilters.InvokeAsync()">
+                <SvgSettingsComponent Width="13" Height="12" />
+            </div>
+        </div>
+    </div>
+    <div class="product-list">
+        @foreach (var product in ProductList)
+        {
+            <CardItemComponent Id="@product.Id"
+                               ImageSrc="@product.ImageSrc"
+                               Title="@product.Title"
+                               Rating="@product.Rating"
+                               RatingText="@($"{product.Rating:0.0}/5")"
+                               CurrentPrice="@product.CurrentPrice"
+                               OldPrice="@product.OldPrice"
+                               Discount="@product.Discount" />
+        }
+    </div>
+</div>

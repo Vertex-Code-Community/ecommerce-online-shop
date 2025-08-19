@@ -1,0 +1,24 @@
+<div class="product-price">
+    <div class="current-price">$ @CurrentPrice</div>
+    @if (OldPrice is not null)
+    {
+        <div class="old-price">$ @OldPrice.Value</div>
+    }
+    @if (Discount is not null)
+    {
+        <div class="discount">
+            <div class="discount-text">-@Discount.Value.ToString("P0")</div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public double CurrentPrice { get; set; }
+
+    [Parameter]
+    public double? OldPrice { get; set; }
+
+    [Parameter]
+    public double? Discount { get; set; }
+}
