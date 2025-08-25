@@ -14,7 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<ReviewEntity> Reviews { get; set; }
     public DbSet<ColorEntity> Colors { get; set; }
     public DbSet<SizeEntity> Sizes { get; set; }
-    public DbSet<ProductVariant> ProductVariants { get; set; }
+    public DbSet<ProductDetailEntity> ProductVariants { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) 
     {
@@ -30,9 +30,9 @@ public class AppDbContext : DbContext
             .HasForeignKey(ci => ci.UserId);
 
         modelBuilder.Entity<CartItemEntity>()
-            .HasOne(ci => ci.Product)
-            .WithMany(p => p.CartItems)
-            .HasForeignKey(ci => ci.ProductId);
+            .HasOne(ci => ci.ProductDetail)
+            .WithMany()
+            .HasForeignKey(ci => ci.ProductDetailId);
 
         modelBuilder.Entity<ProductEntity>()
             .Property(p => p.Price)
@@ -63,20 +63,5 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ColorEntity>()
             .HasIndex(c => c.Name)
             .IsUnique();
-        
-        modelBuilder.Entity<ProductVariant>()
-            .HasOne(pv => pv.Product)
-            .WithMany(p => p.Variants)
-            .HasForeignKey(pv => pv.ProductId);
-        
-        modelBuilder.Entity<ProductVariant>()
-            .HasOne(pv => pv.Color)
-            .WithMany()
-            .HasForeignKey(pv => pv.ColorId);
-        
-        modelBuilder.Entity<ProductVariant>()
-            .HasOne(pv => pv.Size)
-            .WithMany()
-            .HasForeignKey(pv => pv.SizeId);
     }
 }

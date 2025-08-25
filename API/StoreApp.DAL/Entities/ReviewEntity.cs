@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StoreApp.DAL.Entities;
 
-public class ReviewEntity
+public class ReviewEntity : IBaseEntity<long>
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
     
     public string? Comment { get; set; }
 
