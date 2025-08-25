@@ -13,39 +13,36 @@ public class CartItemsController(ICartItemService cartItemService) : ControllerB
     [HttpGet]
     public async Task<IActionResult> GetByUserIdAsync()
     {
-        return Ok(await cartItemService.GetCartItemsByUserIdAsync(GetUserId()));
+        var cartItems = await cartItemService.GetCartItemsByUserIdAsync(GetUserId());
+        return Ok(cartItems);
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddToCartAsync([FromQuery] int productId, [FromQuery] int quantity)
+    public async Task<IActionResult> AddToCartAsync([FromQuery] long productDetailId, [FromQuery] int quantity)
     {
-        return await cartItemService.AddToCartAsync(GetUserId(), productId, quantity)
-            ? Ok()
-            : BadRequest();
+        await cartItemService.AddToCartAsync(GetUserId(), productDetailId, quantity);
+        return NoContent();
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdateQuantityAsync([FromQuery] int productId, [FromQuery] int quantity)
     {
-        return await cartItemService.UpdateCartItemAsync(GetUserId(), productId, quantity)
-            ? Ok() 
-            : BadRequest();
+        await cartItemService.UpdateCartItemAsync(GetUserId(), productId, quantity);
+        return NoContent();
     }
 
     [HttpDelete]
     public async Task<IActionResult> DeleteItemAsync([FromQuery] int productId)
     {
-        return await cartItemService.DeleteCartItemAsync(GetUserId(), productId)
-            ? NoContent()
-            : BadRequest();
+        await cartItemService.DeleteCartItemAsync(GetUserId(), productId);
+        return NoContent();
     }
 
     [HttpDelete("clear")]
     public async Task<IActionResult> ClearCartAsync()
     {
-        return await cartItemService.ClearCartItemsByUserIdAsync(GetUserId())
-            ? NoContent()
-            : BadRequest();
+        await cartItemService.ClearCartItemsByUserIdAsync(GetUserId());
+        return NoContent();
     }
 
     private int GetUserId()

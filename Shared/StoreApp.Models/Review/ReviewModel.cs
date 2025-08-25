@@ -2,7 +2,7 @@ namespace StoreApp.Models;
 
 public class ReviewModel
 {
-	public int Id { get; set; }
+	public long Id { get; set; }
 	
 	public int ProductId { get; set; }
 	
@@ -14,5 +14,3 @@ public class ReviewModel
 	
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
-
-

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace StoreApp.Models;
 
-public class ProductModel
+public class FullProductModel
 {
 	public int Id { get; set; }
 
@@ -23,14 +23,9 @@ public class ProductModel
 	[Range(0, 1, ErrorMessage = "Discount must be between 0 and 1 (e.g., 0.15 for 15%)")]
 	public decimal? Discount { get; set; }
 	
-	public List<ProductVariantModel> Variants { get; set; } = [];
+	public List<ProductDetailModel> Details { get; set; } = [];
 
 	public double Rating { get; set; }
 	
 	public int UnitsInStock { get; set; }
-
-	public List<ColorModel> AvailableColors { get; set; } = [];
-	public List<SizeModel> AvailableSizes { get; set; } = [];
 }
-
-

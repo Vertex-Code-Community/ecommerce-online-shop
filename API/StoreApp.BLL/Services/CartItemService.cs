@@ -6,84 +6,62 @@ using StoreApp.Models;
 
 namespace StoreApp.BLL.Services;
 
-public class CartItemService : ICartItemService
+public class CartItemService(ICartItemRepository cartItemRepository,
+    IMapper mapper) : ICartItemService
 {
-    private readonly ICartItemRepository _cartItemRepository;
-    private readonly IProductRepository _productRepository;
-    private readonly IMapper _mapper;
-
-    public CartItemService(
-        ICartItemRepository cartItemRepository,
-        IProductRepository productRepository,
-        IMapper mapper)
-    {
-        _cartItemRepository = cartItemRepository;
-        _productRepository = productRepository;
-        _mapper = mapper;
-    }
-
     public async Task<List<CartItemModel>> GetCartItemsByUserIdAsync(int userId)
     {
-        var cartItems = await _cartItemRepository.GetCartItemsByUserIdAsync(userId);
+        var cartItems = await cartItemRepository.GetCartItemsByUserIdAsync(userId);
 
-        return _mapper.Map<List<CartItemModel>>(cartItems);
+        return mapper.Map<List<CartItemModel>>(cartItems);
     }
 
-    public async Task<bool> AddToCartAsync(int userId, int productId, int quantity)
+    public async Task AddToCartAsync(int userId, long productDetailId, int quantity)
     {
-        if (quantity <= 0) return false;
+        // todo: check if productDetailId exists
+        // var productExists = await _productRepository.ProductExistsAsync(productDetailId);
+        // if (!productExists) return false;
 
-        var productExists = await _productRepository.ProductExistsAsync(productId);
-        if (!productExists) return false;
-
-        var existingItem = await _cartItemRepository.GetCartItemAsync(userId, productId);
+        var existingItem = await cartItemRepository.GetCartItemAsync(userId, productDetailId);
 
         if (existingItem is not null)
         {
             existingItem.Quantity += quantity;
-            await _cartItemRepository.UpdateCartItemAsync(existingItem);
+            await cartItemRepository.UpdateAsync(existingItem);
         }
         else
         {
             var newItem = new CartItemEntity
             {
                 UserId = userId,
-                ProductId = productId,
+                ProductDetailId = productDetailId,
                 Quantity = quantity
             };
             
-            await _cartItemRepository.AddCartItemAsync(newItem);
+            await cartItemRepository.CreateAsync(newItem);
         }
-
-        return true;
     }
 
-    public async Task<bool> DeleteCartItemAsync(int userId, int productId)
+    public async Task DeleteCartItemAsync(int userId, long productDetailId)
     {
-        var cartItem = await _cartItemRepository.GetCartItemAsync(userId, productId);
-        if (cartItem is null) return false;
+        var cartItem = await cartItemRepository.GetCartItemAsync(userId, productDetailId)
+                          ?? throw new KeyNotFoundException("Cart item not found.");
         
-        await _cartItemRepository.DeleteCartItemAsync(cartItem);
-
-        return true;
+        await cartItemRepository.DeleteAsync(cartItem);
     }
 
-    public async Task<bool> UpdateCartItemAsync(int userId, int productId, int quantity)
+    public async Task UpdateCartItemAsync(int userId, long productDetailId, int quantity)
     {
-        var cartItem = await _cartItemRepository.GetCartItemAsync(userId, productId);
-        if (cartItem is null) return false;
+        var cartItem = await cartItemRepository.GetCartItemAsync(userId, productDetailId)
+                         ?? throw new KeyNotFoundException("Cart item not found.");
         
         cartItem.Quantity = quantity;
         
-        await _cartItemRepository.UpdateCartItemAsync(cartItem);
-
-        return true;
+        await cartItemRepository.UpdateAsync(cartItem);
     }
 
-    public async Task<bool> ClearCartItemsByUserIdAsync(int userId)
+    public async Task ClearCartItemsByUserIdAsync(int userId)
     {
-        await _cartItemRepository.ClearCartItemsByUserIdAsync(userId);
-
-        return true;
+        await cartItemRepository.ClearCartItemsByUserIdAsync(userId);
     }
 }

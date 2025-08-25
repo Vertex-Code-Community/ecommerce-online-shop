@@ -2,12 +2,9 @@
 
 namespace StoreApp.DAL.Repositories.Interfaces;
 
-public interface ICartItemRepository
+public interface ICartItemRepository : IGenericRepository<CartItemEntity, int>
 {
     Task<List<CartItemEntity>> GetCartItemsByUserIdAsync(int userId);
-    Task<CartItemEntity?> GetCartItemAsync(int userId, int productId);
-    Task AddCartItemAsync(CartItemEntity cartItem);
-    Task UpdateCartItemAsync(CartItemEntity cartItem);
-    Task DeleteCartItemAsync(CartItemEntity cartItem);
+    Task<CartItemEntity?> GetCartItemAsync(int userId, long productDetailId);
     Task ClearCartItemsByUserIdAsync(int userId);
 }

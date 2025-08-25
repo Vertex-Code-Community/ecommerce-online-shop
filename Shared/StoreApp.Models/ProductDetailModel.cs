@@ -1,6 +1,6 @@
 namespace StoreApp.Models;
 
-public class ProductVariantModel
+public class ProductDetailModel
 {
 	public int Id { get; set; }
 
@@ -13,6 +13,6 @@ public class ProductVariantModel
 	public int UnitsInStock { get; set; }
 
 	public string SKU { get; set; } = string.Empty;
+	
+	public List<string> ImageUrls { get; set; } = [];
 }
-
-

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace StoreApp.Models.Dtos.Review;
+namespace StoreApp.Models;
 
 public record CreateReview
 {

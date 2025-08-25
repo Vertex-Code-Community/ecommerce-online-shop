@@ -7,102 +7,58 @@ using StoreApp.BLL.Interfaces.Services;
 
 namespace StoreApp.BLL.Services;
 
-public class ProductService : IProductService
+public class ProductService(IProductRepository productRepository, IMapper mapper) : IProductService
 {
-    private readonly IProductRepository _productRepository;
-    private readonly IMapper _mapper;
-
-    public ProductService(IProductRepository productRepository, IMapper mapper)
+    public async Task<IEnumerable<FullProductModel>> GetFilteredProductsAsync(ProductFilter filter)
     {
-        _productRepository = productRepository;
-        _mapper = mapper;
+        var dbFilter = mapper.Map<DAL.Filtering.ProductFilter>(filter);
+        var productEntities = await productRepository.GetFilteredAsync(dbFilter);
+        
+        return mapper.Map<IEnumerable<FullProductModel>>(productEntities);
     }
 
-    public async Task<IEnumerable<ProductModel>> GetAllProductsAsync()
+    public async Task<FullProductModel> GetProductByIdAsync(int id)
     {
-        var productEntities = await _productRepository.GetAllProductsAsync();
+        var productEntity = await productRepository.GetByIdAsync(id, p => p.ProductDetails)
+                            ?? throw new KeyNotFoundException("Product not found.");
 
-        return _mapper.Map<IEnumerable<ProductModel>>(productEntities);
+        return mapper.Map<FullProductModel>(productEntity);
     }
 
-    public async Task<IEnumerable<ProductModel>> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string? searchTerm)
+    public async Task AddProductAsync(CreateProduct model)
     {
-        var productEntities = await _productRepository.GetFilteredProductsAsync(minPrice, maxPrice, searchTerm);
-        return _mapper.Map<IEnumerable<ProductModel>>(productEntities);
+        var productEntity = mapper.Map<ProductEntity>(model);
+        //todo: use cloud storage in future
+        productEntity.ImageUrl = await SaveImageToDiskAsync(model.ImageData);
+
+        await productRepository.CreateAsync(productEntity);
     }
 
-    public async Task<IEnumerable<ProductModel>> GetNewArrivalsAsync(int take)
+    public async Task UpdateProductByIdAsync(UpdateProduct model)
     {
-        var entities = await _productRepository.GetNewArrivalsAsync(take);
-        return _mapper.Map<IEnumerable<ProductModel>>(entities);
-    }
+        var existingProduct = await productRepository.GetByIdAsync(model.Id)
+                                ?? throw new KeyNotFoundException("Product not found.");
 
-    public async Task<IEnumerable<ProductModel>> GetTopSellingAsync(int take)
-    {
-        var entities = await _productRepository.GetTopSellingAsync(take);
-        return _mapper.Map<IEnumerable<ProductModel>>(entities);
-    }
+        mapper.Map(model, existingProduct);
 
-    public async Task<IEnumerable<ProductModel>> GetRecommendationsAsync(int productId, int take)
-    {
-        var entities = await _productRepository.GetRecommendationsAsync(productId, take);
-        return _mapper.Map<IEnumerable<ProductModel>>(entities);
-    }
-
-    public async Task<ProductModel?> GetProductByIdAsync(int id)
-    {
-        var productEntity = await _productRepository.GetProductByIdAsync(id);
-        if (productEntity is not null)
-        {
-            return _mapper.Map<ProductModel>(productEntity);
-        }
-
-        return _mapper.Map<ProductModel>(productEntity);
-    }
-
-    public async Task<bool> AddProductAsync(ProductModel product)
-    {
-        var productEntity = _mapper.Map<ProductEntity>(product);
-        productEntity.ImageUrl = await SaveImageToDiskAsync(product.ImageData);
-
-        await _productRepository.AddProductAsync(productEntity);
-
-        return true;
-    }
-
-    public async Task<bool> UpdateProductByIdAsync(int id, ProductModel product)
-    {
-        var existingProduct = await _productRepository.GetProductByIdAsync(id);
-        if (existingProduct is null) return false;
-
-        existingProduct.Name = product.Name;
-        existingProduct.Description = product.Description;
-        existingProduct.Price = product.Price;
-        existingProduct.Discount = product.Discount;
-        existingProduct.UnitsInStock = product.UnitsInStock;
-
-        if (product.ImageData?.Length > 0)
+        if (model.ImageData?.Length > 0)
         {
             DeleteImageFile(existingProduct.ImageUrl);
 
-            existingProduct.ImageUrl = await SaveImageToDiskAsync(product.ImageData);
+            existingProduct.ImageUrl = await SaveImageToDiskAsync(model.ImageData);
         }
 
-        await _productRepository.UpdateProductAsync(existingProduct);
-
-        return true;
+        await productRepository.UpdateAsync(existingProduct);
     }
 
-    public async Task<bool> DeleteProductByIdAsync(int id)
+    public async Task DeleteProductByIdAsync(int id)
     {
-        var product = await _productRepository.GetProductByIdAsync(id);
-        if (product is null) return false;
+        var product = await productRepository.GetByIdAsync(id)
+                        ?? throw new KeyNotFoundException("Product not found.");
 
         DeleteImageFile(product.ImageUrl);
 
-        await _productRepository.DeleteProductByIdAsync(id);
-        
-        return true;
+        await productRepository.DeleteAsync(product);
     }
 
     private async Task<string?> SaveImageToDiskAsync(byte[]? imageData)

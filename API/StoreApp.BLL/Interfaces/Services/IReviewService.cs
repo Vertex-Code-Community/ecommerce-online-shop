@@ -1,17 +1,18 @@
-using StoreApp.Models.Dtos.Review;
 using StoreApp.Models;
 
-namespace StoreApp.Shared.Interfaces.Services;
+namespace StoreApp.BLL.Interfaces.Services;
 
 public interface IReviewService
 {
     Task<IEnumerable<ReviewModel>> GetReviewsByProductIdAsync(int productId);
     
-    Task<ReviewModel> GetReviewByIdAsync(int reviewId);
+    Task<IEnumerable<ReviewModel>> GetTopRatingReviewsAsync();
+    
+    Task<ReviewModel> GetReviewByIdAsync(long reviewId);
     
     Task AddReviewAsync(CreateReview reviewModel, int userId);
     
-    Task DeleteReviewAsync(int reviewId);
+    Task DeleteReviewAsync(long reviewId);
     
     Task<bool> UserHasReviewedProductAsync(int userId, int productId);
 }
