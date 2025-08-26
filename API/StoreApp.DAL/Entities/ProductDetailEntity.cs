@@ -1,6 +1,6 @@
 namespace StoreApp.DAL.Entities;
 
-public class ProductDetailEntity
+public class ProductDetailEntity : IBaseEntity<long>
 {
     public long Id { get; set; }
     

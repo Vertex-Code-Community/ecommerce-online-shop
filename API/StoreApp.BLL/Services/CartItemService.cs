@@ -6,7 +6,10 @@ using StoreApp.Models;
 
 namespace StoreApp.BLL.Services;
 
-public class CartItemService(ICartItemRepository cartItemRepository, IMapper mapper) : ICartItemService
+public class CartItemService(
+    ICartItemRepository cartItemRepository,
+    IProductDetailRepository productRepository,
+    IMapper mapper) : ICartItemService
 {
     public async Task<List<CartItemModel>> GetCartItemsByUserIdAsync(string userId)
     {
@@ -17,9 +20,8 @@ public class CartItemService(ICartItemRepository cartItemRepository, IMapper map
 
     public async Task AddToCartAsync(string userId, UpdateCartItem dto)
     {
-        // todo: check if productDetailId exists
-        // var productExists = await _productRepository.ProductExistsAsync(productDetailId);
-        // if (!productExists) return false;
+        _ = await productRepository.GetByIdAsync(dto.ProductDetailId)
+            ?? throw new KeyNotFoundException($"Product detail with ID {dto.ProductDetailId} not found.");
 
         var existingItem = await cartItemRepository.GetCartItemAsync(userId, dto.ProductDetailId);
 

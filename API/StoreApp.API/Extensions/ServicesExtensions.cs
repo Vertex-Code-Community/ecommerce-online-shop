@@ -22,6 +22,7 @@ public static class ServicesExtensions
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
         services.AddScoped<ICartItemRepository, CartItemRepository>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
 
