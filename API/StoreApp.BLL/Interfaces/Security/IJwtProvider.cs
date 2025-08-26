@@ -1,9 +1,10 @@
-﻿using StoreApp.Models.Dtos;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace StoreApp.BLL.Interfaces.Security;
 
 public interface IJwtProvider
 {
     string GenerateRefreshToken();
-    string GenerateToken(UserTokenDto user);
+    string GenerateToken(IdentityUser user, IEnumerable<Claim>? userClaims = null);
 }

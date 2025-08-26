@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using StoreApp.BLL.Options;
 using StoreApp.Models.Dtos;
@@ -10,43 +11,50 @@ using System.Text;
 
 namespace StoreApp.BLL.Security;
 
-public class JwtProvider : IJwtProvider
+public class JwtProvider(IOptions<JwtOptions> jwtOptions) : IJwtProvider
 {
-    private readonly JwtOptions _jwtOptions;
+    private readonly JwtOptions _jwtOptions = jwtOptions.Value;
 
-    public JwtProvider(IOptions<JwtOptions> jwtOptions)
+    public string GenerateToken(IdentityUser user, IEnumerable<Claim>? userClaims = null)
     {
-        _jwtOptions = jwtOptions.Value;
-    }
+        var tokenHandler = new JwtSecurityTokenHandler();
 
-    public string GenerateToken(UserTokenDto user)
-    {
-        Claim[] claims = [
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Role, user.Role.ToString()),
-            new(ClaimTypes.Email, user.Email)];
+        var claims = GenerateUserClaims(user, userClaims);
+        var key = Encoding.UTF8.GetBytes(_jwtOptions.SecretKey);
 
-        var signingCredentials = new SigningCredentials(
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey)),
-            SecurityAlgorithms.HmacSha256);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddMinutes(_jwtOptions.ExpiresMinutes),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+        };
 
-        var token = new JwtSecurityToken(
-            claims: claims,
-            signingCredentials: signingCredentials,
-            expires: DateTime.UtcNow.AddMinutes(_jwtOptions.ExpiresMinutes));
-
-        var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-
-        return tokenValue;
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 
     public string GenerateRefreshToken()
     {
         var randomNumber = new byte[32];
-        using (var rng = RandomNumberGenerator.Create())
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
+    }
+    
+    private static List<Claim> GenerateUserClaims(IdentityUser user, IEnumerable<Claim>? userClaims)
+    {
+        var claims = new List<Claim>
         {
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(ClaimTypes.Sid, user.Id),
+            new(ClaimTypes.Name, user.UserName!),
+        };
+
+        if (userClaims != null && userClaims.Any())
+        {
+            claims.AddRange(userClaims);
         }
+
+        return claims;
     }
 }
