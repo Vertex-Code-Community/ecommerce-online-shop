@@ -11,10 +11,7 @@ public class CartItemRepository(AppDbContext appDbContext, IDbExceptionHandler h
 {
     public Task<CartItemEntity?> GetCartItemAsync(int userId, long productDetailId)
     {
-        return Context.CartItems
-            .Include(c => c.ProductDetail)
-                .ThenInclude(p => p.Product)
-            .FirstOrDefaultAsync(c => c.UserId == userId && c.ProductDetailId == productDetailId);
+        return Context.CartItems.FirstOrDefaultAsync(c => c.UserId == userId && c.ProductDetailId == productDetailId);
     }
 
     public async Task<List<CartItemEntity>> GetCartItemsByUserIdAsync(int id)

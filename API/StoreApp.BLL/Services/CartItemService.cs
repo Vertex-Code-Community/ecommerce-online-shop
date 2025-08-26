@@ -6,8 +6,7 @@ using StoreApp.Models;
 
 namespace StoreApp.BLL.Services;
 
-public class CartItemService(ICartItemRepository cartItemRepository,
-    IMapper mapper) : ICartItemService
+public class CartItemService(ICartItemRepository cartItemRepository, IMapper mapper) : ICartItemService
 {
     public async Task<List<CartItemModel>> GetCartItemsByUserIdAsync(int userId)
     {
