@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreApp.Models;
 using StoreApp.Shared.Interfaces.Services;
 using System.Security.Claims;
 
@@ -18,16 +19,16 @@ public class CartItemsController(ICartItemService cartItemService) : ControllerB
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddToCartAsync([FromQuery] long productDetailId, [FromQuery] int quantity)
+    public async Task<IActionResult> AddToCartAsync([FromBody] UpdateCartItem dto)
     {
-        await cartItemService.AddToCartAsync(GetUserId(), productDetailId, quantity);
+        await cartItemService.AddToCartAsync(GetUserId(), dto);
         return NoContent();
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateQuantityAsync([FromQuery] int productId, [FromQuery] int quantity)
+    public async Task<IActionResult> UpdateQuantityAsync([FromBody] UpdateCartItem dto)
     {
-        await cartItemService.UpdateCartItemAsync(GetUserId(), productId, quantity);
+        await cartItemService.UpdateCartItemAsync(GetUserId(), dto);
         return NoContent();
     }
 

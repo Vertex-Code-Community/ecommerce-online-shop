@@ -16,27 +16,23 @@ public class CartItemService(ICartItemRepository cartItemRepository,
         return mapper.Map<List<CartItemModel>>(cartItems);
     }
 
-    public async Task AddToCartAsync(int userId, long productDetailId, int quantity)
+    public async Task AddToCartAsync(int userId, UpdateCartItem dto)
     {
         // todo: check if productDetailId exists
         // var productExists = await _productRepository.ProductExistsAsync(productDetailId);
         // if (!productExists) return false;
 
-        var existingItem = await cartItemRepository.GetCartItemAsync(userId, productDetailId);
+        var existingItem = await cartItemRepository.GetCartItemAsync(userId, dto.ProductDetailId);
 
         if (existingItem is not null)
         {
-            existingItem.Quantity += quantity;
+            existingItem.Quantity += dto.Quantity;
             await cartItemRepository.UpdateAsync(existingItem);
         }
         else
         {
-            var newItem = new CartItemEntity
-            {
-                UserId = userId,
-                ProductDetailId = productDetailId,
-                Quantity = quantity
-            };
+            var newItem = mapper.Map<CartItemEntity>(dto);
+            newItem.UserId = userId;
             
             await cartItemRepository.CreateAsync(newItem);
         }
@@ -50,12 +46,12 @@ public class CartItemService(ICartItemRepository cartItemRepository,
         await cartItemRepository.DeleteAsync(cartItem);
     }
 
-    public async Task UpdateCartItemAsync(int userId, long productDetailId, int quantity)
+    public async Task UpdateCartItemAsync(int userId, UpdateCartItem dto)
     {
-        var cartItem = await cartItemRepository.GetCartItemAsync(userId, productDetailId)
+        var cartItem = await cartItemRepository.GetCartItemAsync(userId, dto.ProductDetailId)
                          ?? throw new KeyNotFoundException("Cart item not found.");
         
-        cartItem.Quantity = quantity;
+        cartItem.Quantity = dto.Quantity;
         
         await cartItemRepository.UpdateAsync(cartItem);
     }
