@@ -29,7 +29,7 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
     {
         var productEntity = mapper.Map<ProductEntity>(model);
         //todo: use cloud storage in future
-        productEntity.ImageUrl = await SaveImageToDiskAsync(model.ImageData);
+        productEntity.MainImageUrl = await SaveImageToDiskAsync(model.ImageData);
 
         await productRepository.CreateAsync(productEntity);
     }
@@ -43,9 +43,9 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
 
         if (model.ImageData?.Length > 0)
         {
-            DeleteImageFile(existingProduct.ImageUrl);
+            DeleteImageFile(existingProduct.MainImageUrl);
 
-            existingProduct.ImageUrl = await SaveImageToDiskAsync(model.ImageData);
+            existingProduct.MainImageUrl = await SaveImageToDiskAsync(model.ImageData);
         }
 
         await productRepository.UpdateAsync(existingProduct);
@@ -56,7 +56,7 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         var product = await productRepository.GetByIdAsync(id)
                         ?? throw new KeyNotFoundException("Product not found.");
 
-        DeleteImageFile(product.ImageUrl);
+        DeleteImageFile(product.MainImageUrl);
 
         await productRepository.DeleteAsync(product);
     }

@@ -1,6 +1,5 @@
 namespace StoreApp.DAL.Entities;
 
-//todo: configure
 public class ProductDetailEntity
 {
     public long Id { get; set; }
@@ -16,8 +15,10 @@ public class ProductDetailEntity
     public int UnitsInStock { get; set; }
 
     public string SKU { get; set; } = string.Empty;
-	
-    public List<string> ImageUrls { get; set; } = [];
     
+    public int? ProductImagesId { get; set; }
+	
     public ProductEntity? Product { get; set; }
+    
+    public ProductImagesEntity? ProductImages { get; set; }
 }

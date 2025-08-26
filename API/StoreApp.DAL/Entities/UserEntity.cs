@@ -2,7 +2,7 @@
 
 namespace StoreApp.DAL.Entities;
 
-public class UserEntity : IdentityUser<int>
+public class UserEntity : IdentityUser
 {
     public ICollection<CartItemEntity> CartItems { get; set; } = new List<CartItemEntity>();
     

@@ -8,7 +8,11 @@ public class ProductMappingProfile : Profile
 {
     public ProductMappingProfile()
     {
-        CreateMap<ProductDetailEntity, ProductDetailModel>();
+        CreateMap<ProductDetailEntity, ProductDetailModel>()
+            .ForMember(dest => dest.ImageUrls,
+                opt => opt.MapFrom(src => 
+                    src.ProductImages != null || !src.ProductImages.ImagesUrls.Any()
+                        ? new List<string>() : src.ProductImages.ImagesUrls));
         
         CreateMap<ProductEntity, ProductModel>();
         CreateMap<CreateProduct, ProductEntity>();
