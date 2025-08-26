@@ -1,4 +1,5 @@
 using AutoMapper;
+using StoreApp.BLL.Exceptions;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Entities;
 using StoreApp.DAL.Repositories.Interfaces;
@@ -14,15 +15,14 @@ public class ReviewService(IReviewRepository repository, IMapper mapper) : IRevi
         return mapper.Map<IEnumerable<ReviewModel>>(reviews);
     }
     
-    public async Task<IEnumerable<ReviewModel>> GetTopRatingReviewsAsync()
+    public async Task<IEnumerable<ReviewModel>> GetTopRatingReviewsAsync(int count)
     {
-        //todo replace with filters
-        var reviews = await repository.GetAllAsync();
-        var topReviews = reviews
-            .OrderByDescending(r => r.Rating)
-            .ThenByDescending(r => r.CreatedAt)
-            .Take(3);
-        
+        if (count <= 0)
+        {
+            throw new BadRequestException("Count must be greater than zero.");
+        }
+
+        var topReviews = await repository.GetTopRatingReviewsAsync(count);
         return mapper.Map<IEnumerable<ReviewModel>>(topReviews);
     }
 

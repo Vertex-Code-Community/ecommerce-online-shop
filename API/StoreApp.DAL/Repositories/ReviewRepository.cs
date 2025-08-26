@@ -18,6 +18,17 @@ public class ReviewRepository(AppDbContext context, IDbExceptionHandler handler)
             .ToListAsync();
     }
     
+    public async Task<IEnumerable<ReviewEntity>> GetTopRatingReviewsAsync(int count)
+    {
+        return await Context.Reviews
+            .AsNoTracking()
+            .Include(r => r.User)
+            .OrderByDescending(r => r.Rating)
+            .ThenByDescending(r => r.CreatedAt)
+            .Take(count)
+            .ToListAsync();
+    }
+    
     public async Task<ReviewEntity?> GetReviewByUserIdAndProductIdAsync(string userId, int productId)
     {
         return await Context.Reviews

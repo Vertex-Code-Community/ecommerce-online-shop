@@ -6,7 +6,7 @@ public interface IReviewService
 {
     Task<IEnumerable<ReviewModel>> GetReviewsByProductIdAsync(int productId);
     
-    Task<IEnumerable<ReviewModel>> GetTopRatingReviewsAsync();
+    Task<IEnumerable<ReviewModel>> GetTopRatingReviewsAsync(int count);
     
     Task<ReviewModel> GetReviewByIdAsync(long reviewId);
     

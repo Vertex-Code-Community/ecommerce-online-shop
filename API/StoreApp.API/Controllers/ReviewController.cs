@@ -18,9 +18,9 @@ public class ReviewController(IReviewService service) : ControllerBase
     }
     
     [HttpGet("top-rating")]
-    public async Task<IActionResult> GetTopRatingReviewsAsync()
+    public async Task<IActionResult> GetTopRatingReviewsAsync([FromQuery] int count = 10)
     {
-        var reviews = await service.GetTopRatingReviewsAsync();
+        var reviews = await service.GetTopRatingReviewsAsync(count);
         return Ok(reviews);
     }
 
