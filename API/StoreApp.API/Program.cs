@@ -36,7 +36,6 @@ public class Program
             options.UseSqlServer(connectionString));
         
         // Repositories
-        builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
         builder.Services.AddScoped<IReviewRepository, ReviewRepository>();

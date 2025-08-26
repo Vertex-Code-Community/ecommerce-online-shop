@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StoreApp.DAL.Entities;
 using System.Security.Claims;
 
 namespace StoreApp.BLL.Interfaces.Security;
@@ -6,5 +7,5 @@ namespace StoreApp.BLL.Interfaces.Security;
 public interface IJwtProvider
 {
     string GenerateRefreshToken();
-    string GenerateToken(IdentityUser user, IEnumerable<Claim>? userClaims = null);
+    string GenerateToken(UserEntity user, IEnumerable<Claim>? userClaims = null);
 }

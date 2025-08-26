@@ -24,12 +24,4 @@ public class AuthController(IAuthService authService) : ControllerBase
         var accessToken = await authService.LoginUserAsync(dto);
         return Ok(accessToken);
     }
-
-    // [Authorize]
-    // [HttpPost("logout")]
-    // public IActionResult Logout()
-    // {
-    //     await authService.LogoutAsync();
-    //     return NoContent();
-    // }
 }

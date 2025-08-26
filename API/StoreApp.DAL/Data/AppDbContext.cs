@@ -1,14 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using StoreApp.DAL.Entities;
 
 namespace StoreApp.DAL.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options)
+    : IdentityDbContext<IdentityUser>(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options) { }
-
-    public DbSet<UserEntity> Users { get; set; }
     public DbSet<ProductEntity> Products { get; set; }
     public DbSet<CartItemEntity> CartItems { get; set; }
     public DbSet<ReviewEntity> Reviews { get; set; }

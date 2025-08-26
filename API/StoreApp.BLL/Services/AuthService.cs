@@ -2,11 +2,12 @@
 using StoreApp.Models.Dtos;
 using StoreApp.BLL.Interfaces.Security;
 using StoreApp.BLL.Interfaces.Services;
+using StoreApp.DAL.Entities;
 using StoreApp.Shared.Enums;
 
 namespace StoreApp.BLL.Services;
 
-public class AuthService(UserManager<IdentityUser> userManager, IJwtProvider jwtProvider) : IAuthService
+public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtProvider) : IAuthService
 {
     public async Task RegisterUserAsync(CredentialsDto dto)
     {
@@ -17,7 +18,7 @@ public class AuthService(UserManager<IdentityUser> userManager, IJwtProvider jwt
             throw new InvalidOperationException("User with this email already exists.");
         }
         
-        var newUser = new IdentityUser
+        var newUser = new UserEntity
         {
             UserName = dto.Email,
             Email = dto.Email,

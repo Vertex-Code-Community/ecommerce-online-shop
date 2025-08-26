@@ -1,112 +1,61 @@
 ﻿using AutoMapper;
-using StoreApp.DAL.Repositories.Interfaces;
-using StoreApp.Shared.Enums;
-using StoreApp.BLL.Interfaces.Security;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using StoreApp.DAL.Entities;
 using StoreApp.Models;
 
 namespace StoreApp.BLL.Services;
 
-public class UserService : IUserService
+public class UserService(UserManager<UserEntity> userManager, IMapper mapper) : IUserService
 {
-    private readonly IUserRepository _userRepository;
-    private readonly IPasswordHasher _passwordHasher;
-    private readonly IMapper _mapper;
-
-    public UserService(
-        IUserRepository userRepository,
-        IPasswordHasher passwordHasher,
-        IMapper mapper)
-    {
-        _userRepository = userRepository;
-        _passwordHasher = passwordHasher;
-        _mapper = mapper;
-    }
-
     public async Task<IEnumerable<UserModel>> GetAllUsersAsync()
     {
-        var userEntities = await _userRepository.GetAllUsersAsync();
-
-        return _mapper.Map<IEnumerable<UserModel>>(userEntities);
+        var userEntities = await userManager.Users.ToListAsync();
+        return mapper.Map<IEnumerable<UserModel>>(userEntities);
     }
 
-    public async Task<UserModel?> GetUserByIdAsync(int id)
+    public async Task<UserModel> GetUserByIdAsync(int id)
     {
-        var userEntity = await _userRepository.GetUserByIdAsync(id);
-        if (userEntity != null)
-        {
-            return _mapper.Map<UserModel>(userEntity);
-        }
-
-        return null;
+        var userEntity = await userManager.FindByIdAsync(id.ToString())
+            ?? throw new KeyNotFoundException("User not found.");
+        
+        return mapper.Map<UserModel>(userEntity);
     }
 
-    public async Task<UserModel?> GetUserByEmailAsync(string email)
+    public async Task<UserModel> GetUserByEmailAsync(string email)
     {
-        var userEntity = await _userRepository.GetUserByEmailAsync(email);
-        if (userEntity != null)
-        {
-            return _mapper.Map<UserModel>(userEntity);
-        }
-
-        return null;
+        var userEntity = await userManager.FindByEmailAsync(email)
+            ?? throw new KeyNotFoundException("User not found.");
+        
+        return mapper.Map<UserModel>(userEntity);
     }
 
-    public async Task<bool> UpdateUserByIdAsync(int id, UserModel user)
+    public async Task UpdateRoleByIdAsync(int id, string role)
     {
-        if (!await _userRepository.UserExistsAsync(id))
+        var existingUser = await userManager.FindByIdAsync(id.ToString())
+            ?? throw new KeyNotFoundException("User not found.");
+        
+        var currentRoles = await userManager.GetRolesAsync(existingUser);
+        var removeResult = await userManager.RemoveFromRolesAsync(existingUser, currentRoles);
+        if (!removeResult.Succeeded)
         {
-            return false;
+            //todo: custom exception
+            throw new Exception("Failed to remove user roles.");
         }
-
-        var existingUser = await _userRepository.GetUserByEmailAsync(user.Email);
-        if (existingUser != null && existingUser.Id != id)
+        
+        var addResult = await userManager.AddToRoleAsync(existingUser, role);
+        if (!addResult.Succeeded)
         {
-            return false;
-        }
-
-        if (existingUser == null)
-        {
-            return false;
-        }
-
-        existingUser.Email = user.Email;
-        existingUser.PasswordHash = _passwordHasher.Hash(user.Password);
-
-        await _userRepository.UpdateUserAsync(existingUser);
-
-        return true;
-    }
-
-    public async Task<bool> UpdateRoleByIdAsync(int id, string role)
-    {
-        var existingUser = await _userRepository.GetUserByIdAsync(id);
-        if (existingUser == null)
-        {
-            return false;
-        }
-
-        if (Enum.TryParse(role, out UserRole newRole))
-        {
-            existingUser.Role = newRole;
-            await _userRepository.UpdateUserAsync(existingUser);
-            
-            return true;
-        }
-        else
-        {
-            return false;
+            //todo: custom exception
+            throw new Exception("Failed to add user role.");
         }
     }
 
-    public async Task<bool> DeleteUserByIdAsync(int id)
+    public async Task DeleteUserByIdAsync(int id)
     {
-        if (!await _userRepository.UserExistsAsync(id))
-        {
-            return false;
-        }
+        var user = await userManager.FindByIdAsync(id.ToString())
+            ?? throw new KeyNotFoundException("User not found.");
 
-        await _userRepository.DeleteUserByIdAsync(id);
-
-        return true;
+        await userManager.DeleteAsync(user);
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using StoreApp.BLL.Options;
 using StoreApp.Models.Dtos;
 using StoreApp.BLL.Interfaces.Security;
+using StoreApp.DAL.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -15,7 +16,7 @@ public class JwtProvider(IOptions<JwtOptions> jwtOptions) : IJwtProvider
 {
     private readonly JwtOptions _jwtOptions = jwtOptions.Value;
 
-    public string GenerateToken(IdentityUser user, IEnumerable<Claim>? userClaims = null)
+    public string GenerateToken(UserEntity user, IEnumerable<Claim>? userClaims = null)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -41,13 +42,15 @@ public class JwtProvider(IOptions<JwtOptions> jwtOptions) : IJwtProvider
         return Convert.ToBase64String(randomNumber);
     }
     
-    private static List<Claim> GenerateUserClaims(IdentityUser user, IEnumerable<Claim>? userClaims)
+    private static List<Claim> GenerateUserClaims(UserEntity user, IEnumerable<Claim>? userClaims)
     {
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(ClaimTypes.Sid, user.Id),
+            new(ClaimTypes.Sid, user.Id.ToString()),
             new(ClaimTypes.Name, user.UserName!),
+            new(ClaimTypes.Email, user.Email!),
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
         };
 
         if (userClaims != null && userClaims.Any())

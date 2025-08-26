@@ -6,57 +6,45 @@ namespace StoreApp.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
-    private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
-    {
-        _userService = userService;
-    }
-
     [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        return Ok(await _userService.GetAllUsersAsync());
+        var users = await userService.GetAllUsersAsync();
+        return Ok(users);
     }
 
     [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync(int id)
     {
-        var user = await _userService.GetUserByIdAsync(id);
-        return user is not null
-            ? Ok(user)
-            : NotFound(); 
+        var user = await userService.GetUserByIdAsync(id);
+        return Ok(user);
     }
 
     [Authorize]
     [HttpGet("by-email")]
     public async Task<IActionResult> GetByEmailAsync([FromQuery] string email)
     {
-        var user = await _userService.GetUserByEmailAsync(email);
-        return user is not null
-            ? Ok(user)
-            : NotFound();
+        var user = await userService.GetUserByEmailAsync(email);
+        return Ok(user);
     }
 
     [Authorize]
     [HttpPut("{id}/role")]
     public async Task<IActionResult> UpdateRoleByIdAsync(int id, [FromQuery] string role)
     {
-        return (await _userService.UpdateRoleByIdAsync(id, role))
-            ? Ok()
-            : BadRequest();
+        await userService.UpdateRoleByIdAsync(id, role);
+        return NoContent();
     }
 
     [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteByIdAsync(int id)
     {
-        return (await _userService.DeleteUserByIdAsync(id))
-            ? NoContent()
-            : BadRequest();
+        await userService.DeleteUserByIdAsync(id);
+        return NoContent();
     }
 }
