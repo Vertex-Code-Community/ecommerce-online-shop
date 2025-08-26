@@ -12,9 +12,7 @@ using StoreApp.DAL.Data;
 using StoreApp.DAL.Repositories;
 using StoreApp.DAL.Repositories.Interfaces;
 using StoreApp.Shared.Constants;
-using StoreApp.BLL.Interfaces.Security;
-using StoreApp.Shared.Interfaces.Services;
-using StoreApp.BLL.Interfaces.Services;
+using StoreApp.BLL.Services.Interfaces;
 using System.Text;
 
 namespace StoreApp.API;
@@ -42,7 +40,6 @@ public class Program
 
         // Services
         builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-        builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IProductService, ProductService>();

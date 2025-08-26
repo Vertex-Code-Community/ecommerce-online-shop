@@ -1,6 +1,6 @@
 ﻿using StoreApp.Models;
 
-namespace StoreApp.BLL.Services;
+namespace StoreApp.BLL.Services.Interfaces;
 
 public interface IUserService
 {

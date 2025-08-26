@@ -3,7 +3,7 @@ using StoreApp.DAL.Entities;
 using StoreApp.DAL.Repositories.Interfaces;
 using StoreApp.Shared.Constants;
 using StoreApp.Models;
-using StoreApp.BLL.Interfaces.Services;
+using StoreApp.BLL.Services.Interfaces;
 
 namespace StoreApp.BLL.Services;
 

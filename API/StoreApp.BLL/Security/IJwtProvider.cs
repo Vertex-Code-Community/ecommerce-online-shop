@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using StoreApp.DAL.Entities;
+﻿using StoreApp.DAL.Entities;
 using System.Security.Claims;
 
-namespace StoreApp.BLL.Interfaces.Security;
+namespace StoreApp.BLL.Security;
 
 public interface IJwtProvider
 {

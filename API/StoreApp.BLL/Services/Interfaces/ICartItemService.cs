@@ -1,6 +1,6 @@
 ﻿using StoreApp.Models;
 
-namespace StoreApp.Shared.Interfaces.Services;
+namespace StoreApp.BLL.Services.Interfaces;
 
 public interface ICartItemService
 {

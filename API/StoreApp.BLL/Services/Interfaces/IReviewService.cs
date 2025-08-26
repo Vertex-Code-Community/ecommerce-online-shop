@@ -1,6 +1,6 @@
 using StoreApp.Models;
 
-namespace StoreApp.BLL.Interfaces.Services;
+namespace StoreApp.BLL.Services.Interfaces;
 
 public interface IReviewService
 {

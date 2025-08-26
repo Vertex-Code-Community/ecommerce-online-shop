@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StoreApp.API.Extensions;
+using StoreApp.BLL.Services.Interfaces;
 using StoreApp.Models;
-using StoreApp.Shared.Interfaces.Services;
-using System.Security.Claims;
 
 namespace StoreApp.API.Controllers;
 
-// [Authorize] todo: uncomment when authentication is implemented
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class CartItemsController(ICartItemService cartItemService) : ControllerBase
@@ -14,48 +14,40 @@ public class CartItemsController(ICartItemService cartItemService) : ControllerB
     [HttpGet]
     public async Task<IActionResult> GetByUserIdAsync()
     {
-        var cartItems = await cartItemService.GetCartItemsByUserIdAsync(GetUserId());
+        var id = User.GetUserId();
+        var cartItems = await cartItemService.GetCartItemsByUserIdAsync(id);
         return Ok(cartItems);
     }
 
     [HttpPost]
     public async Task<IActionResult> AddToCartAsync([FromBody] UpdateCartItem dto)
     {
-        await cartItemService.AddToCartAsync(GetUserId(), dto);
+        var id = User.GetUserId();
+        await cartItemService.AddToCartAsync(id, dto);
         return NoContent();
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdateQuantityAsync([FromBody] UpdateCartItem dto)
     {
-        await cartItemService.UpdateCartItemAsync(GetUserId(), dto);
+        var id = User.GetUserId();
+        await cartItemService.UpdateCartItemAsync(id, dto);
         return NoContent();
     }
 
     [HttpDelete]
     public async Task<IActionResult> DeleteItemAsync([FromQuery] int productId)
     {
-        await cartItemService.DeleteCartItemAsync(GetUserId(), productId);
+        var id = User.GetUserId();
+        await cartItemService.DeleteCartItemAsync(id, productId);
         return NoContent();
     }
 
     [HttpDelete("clear")]
     public async Task<IActionResult> ClearCartAsync()
     {
-        await cartItemService.ClearCartItemsByUserIdAsync(GetUserId());
+        var id = User.GetUserId();
+        await cartItemService.ClearCartItemsByUserIdAsync(id);
         return NoContent();
-    }
-
-    private int GetUserId()
-    {
-        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-
-        if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out var userId))
-        {
-            // throw new UnauthorizedAccessException("User ID not found in claims.");
-            userId = 1; // todo: uncomment when authentication is implemented
-        }
-
-        return userId;
     }
 }

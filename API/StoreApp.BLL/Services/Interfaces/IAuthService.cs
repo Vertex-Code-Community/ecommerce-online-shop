@@ -1,6 +1,6 @@
 ﻿using StoreApp.Models.Dtos;
 
-namespace StoreApp.BLL.Interfaces.Services;
+namespace StoreApp.BLL.Services.Interfaces;
 
 public interface IAuthService
 {

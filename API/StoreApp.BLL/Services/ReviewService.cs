@@ -1,5 +1,5 @@
 using AutoMapper;
-using StoreApp.BLL.Interfaces.Services;
+using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Entities;
 using StoreApp.DAL.Repositories.Interfaces;
 using StoreApp.Models;

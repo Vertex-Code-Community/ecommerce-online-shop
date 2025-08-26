@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StoreApp.BLL.Services;
+using StoreApp.BLL.Services.Interfaces;
 
 namespace StoreApp.API.Controllers;
 

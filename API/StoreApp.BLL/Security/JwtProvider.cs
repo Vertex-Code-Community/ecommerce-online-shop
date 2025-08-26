@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using StoreApp.BLL.Options;
-using StoreApp.Models.Dtos;
-using StoreApp.BLL.Interfaces.Security;
 using StoreApp.DAL.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

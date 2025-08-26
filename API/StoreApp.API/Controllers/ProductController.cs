@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StoreApp.Models;
-using StoreApp.BLL.Interfaces.Services;
+using StoreApp.BLL.Services.Interfaces;
 
 namespace StoreApp.API.Controllers;
 
@@ -31,7 +30,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(model);
     }
 
-    [Authorize]
+    //[Authorize] TODO: set authorize in future
     [HttpPut]
     public async Task<IActionResult> UpdateByIdAsync([FromBody] UpdateProduct model)
     {
@@ -39,7 +38,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return NoContent();
     }
 
-    [Authorize]
+    //[Authorize] TODO: set authorize in future
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteByIdAsync(int id)
     {
