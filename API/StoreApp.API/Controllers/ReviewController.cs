@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StoreApp.API.Extensions;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.Models;
+using StoreApp.Shared.Enums;
 
 namespace StoreApp.API.Controllers;
 
@@ -47,7 +48,7 @@ public class ReviewController(IReviewService service) : ControllerBase
         return NoContent();
     }
 
-    [Authorize]
+    [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpDelete("{id:long}")]
     public async Task<IActionResult> DeleteByIdAsync(long id)
     {

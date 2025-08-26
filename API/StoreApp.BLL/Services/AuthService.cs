@@ -50,7 +50,10 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
             throw new UnauthorizedAccessException("Invalid password.");
         }
         
-        var token = jwtProvider.GenerateToken(existingUser);
+        var roles = await userManager.GetRolesAsync(existingUser);
+        var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));
+
+        var token = jwtProvider.GenerateToken(existingUser, roleClaims);
         var refreshToken = jwtProvider.GenerateRefreshToken();
 
         await userManager.SetAuthenticationTokenAsync(existingUser, "MyApp", "RefreshToken", refreshToken);
@@ -93,7 +96,10 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
             throw new UnauthorizedAccessException("Invalid refresh token.");
         }
         
-        var newJwtToken = jwtProvider.GenerateToken(existingUser);
+        var roles = await userManager.GetRolesAsync(existingUser);
+        var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));
+
+        var newJwtToken = jwtProvider.GenerateToken(existingUser, roleClaims);
         var newRefreshToken = jwtProvider.GenerateRefreshToken();
         
         await userManager.SetAuthenticationTokenAsync(existingUser, "MyApp", "RefreshToken", newRefreshToken);

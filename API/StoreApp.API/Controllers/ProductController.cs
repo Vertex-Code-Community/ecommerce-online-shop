@@ -7,6 +7,7 @@ using StoreApp.Shared.Enums;
 namespace StoreApp.API.Controllers;
 
 [ApiController]
+[Authorize(Roles = nameof(UserRole.Admin))]
 [Route("api/[controller]")]
 public class ProductController(IProductService productService) : ControllerBase
 {
@@ -24,7 +25,6 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(product);
     }
 
-    [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpPost]
     public async Task<IActionResult> AddAsync([FromBody] CreateProduct model)
     {
@@ -32,7 +32,6 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(model);
     }
 
-    [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpPut]
     public async Task<IActionResult> UpdateByIdAsync([FromBody] UpdateProduct model)
     {
@@ -40,7 +39,6 @@ public class ProductController(IProductService productService) : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteByIdAsync(int id)
     {

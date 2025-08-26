@@ -12,6 +12,7 @@ public class UserService(UserManager<UserEntity> userManager, IMapper mapper) : 
 {
     public async Task<IEnumerable<UserModel>> GetAllUsersAsync()
     {
+        //todo: attach roles
         var userEntities = await userManager.Users.ToListAsync();
         return mapper.Map<IEnumerable<UserModel>>(userEntities);
     }

@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StoreApp.BLL.Services.Interfaces;
+using StoreApp.Shared.Enums;
 
 namespace StoreApp.API.Controllers;
 
 [ApiController]
+[Authorize(Roles = nameof(UserRole.Admin))]
 [Route("api/[controller]")]
 public class UserController(IUserService userService) : ControllerBase
 {
-    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
@@ -16,7 +17,6 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(users);
     }
 
-    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync(string id)
     {
@@ -24,7 +24,6 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(user);
     }
 
-    [Authorize]
     [HttpGet("by-email")]
     public async Task<IActionResult> GetByEmailAsync([FromQuery] string email)
     {
@@ -32,7 +31,6 @@ public class UserController(IUserService userService) : ControllerBase
         return Ok(user);
     }
 
-    [Authorize]
     [HttpPut("{id}/role")]
     public async Task<IActionResult> UpdateRoleByIdAsync(string id, [FromQuery] string role)
     {
@@ -40,7 +38,6 @@ public class UserController(IUserService userService) : ControllerBase
         return NoContent();
     }
 
-    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteByIdAsync(string id)
     {
