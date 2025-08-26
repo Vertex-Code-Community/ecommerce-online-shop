@@ -40,6 +40,8 @@ public static class ServicesExtensions
         services.AddOpenApi();
         services.AddControllers();
 
+        services.AddScoped<Seeder>();
+
         return services;
     }
 
