@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using StoreApp.BLL.Exceptions;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Entities;
 using StoreApp.Models;
@@ -40,15 +41,13 @@ public class UserService(UserManager<UserEntity> userManager, IMapper mapper) : 
         var removeResult = await userManager.RemoveFromRolesAsync(existingUser, currentRoles);
         if (!removeResult.Succeeded)
         {
-            //todo: custom exception
-            throw new Exception("Failed to remove user roles.");
+            throw new BadRequestException($"Failed to remove user roles. Errors: {string.Join(", ", removeResult.Errors.Select(e => e.Description))}");
         }
         
         var addResult = await userManager.AddToRoleAsync(existingUser, role);
         if (!addResult.Succeeded)
         {
-            //todo: custom exception
-            throw new Exception("Failed to add user role.");
+            throw new BadRequestException($"Failed to add user role. Errors: {string.Join(", ", addResult.Errors.Select(e => e.Description))}");
         }
     }
 

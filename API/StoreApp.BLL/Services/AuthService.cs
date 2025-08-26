@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using StoreApp.BLL.Exceptions;
 using StoreApp.BLL.Security;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Entities;
@@ -16,8 +17,7 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
         var existingUser = await userManager.FindByEmailAsync(dto.Email);
         if (existingUser is not null)
         {
-            //todo custom exception
-            throw new InvalidOperationException("User with this email already exists.");
+            throw new BadRequestException("User with this email already exists.");
         }
         
         var newUser = new UserEntity
@@ -30,8 +30,7 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
         if (!result.Succeeded)
         {
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-            //todo custom exception
-            throw new InvalidOperationException($"User creation failed: {errors}");
+            throw new BadRequestException($"User creation failed: {errors}");
         }
         
         await userManager.AddToRoleAsync(newUser, UserRole.User.ToString());
@@ -42,8 +41,7 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
         var existingUser = await userManager.FindByEmailAsync(dto.Email);
         if (existingUser is null)
         {
-            //todo custom exception
-            throw new InvalidOperationException("User not found.");
+            throw new KeyNotFoundException($"User with email {dto.Email} not found.");
         }
         
         var isAuth = await userManager.CheckPasswordAsync(existingUser, dto.Password);
@@ -64,8 +62,7 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
         var existingUser = await userManager.FindByIdAsync(userId);
         if (existingUser is null)
         {
-            //todo custom exception
-            throw new InvalidOperationException("User not found.");
+            throw new KeyNotFoundException($"User with ID {userId} not found.");
         }
         
         await userManager.RemoveAuthenticationTokenAsync(existingUser, "MyApp", "RefreshToken");
@@ -87,8 +84,7 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
 
         if (existingUser is null)
         {
-            //todo custom exception
-            throw new InvalidOperationException("User not found.");
+            throw new KeyNotFoundException($"User with ID {userId} not found.");
         }
         
         var storedRefreshToken = await userManager.GetAuthenticationTokenAsync(existingUser, "MyApp", "RefreshToken");

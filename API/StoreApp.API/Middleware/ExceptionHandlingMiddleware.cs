@@ -1,3 +1,4 @@
+using StoreApp.BLL.Exceptions;
 using StoreApp.Models;
 using System.Text.Json;
 
@@ -32,6 +33,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
     {
         return exception switch
         {
+            BadRequestException brEx => new ErrorResponseDto(brEx.Message, StatusCodes.Status400BadRequest),
             UnauthorizedAccessException uaEx => new ErrorResponseDto(uaEx.Message, StatusCodes.Status401Unauthorized),
             KeyNotFoundException knfEx => new ErrorResponseDto(knfEx.Message, StatusCodes.Status404NotFound),
             _ => new ErrorResponseDto("An unexpected error occurred. Please try again later.")
