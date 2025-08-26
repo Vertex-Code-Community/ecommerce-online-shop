@@ -10,9 +10,9 @@ public interface IReviewService
     
     Task<ReviewModel> GetReviewByIdAsync(long reviewId);
     
-    Task AddReviewAsync(CreateReview reviewModel, int userId);
+    Task AddReviewAsync(CreateReview reviewModel, string userId);
     
     Task DeleteReviewAsync(long reviewId);
     
-    Task<bool> UserHasReviewedProductAsync(int userId, int productId);
+    Task<bool> UserHasReviewedProductAsync(string userId, int productId);
 }

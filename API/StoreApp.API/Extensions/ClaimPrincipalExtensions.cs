@@ -4,14 +4,14 @@ namespace StoreApp.API.Extensions;
 
 public static class ClaimPrincipalExtensions
 {
-    public static int GetUserId(this ClaimsPrincipal user)
+    public static string GetUserId(this ClaimsPrincipal user)
     {
         var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
-        if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out var userId))
+        if (userIdClaim == null || string.IsNullOrEmpty(userIdClaim.Value))
         {
-            throw new UnauthorizedAccessException("User ID claim is missing or invalid.");
+            throw new UnauthorizedAccessException("User ID claim is missing.");
         }
 
-        return userId;
+        return userIdClaim.Value;
     }
 }

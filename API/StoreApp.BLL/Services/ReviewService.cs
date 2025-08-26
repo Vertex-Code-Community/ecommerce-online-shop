@@ -34,7 +34,7 @@ public class ReviewService(IReviewRepository repository, IMapper mapper) : IRevi
         return mapper.Map<ReviewModel>(review);
     }
 
-    public async Task AddReviewAsync(CreateReview reviewModel, int userId)
+    public async Task AddReviewAsync(CreateReview reviewModel, string userId)
     {
         var reviewEntity = mapper.Map<ReviewEntity>(reviewModel);
         reviewEntity.UserId = userId;
@@ -50,7 +50,7 @@ public class ReviewService(IReviewRepository repository, IMapper mapper) : IRevi
         await repository.DeleteAsync(review);
     }
 
-    public async Task<bool> UserHasReviewedProductAsync(int userId, int productId)
+    public async Task<bool> UserHasReviewedProductAsync(string userId, int productId)
     {
         var review = await repository.GetReviewByUserIdAndProductIdAsync(userId, productId);
         return review != null;

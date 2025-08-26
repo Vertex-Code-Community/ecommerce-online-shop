@@ -18,7 +18,7 @@ public class ReviewRepository(AppDbContext context, IDbExceptionHandler handler)
             .ToListAsync();
     }
     
-    public async Task<ReviewEntity?> GetReviewByUserIdAndProductIdAsync(int userId, int productId)
+    public async Task<ReviewEntity?> GetReviewByUserIdAndProductIdAsync(string userId, int productId)
     {
         return await Context.Reviews
             .AsNoTracking()

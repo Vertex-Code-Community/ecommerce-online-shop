@@ -15,9 +15,9 @@ public class UserService(UserManager<UserEntity> userManager, IMapper mapper) : 
         return mapper.Map<IEnumerable<UserModel>>(userEntities);
     }
 
-    public async Task<UserModel> GetUserByIdAsync(int id)
+    public async Task<UserModel> GetUserByIdAsync(string id)
     {
-        var userEntity = await userManager.FindByIdAsync(id.ToString())
+        var userEntity = await userManager.FindByIdAsync(id)
             ?? throw new KeyNotFoundException("User not found.");
         
         return mapper.Map<UserModel>(userEntity);
@@ -31,9 +31,9 @@ public class UserService(UserManager<UserEntity> userManager, IMapper mapper) : 
         return mapper.Map<UserModel>(userEntity);
     }
 
-    public async Task UpdateRoleByIdAsync(int id, string role)
+    public async Task UpdateRoleByIdAsync(string id, string role)
     {
-        var existingUser = await userManager.FindByIdAsync(id.ToString())
+        var existingUser = await userManager.FindByIdAsync(id)
             ?? throw new KeyNotFoundException("User not found.");
         
         var currentRoles = await userManager.GetRolesAsync(existingUser);
@@ -52,9 +52,9 @@ public class UserService(UserManager<UserEntity> userManager, IMapper mapper) : 
         }
     }
 
-    public async Task DeleteUserByIdAsync(int id)
+    public async Task DeleteUserByIdAsync(string id)
     {
-        var user = await userManager.FindByIdAsync(id.ToString())
+        var user = await userManager.FindByIdAsync(id)
             ?? throw new KeyNotFoundException("User not found.");
 
         await userManager.DeleteAsync(user);

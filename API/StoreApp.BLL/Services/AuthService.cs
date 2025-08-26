@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using StoreApp.BLL.Security;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Entities;
 using StoreApp.Models;
 using StoreApp.Shared.Enums;
+using System.Security.Claims;
 
 namespace StoreApp.BLL.Services;
 
@@ -35,7 +37,7 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
         await userManager.AddToRoleAsync(newUser, UserRole.User.ToString());
     }
 
-    public async Task<string> LoginUserAsync(CredentialsDto dto)
+    public async Task<TokenModel> LoginUserAsync(CredentialsDto dto)
     {
         var existingUser = await userManager.FindByEmailAsync(dto.Email);
         if (existingUser is null)
@@ -51,6 +53,55 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
         }
         
         var token = jwtProvider.GenerateToken(existingUser);
-        return token;
+        var refreshToken = jwtProvider.GenerateRefreshToken();
+
+        await userManager.SetAuthenticationTokenAsync(existingUser, "MyApp", "RefreshToken", refreshToken);
+        return new TokenModel(token, refreshToken);
+    }
+    
+    public async Task LogoutUserAsync(string userId)
+    {
+        var existingUser = await userManager.FindByIdAsync(userId);
+        if (existingUser is null)
+        {
+            //todo custom exception
+            throw new InvalidOperationException("User not found.");
+        }
+        
+        await userManager.RemoveAuthenticationTokenAsync(existingUser, "MyApp", "RefreshToken");
+    }
+    
+    public async Task<TokenModel> RefreshTokenAsync(TokenModel tokenModel)
+    {
+        string userId;
+        try
+        {
+            userId = jwtProvider.GetUserIdFromExpiredToken(tokenModel.AccessToken);
+        }
+        catch (SecurityTokenException e)
+        {
+            throw new UnauthorizedAccessException("Invalid token.", e);
+        }
+        
+        var existingUser = await userManager.FindByIdAsync(userId);
+
+        if (existingUser is null)
+        {
+            //todo custom exception
+            throw new InvalidOperationException("User not found.");
+        }
+        
+        var storedRefreshToken = await userManager.GetAuthenticationTokenAsync(existingUser, "MyApp", "RefreshToken");
+        if (storedRefreshToken != tokenModel.RefreshToken)
+        {
+            throw new UnauthorizedAccessException("Invalid refresh token.");
+        }
+        
+        var newJwtToken = jwtProvider.GenerateToken(existingUser);
+        var newRefreshToken = jwtProvider.GenerateRefreshToken();
+        
+        await userManager.SetAuthenticationTokenAsync(existingUser, "MyApp", "RefreshToken", newRefreshToken);
+        
+        return new TokenModel(newJwtToken, newRefreshToken);
     }
 }

@@ -18,7 +18,7 @@ public class UserController(IUserService userService) : ControllerBase
 
     [Authorize]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetByIdAsync(int id)
+    public async Task<IActionResult> GetByIdAsync(string id)
     {
         var user = await userService.GetUserByIdAsync(id);
         return Ok(user);
@@ -34,7 +34,7 @@ public class UserController(IUserService userService) : ControllerBase
 
     [Authorize]
     [HttpPut("{id}/role")]
-    public async Task<IActionResult> UpdateRoleByIdAsync(int id, [FromQuery] string role)
+    public async Task<IActionResult> UpdateRoleByIdAsync(string id, [FromQuery] string role)
     {
         await userService.UpdateRoleByIdAsync(id, role);
         return NoContent();
@@ -42,7 +42,7 @@ public class UserController(IUserService userService) : ControllerBase
 
     [Authorize]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteByIdAsync(int id)
+    public async Task<IActionResult> DeleteByIdAsync(string id)
     {
         await userService.DeleteUserByIdAsync(id);
         return NoContent();

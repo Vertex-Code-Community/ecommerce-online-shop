@@ -8,14 +8,14 @@ namespace StoreApp.BLL.Services;
 
 public class CartItemService(ICartItemRepository cartItemRepository, IMapper mapper) : ICartItemService
 {
-    public async Task<List<CartItemModel>> GetCartItemsByUserIdAsync(int userId)
+    public async Task<List<CartItemModel>> GetCartItemsByUserIdAsync(string userId)
     {
         var cartItems = await cartItemRepository.GetCartItemsByUserIdAsync(userId);
 
         return mapper.Map<List<CartItemModel>>(cartItems);
     }
 
-    public async Task AddToCartAsync(int userId, UpdateCartItem dto)
+    public async Task AddToCartAsync(string userId, UpdateCartItem dto)
     {
         // todo: check if productDetailId exists
         // var productExists = await _productRepository.ProductExistsAsync(productDetailId);
@@ -37,7 +37,7 @@ public class CartItemService(ICartItemRepository cartItemRepository, IMapper map
         }
     }
 
-    public async Task DeleteCartItemAsync(int userId, long productDetailId)
+    public async Task DeleteCartItemAsync(string userId, long productDetailId)
     {
         var cartItem = await cartItemRepository.GetCartItemAsync(userId, productDetailId)
                           ?? throw new KeyNotFoundException("Cart item not found.");
@@ -45,7 +45,7 @@ public class CartItemService(ICartItemRepository cartItemRepository, IMapper map
         await cartItemRepository.DeleteAsync(cartItem);
     }
 
-    public async Task UpdateCartItemAsync(int userId, UpdateCartItem dto)
+    public async Task UpdateCartItemAsync(string userId, UpdateCartItem dto)
     {
         var cartItem = await cartItemRepository.GetCartItemAsync(userId, dto.ProductDetailId)
                          ?? throw new KeyNotFoundException("Cart item not found.");
@@ -55,7 +55,7 @@ public class CartItemService(ICartItemRepository cartItemRepository, IMapper map
         await cartItemRepository.UpdateAsync(cartItem);
     }
 
-    public async Task ClearCartItemsByUserIdAsync(int userId)
+    public async Task ClearCartItemsByUserIdAsync(string userId)
     {
         await cartItemRepository.ClearCartItemsByUserIdAsync(userId);
     }

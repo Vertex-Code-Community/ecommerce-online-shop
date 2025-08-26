@@ -4,9 +4,9 @@ namespace StoreApp.BLL.Services.Interfaces;
 
 public interface IUserService
 {
-    Task DeleteUserByIdAsync(int id);
+    Task DeleteUserByIdAsync(string id);
     Task<IEnumerable<UserModel>> GetAllUsersAsync();
     Task<UserModel> GetUserByEmailAsync(string email);
-    Task<UserModel> GetUserByIdAsync(int id);
-    Task UpdateRoleByIdAsync(int id, string role);
+    Task<UserModel> GetUserByIdAsync(string id);
+    Task UpdateRoleByIdAsync(string id, string role);
 }
