@@ -13,10 +13,8 @@ public class ProductModel
     public string? ImageUrl { get; set; }
 	
     public decimal? Discount { get; set; }
-	
-    public ProductDetailModel DefaultDetail { get; set; } = new();
 
     public double Rating { get; set; }
-	
+
     public int UnitsInStock { get; set; }
 }

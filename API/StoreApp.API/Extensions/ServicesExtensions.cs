@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StoreApp.BLL.MapperProvider;
+using StoreApp.BLL.MapperProfiles;
 using StoreApp.BLL.Options;
 using StoreApp.BLL.Security;
 using StoreApp.BLL.Services;
@@ -32,7 +32,7 @@ public static class ServicesExtensions
         services.AddScoped<ICartItemService, CartItemService>();
         services.AddScoped<IReviewService, ReviewService>();
 
-        services.AddAutoMapper(typeof(MappingProfile));
+        services.AddAutoMapper(typeof(UserMapperProfile).Assembly);
 
         return services;
     }

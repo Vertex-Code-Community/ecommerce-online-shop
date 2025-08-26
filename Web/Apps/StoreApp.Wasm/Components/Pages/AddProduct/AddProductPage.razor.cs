@@ -53,7 +53,6 @@ public partial class AddProductPage : ComponentBase
 				Price = product.Price,
 				Discount = product.Discount,
 				UnitsInStock = product.UnitsInStock,
-				ImageData = imageBytes
 			};
 
 			var request = new HttpRequestMessage(HttpMethod.Post, "product")
