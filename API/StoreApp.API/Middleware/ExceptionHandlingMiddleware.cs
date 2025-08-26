@@ -1,4 +1,4 @@
-using StoreApp.Models.Dtos;
+using StoreApp.Models;
 using System.Text.Json;
 
 namespace StoreApp.API.Middleware;

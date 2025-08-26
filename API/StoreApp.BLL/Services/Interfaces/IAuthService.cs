@@ -1,4 +1,4 @@
-﻿using StoreApp.Models.Dtos;
+﻿using StoreApp.Models;
 
 namespace StoreApp.BLL.Services.Interfaces;
 

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using StoreApp.Models.Dtos;
 using StoreApp.BLL.Security;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Entities;
+using StoreApp.Models;
 using StoreApp.Shared.Enums;
 
 namespace StoreApp.BLL.Services;

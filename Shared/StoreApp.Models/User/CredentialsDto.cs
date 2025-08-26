@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace StoreApp.Models.Dtos;
+namespace StoreApp.Models;
 
 public class CredentialsDto
 {

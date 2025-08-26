@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using StoreApp.DAL.Entities;
-using StoreApp.Models.Dtos;
 using StoreApp.Models;
 
 namespace StoreApp.BLL.MapperProvider;
@@ -15,7 +14,6 @@ public class MappingProfile : Profile
 
         CreateMap<CredentialsDto, UserModel>();
         CreateMap<UserEntity, UserModel>();
-        CreateMap<UserEntity, UserTokenDto>();
 
         CreateMap<ProductDetailEntity, ProductDetailModel>();
 
@@ -36,8 +34,5 @@ public class MappingProfile : Profile
             .ReverseMap();
 
         CreateMap<CreateReview, ReviewEntity>();
-
-        CreateMap<ColorEntity, ColorModel>();
-        CreateMap<SizeEntity, SizeModel>();
     }
 }
