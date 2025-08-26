@@ -9,12 +9,12 @@ namespace StoreApp.BLL.Services;
 
 public class ProductService(IProductRepository productRepository, IMapper mapper) : IProductService
 {
-    public async Task<IEnumerable<FullProductModel>> GetFilteredProductsAsync(ProductFilter filter)
+    public async Task<IEnumerable<ProductModel>> GetFilteredProductsAsync(ProductFilter filter)
     {
         var dbFilter = mapper.Map<DAL.Filtering.ProductFilter>(filter);
         var productEntities = await productRepository.GetFilteredAsync(dbFilter);
         
-        return mapper.Map<IEnumerable<FullProductModel>>(productEntities);
+        return mapper.Map<IEnumerable<ProductModel>>(productEntities);
     }
 
     public async Task<FullProductModel> GetProductByIdAsync(int id)
