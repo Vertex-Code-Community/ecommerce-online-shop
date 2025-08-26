@@ -7,4 +7,6 @@ public interface IJwtProvider
 {
     string GenerateRefreshToken();
     string GenerateToken(UserEntity user, IEnumerable<Claim>? userClaims = null);
+    
+    string GetUserIdFromExpiredToken(string token);
 }

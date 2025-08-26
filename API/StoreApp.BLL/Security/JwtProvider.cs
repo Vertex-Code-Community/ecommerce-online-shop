@@ -33,10 +33,32 @@ public class JwtProvider(IOptions<JwtOptions> jwtOptions) : IJwtProvider
 
     public string GenerateRefreshToken()
     {
-        var randomNumber = new byte[32];
-        using var rng = RandomNumberGenerator.Create();
-        rng.GetBytes(randomNumber);
-        return Convert.ToBase64String(randomNumber);
+        return Guid.NewGuid().ToString();
+    }
+
+    public string GetUserIdFromExpiredToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_jwtOptions.SecretKey);
+
+        var validationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero,
+            ValidateLifetime = false
+        };
+
+        var principal = tokenHandler.ValidateToken(token, validationParameters, out var securityToken);
+        if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        {
+            throw new SecurityTokenException("Invalid token");
+        }
+        
+        return principal.FindFirst(ClaimTypes.Sid)?.Value
+            ?? throw new SecurityTokenException("User ID claim not found in token");
     }
     
     private static List<Claim> GenerateUserClaims(UserEntity user, IEnumerable<Claim>? userClaims)
@@ -44,10 +66,10 @@ public class JwtProvider(IOptions<JwtOptions> jwtOptions) : IJwtProvider
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(ClaimTypes.Sid, user.Id.ToString()),
+            new(ClaimTypes.Sid, user.Id),
             new(ClaimTypes.Name, user.UserName!),
             new(ClaimTypes.Email, user.Email!),
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.NameIdentifier, user.Id),
         };
 
         if (userClaims != null && userClaims.Any())

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StoreApp.Models;
 using StoreApp.BLL.Services.Interfaces;
+using StoreApp.Shared.Enums;
 
 namespace StoreApp.API.Controllers;
 
@@ -22,7 +24,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(product);
     }
 
-    //[Authorize] TODO: set authorize in future
+    [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpPost]
     public async Task<IActionResult> AddAsync([FromBody] CreateProduct model)
     {
@@ -30,7 +32,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(model);
     }
 
-    //[Authorize] TODO: set authorize in future
+    [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpPut]
     public async Task<IActionResult> UpdateByIdAsync([FromBody] UpdateProduct model)
     {
@@ -38,7 +40,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return NoContent();
     }
 
-    //[Authorize] TODO: set authorize in future
+    [Authorize(Roles = nameof(UserRole.Admin))]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteByIdAsync(int id)
     {
