@@ -4,17 +4,19 @@ using StoreApp.DAL.Repositories.Interfaces;
 using StoreApp.Shared.Constants;
 using StoreApp.Models;
 using StoreApp.BLL.Services.Interfaces;
+using StoreApp.Shared;
 
 namespace StoreApp.BLL.Services;
 
 public class ProductService(IProductRepository productRepository, IMapper mapper) : IProductService
 {
-    public async Task<IEnumerable<ProductModel>> GetFilteredProductsAsync(ProductFilter filter)
+    public async Task<FilterResult<ProductModel>> GetFilteredProductsAsync(ProductFilter filter)
     {
         var dbFilter = mapper.Map<DAL.Filtering.ProductFilter>(filter);
         var productEntities = await productRepository.GetFilteredAsync(dbFilter);
         
-        return mapper.Map<IEnumerable<ProductModel>>(productEntities);
+        var mapped = mapper.Map<IEnumerable<ProductModel>>(productEntities.Items);
+        return productEntities.Clone(mapped);
     }
 
     public async Task<FullProductModel> GetProductByIdAsync(int id)

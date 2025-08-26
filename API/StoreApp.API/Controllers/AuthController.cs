@@ -10,7 +10,6 @@ namespace StoreApp.API.Controllers;
 [Route("api/[controller]")]
 public class AuthController(IAuthService authService) : ControllerBase
 {
-    [Authorize]
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync([FromBody] CredentialsDto model)
     {
@@ -18,7 +17,6 @@ public class AuthController(IAuthService authService) : ControllerBase
         return NoContent();
     }
 
-    [Authorize]
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromBody] CredentialsDto dto)
     {

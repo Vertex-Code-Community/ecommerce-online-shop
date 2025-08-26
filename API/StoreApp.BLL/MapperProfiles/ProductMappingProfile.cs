@@ -25,5 +25,7 @@ public class ProductMappingProfile : Profile
         CreateMap<UpdateCartItem, CartItemEntity>();
         CreateMap<CartItemEntity, CartItemModel>()
             .ForMember(dest => dest.ProductModel, opt => opt.MapFrom(src => src.ProductDetail.Product));
+        
+        CreateMap<ProductFilter, DAL.Filtering.ProductFilter>();
     }
 }
