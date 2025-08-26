@@ -10,7 +10,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
 {
     public DbSet<ProductEntity> Products { get; set; }
     
-    public DbSet<ProductDetailEntity> ProductVariants { get; set; }
+    public DbSet<ProductDetailEntity> ProductDetails { get; set; }
+    
+    public DbSet<ProductImagesEntity> ProductImages { get; set; }
 
     public DbSet<CartItemEntity> CartItems { get; set; }
     

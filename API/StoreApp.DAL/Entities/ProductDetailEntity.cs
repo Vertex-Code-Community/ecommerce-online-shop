@@ -16,7 +16,7 @@ public class ProductDetailEntity : IBaseEntity<long>
 
     public string SKU { get; set; } = string.Empty;
     
-    public int? ProductImagesId { get; set; }
+    public long? ProductImagesId { get; set; }
 	
     public ProductEntity? Product { get; set; }
     

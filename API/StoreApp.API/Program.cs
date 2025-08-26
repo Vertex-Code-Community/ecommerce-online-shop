@@ -33,7 +33,7 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    SeedData.SeedProductVariants(context);
+    await context.Database.EnsureCreatedAsync();
 }
 
 app.Run();

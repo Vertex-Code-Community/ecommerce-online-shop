@@ -10,6 +10,7 @@ using StoreApp.BLL.Services;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Data;
 using StoreApp.DAL.Entities;
+using StoreApp.DAL.Exceptions.Handlers;
 using StoreApp.DAL.Repositories;
 using StoreApp.DAL.Repositories.Interfaces;
 using System.Text;
@@ -21,6 +22,7 @@ public static class ServicesExtensions
 {
     public static IServiceCollection ConfigureServices(this IServiceCollection services)
     {
+        services.AddScoped<IDbExceptionHandler, SqlExceptionHandler>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
         services.AddScoped<ICartItemRepository, CartItemRepository>();
@@ -34,6 +36,9 @@ public static class ServicesExtensions
         services.AddScoped<IReviewService, ReviewService>();
 
         services.AddAutoMapper(typeof(UserMapperProfile).Assembly);
+        
+        services.AddOpenApi();
+        services.AddControllers();
 
         return services;
     }
