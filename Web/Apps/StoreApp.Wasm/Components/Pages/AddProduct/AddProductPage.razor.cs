@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
+using StoreApp.Models;
 using System.Net.Http.Json;
-using SharedProductModel = StoreApp.Models.ProductModel;
 
 namespace StoreApp.Wasm.Components.Pages.AddProduct;
 
@@ -46,14 +46,13 @@ public partial class AddProductPage : ComponentBase
 
 		try
 		{
-			var apiProduct = new SharedProductModel
+			var apiProduct = new FullProductModel
 			{
 				Name = product.Name,
 				Description = product.Description,
 				Price = product.Price,
 				Discount = product.Discount,
 				UnitsInStock = product.UnitsInStock,
-				ImageData = imageBytes
 			};
 
 			var request = new HttpRequestMessage(HttpMethod.Post, "product")

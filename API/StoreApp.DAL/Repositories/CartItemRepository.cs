@@ -1,59 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StoreApp.DAL.Data;
 using StoreApp.DAL.Entities;
+using StoreApp.DAL.Exceptions.Handlers;
 using StoreApp.DAL.Repositories.Interfaces;
 
 namespace StoreApp.DAL.Repositories;
 
-public class CartItemRepository : ICartItemRepository
+public class CartItemRepository(AppDbContext appDbContext, IDbExceptionHandler handler)
+    : GenericRepository<CartItemEntity, AppDbContext, int>(appDbContext, handler), ICartItemRepository
 {
-    private readonly AppDbContext _appDbContext;
-
-    public CartItemRepository(AppDbContext appDbContext)
+    public Task<CartItemEntity?> GetCartItemAsync(string userId, long productDetailId)
     {
-        _appDbContext = appDbContext;
+        return Context.CartItems.FirstOrDefaultAsync(c => c.UserId == userId && c.ProductDetailId == productDetailId);
     }
 
-    public Task<CartItemEntity?> GetCartItemAsync(int userId, int productId)
+    public async Task<List<CartItemEntity>> GetCartItemsByUserIdAsync(string id)
     {
-        return _appDbContext.CartItems
-            .Include(c => c.Product)
-            .FirstOrDefaultAsync(c => c.UserId == userId && c.ProductId == productId);
-    }
-
-    public async Task<List<CartItemEntity>> GetCartItemsByUserIdAsync(int id)
-    {
-        return await _appDbContext.CartItems
-            .Include(c => c.Product)
+        return await Context.CartItems
+            .Include(c => c.ProductDetail)
+                .ThenInclude(p => p.Product)
             .Where(c => c.UserId == id)
             .ToListAsync();
     }
 
-    public async Task AddCartItemAsync(CartItemEntity cartItem)
+    public async Task ClearCartItemsByUserIdAsync(string userId)
     {
-        await _appDbContext.CartItems.AddAsync(cartItem);
-        await _appDbContext.SaveChangesAsync();
-    }
-
-    public async Task UpdateCartItemAsync(CartItemEntity cartItem)
-    {
-        _appDbContext.CartItems.Update(cartItem);
-        await _appDbContext.SaveChangesAsync();
-    }
-
-    public async Task DeleteCartItemAsync(CartItemEntity cartItem)
-    {
-        _appDbContext.CartItems.Remove(cartItem);
-        await _appDbContext.SaveChangesAsync();
-    }
-
-    public async Task ClearCartItemsByUserIdAsync(int userId)
-    {
-        var userCartItems = await _appDbContext.CartItems
+        var userCartItems = await Context.CartItems
             .Where(c => c.UserId == userId)
             .ToListAsync();
 
-        _appDbContext.CartItems.RemoveRange(userCartItems);
-        await _appDbContext.SaveChangesAsync();
+        Context.CartItems.RemoveRange(userCartItems);
+        await Context.SaveChangesAsync();
     }
 }

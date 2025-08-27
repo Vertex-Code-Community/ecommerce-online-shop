@@ -1,81 +1,48 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StoreApp.Models;
-using StoreApp.BLL.Interfaces.Services;
+using StoreApp.BLL.Services.Interfaces;
+using StoreApp.Shared.Enums;
 
 namespace StoreApp.API.Controllers;
 
 [ApiController]
+[Authorize(Roles = nameof(UserRole.Admin))]
 [Route("api/[controller]")]
-public class ProductController : ControllerBase
+public class ProductController(IProductService productService) : ControllerBase
 {
-    private readonly IProductService _productService;
-
-    public ProductController(IProductService productService)
-    {
-        _productService = productService;
-    }
-
     [HttpGet]
-    public async Task<IActionResult> GetAllAsync([FromQuery] decimal? minPrice, [FromQuery] decimal? maxPrice, [FromQuery] string? search)
+    public async Task<IActionResult> GetAllAsync([FromQuery] ProductFilter filter)
     {
-        return Ok(await _productService.GetFilteredProductsAsync(minPrice, maxPrice, search));
-    }
-
-    [HttpGet("new-arrivals")]
-    public async Task<IActionResult> GetNewArrivalsAsync([FromQuery] int take = 8)
-    {
-        var result = await _productService.GetNewArrivalsAsync(take);
-        return Ok(result);
-    }
-
-    [HttpGet("top-selling")]
-    public async Task<IActionResult> GetTopSellingAsync([FromQuery] int take = 8)
-    {
-        var result = await _productService.GetTopSellingAsync(take);
-        return Ok(result);
-    }
-
-    [HttpGet("recommendations/{id}")]
-    public async Task<IActionResult> GetRecommendationsAsync(int id, [FromQuery] int take = 8)
-    {
-        var result = await _productService.GetRecommendationsAsync(id, take);
-        return Ok(result);
+        var products = await productService.GetFilteredProductsAsync(filter);
+        return Ok(products);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync(int id)
     {
-        var product = await _productService.GetProductByIdAsync(id);
-        return product is not null 
-            ? Ok(product) 
-            : BadRequest();
+        var product = await productService.GetProductByIdAsync(id);
+        return Ok(product);
     }
 
-    //[Authorize] TODO: set authorize in future
     [HttpPost]
-    public async Task<IActionResult> AddAsync([FromBody] ProductModel model)
+    public async Task<IActionResult> AddAsync([FromBody] CreateProduct model)
     {
-        return(await _productService.AddProductAsync(model))
-            ? Ok()
-            : BadRequest();
+        await productService.AddProductAsync(model);
+        return Ok(model);
     }
 
-    [Authorize]
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateByIdAsync(int id, [FromBody] ProductModel model)
+    [HttpPut]
+    public async Task<IActionResult> UpdateByIdAsync([FromBody] UpdateProduct model)
     {
-        return(await _productService.UpdateProductByIdAsync(id, model))
-            ? Ok()
-            : BadRequest();
+        await productService.UpdateProductByIdAsync(model);
+        return NoContent();
     }
 
-    [Authorize]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteByIdAsync(int id)
     {
-        return(await _productService.DeleteProductByIdAsync(id))
-            ? NoContent()
-            : BadRequest();
+        await productService.DeleteProductByIdAsync(id);
+        return NoContent();
     }
 }

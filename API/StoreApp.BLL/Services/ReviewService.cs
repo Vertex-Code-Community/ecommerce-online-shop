@@ -1,8 +1,8 @@
 using AutoMapper;
+using StoreApp.BLL.Exceptions;
+using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Entities;
 using StoreApp.DAL.Repositories.Interfaces;
-using StoreApp.Models.Dtos.Review;
-using StoreApp.Shared.Interfaces.Services;
 using StoreApp.Models;
 
 namespace StoreApp.BLL.Services;
@@ -14,8 +14,19 @@ public class ReviewService(IReviewRepository repository, IMapper mapper) : IRevi
         var reviews = await repository.GetReviewsByProductIdAsync(productId);
         return mapper.Map<IEnumerable<ReviewModel>>(reviews);
     }
+    
+    public async Task<IEnumerable<ReviewModel>> GetTopRatingReviewsAsync(int count)
+    {
+        if (count <= 0)
+        {
+            throw new BadRequestException("Count must be greater than zero.");
+        }
 
-    public async Task<ReviewModel> GetReviewByIdAsync(int reviewId)
+        var topReviews = await repository.GetTopRatingReviewsAsync(count);
+        return mapper.Map<IEnumerable<ReviewModel>>(topReviews);
+    }
+
+    public async Task<ReviewModel> GetReviewByIdAsync(long reviewId)
     {
         var review = await repository.GetByIdAsync(reviewId) ??
             throw new KeyNotFoundException($"Review with ID {reviewId} not found.");
@@ -23,20 +34,23 @@ public class ReviewService(IReviewRepository repository, IMapper mapper) : IRevi
         return mapper.Map<ReviewModel>(review);
     }
 
-    public async Task AddReviewAsync(CreateReview reviewModel, int userId)
+    public async Task AddReviewAsync(CreateReview reviewModel, string userId)
     {
         var reviewEntity = mapper.Map<ReviewEntity>(reviewModel);
         reviewEntity.UserId = userId;
         
-        await repository.AddAsync(reviewEntity);
+        await repository.CreateAsync(reviewEntity);
     }
 
-    public async Task DeleteReviewAsync(int reviewId)
+    public async Task DeleteReviewAsync(long reviewId)
     {
-        await repository.DeleteAsync(reviewId);
+        var review = await repository.GetByIdAsync(reviewId) ??
+            throw new KeyNotFoundException($"Review with ID {reviewId} not found.");
+        
+        await repository.DeleteAsync(review);
     }
 
-    public async Task<bool> UserHasReviewedProductAsync(int userId, int productId)
+    public async Task<bool> UserHasReviewedProductAsync(string userId, int productId)
     {
         var review = await repository.GetReviewByUserIdAndProductIdAsync(userId, productId);
         return review != null;

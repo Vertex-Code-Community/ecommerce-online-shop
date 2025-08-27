@@ -1,95 +1,43 @@
-﻿using AutoMapper;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StoreApp.Shared.Constants;
-using StoreApp.Models.Dtos;
-using StoreApp.Shared.Enums;
+using StoreApp.API.Extensions;
+using StoreApp.BLL.Services.Interfaces;
 using StoreApp.Models;
-using StoreApp.BLL.Interfaces.Services;
 
 namespace StoreApp.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController(IAuthService authService) : ControllerBase
 {
-    private readonly IAuthService _authService;
-    private readonly IMapper _mapper;
-
-    public AuthController(IAuthService authService, IMapper mapper)
-    {
-        _authService = authService;
-        _mapper = mapper;
-    }
-
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync([FromBody] CredentialsDto model)
     {
-        var userModel = _mapper.Map<UserModel>(model);
-        userModel.Role = UserRole.User;
-
-        var result = await _authService.RegisterUserAsync(userModel);
-
-        return Ok(result);
+        await authService.RegisterUserAsync(model);
+        return NoContent();
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> LoginAsync([FromBody] CredentialsDto model)
+    public async Task<IActionResult> LoginAsync([FromBody] CredentialsDto dto)
     {
-        var userModel = _mapper.Map<UserModel>(model);
-        userModel.Role = UserRole.User;
-
-        var (accessToken, refreshToken) = await _authService.LoginUserAsync(userModel);
-        if (accessToken == null || refreshToken == null)
-        {
-            return Unauthorized("Invalid credentials");
-        }
-
-        Response.Cookies.Append(AuthConstants.AccessTokenCookie, accessToken, new CookieOptions
-        {
-            Expires = DateTime.UtcNow.AddMinutes(AuthConstants.AccessTokenExpiresMinutes)
-        });
-
-        Response.Cookies.Append(AuthConstants.RefreshTokenCookie, refreshToken, new CookieOptions
-        {
-            Expires = DateTime.UtcNow.AddDays(AuthConstants.RefreshTokenExpiresDays)
-        });
-
-        return Ok( new { accessToken, refreshToken });
+        var tokens = await authService.LoginUserAsync(dto);
+        return Ok(tokens);
     }
-
-    [HttpPost("refresh-token")]
-    public async Task<IActionResult> RefreshTokenAsync()
-    {
-        if (!Request.Cookies.TryGetValue(AuthConstants.RefreshTokenCookie, out var oldRefreshToken))
-        {
-            return BadRequest(new { message = "Refresh token not found" });
-        }
-
-        var (accessToken, refreshToken) = await _authService.RefreshTokenAsync(oldRefreshToken);
-        if (accessToken is null || refreshToken is null)
-        {
-            return Unauthorized("Invalid credentials");
-        }
-
-        Response.Cookies.Append(AuthConstants.AccessTokenCookie, accessToken, new CookieOptions
-        {
-            Expires = DateTime.UtcNow.AddMinutes(AuthConstants.AccessTokenExpiresMinutes)
-        });
-
-        Response.Cookies.Append(AuthConstants.RefreshTokenCookie, refreshToken, new CookieOptions
-        {
-            Expires = DateTime.UtcNow.AddDays(AuthConstants.RefreshTokenExpiresDays)
-        });
-
-        return Ok( new { accessToken, refreshToken });
-    }
-
+    
+    [Authorize]
     [HttpPost("logout")]
-    public IActionResult Logout()
+    public async Task<IActionResult> LogoutAsync()
     {
-        Response.Cookies.Delete(AuthConstants.AccessTokenCookie);
-        Response.Cookies.Delete(AuthConstants.RefreshTokenCookie);
-
+        var userId = User.GetUserId();
+        
+        await authService.LogoutUserAsync(userId);
         return NoContent();
+    }
+    
+    [HttpPost("refresh-tokens")]
+    public async Task<IActionResult> RefreshTokensAsync([FromBody] TokenModel model)
+    {
+        var tokens = await authService.RefreshTokenAsync(model);
+        return Ok(tokens);
     }
 }

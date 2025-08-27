@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StoreApp.API.Extensions;
-using StoreApp.Models.Dtos.Review;
-using StoreApp.Shared.Interfaces.Services;
+using StoreApp.BLL.Services.Interfaces;
+using StoreApp.Models;
+using StoreApp.Shared.Enums;
 
 namespace StoreApp.API.Controllers;
 
@@ -10,23 +11,33 @@ namespace StoreApp.API.Controllers;
 [Route("api/[controller]")]
 public class ReviewController(IReviewService service) : ControllerBase
 {
-    [HttpGet("by-product/{productId}")]
+    [HttpGet("api/products/{productId:int}/reviews")]
     public async Task<IActionResult> GetByProductIdAsync(int productId)
     {
-        return Ok(await service.GetReviewsByProductIdAsync(productId));
+        var reviews = await service.GetReviewsByProductIdAsync(productId);
+        return Ok(reviews);
+    }
+    
+    [HttpGet("top-rating")]
+    public async Task<IActionResult> GetTopRatingReviewsAsync([FromQuery] int count = 10)
+    {
+        var reviews = await service.GetTopRatingReviewsAsync(count);
+        return Ok(reviews);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetByIdAsync(int id)
+    [HttpGet("{id:long}")]
+    public async Task<IActionResult> GetByIdAsync(long id)
     {
-        return Ok(await service.GetReviewByIdAsync(id));
+        var review = await service.GetReviewByIdAsync(id);
+        return Ok(review);
     }
 
     [Authorize]
-    [HttpGet("by-product/{productId}/user")]
+    [HttpGet("{productId:int}/user")]
     public async Task<IActionResult> IsReviewedByUser(int productId)
     {
-        return Ok(await service.UserHasReviewedProductAsync(User.GetUserId(), productId));
+        var hasReviewed = await service.UserHasReviewedProductAsync(User.GetUserId(), productId);
+        return Ok(hasReviewed);
     }
 
     [Authorize]
@@ -37,9 +48,9 @@ public class ReviewController(IReviewService service) : ControllerBase
         return NoContent();
     }
 
-    [Authorize]
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteByIdAsync(int id)
+    [Authorize(Roles = nameof(UserRole.Admin))]
+    [HttpDelete("{id:long}")]
+    public async Task<IActionResult> DeleteByIdAsync(long id)
     {
         await service.DeleteReviewAsync(id);
         return NoContent();

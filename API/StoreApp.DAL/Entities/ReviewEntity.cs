@@ -1,21 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace StoreApp.DAL.Entities;
 
-public class ReviewEntity
+public class ReviewEntity : IBaseEntity<long>
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
     
     public string? Comment { get; set; }
 
-    [Range(0, 5)]
     public int Rating { get; set; }
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public int ProductId { get; set; }
     
-    public int UserId { get; set; }
+    public string? UserId { get; set; }
     
     public ProductEntity? Product { get; set; }
 

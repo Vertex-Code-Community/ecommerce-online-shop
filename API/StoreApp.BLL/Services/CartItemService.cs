@@ -1,89 +1,64 @@
 ﻿using AutoMapper;
+using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Entities;
 using StoreApp.DAL.Repositories.Interfaces;
-using StoreApp.Shared.Interfaces.Services;
 using StoreApp.Models;
 
 namespace StoreApp.BLL.Services;
 
-public class CartItemService : ICartItemService
+public class CartItemService(
+    ICartItemRepository cartItemRepository,
+    IProductDetailRepository productRepository,
+    IMapper mapper) : ICartItemService
 {
-    private readonly ICartItemRepository _cartItemRepository;
-    private readonly IProductRepository _productRepository;
-    private readonly IMapper _mapper;
-
-    public CartItemService(
-        ICartItemRepository cartItemRepository,
-        IProductRepository productRepository,
-        IMapper mapper)
+    public async Task<List<CartItemModel>> GetCartItemsByUserIdAsync(string userId)
     {
-        _cartItemRepository = cartItemRepository;
-        _productRepository = productRepository;
-        _mapper = mapper;
+        var cartItems = await cartItemRepository.GetCartItemsByUserIdAsync(userId);
+
+        return mapper.Map<List<CartItemModel>>(cartItems);
     }
 
-    public async Task<List<CartItemModel>> GetCartItemsByUserIdAsync(int userId)
+    public async Task AddToCartAsync(string userId, UpdateCartItem dto)
     {
-        var cartItems = await _cartItemRepository.GetCartItemsByUserIdAsync(userId);
+        _ = await productRepository.GetByIdAsync(dto.ProductDetailId)
+            ?? throw new KeyNotFoundException($"Product detail with ID {dto.ProductDetailId} not found.");
 
-        return _mapper.Map<List<CartItemModel>>(cartItems);
-    }
-
-    public async Task<bool> AddToCartAsync(int userId, int productId, int quantity)
-    {
-        if (quantity <= 0) return false;
-
-        var productExists = await _productRepository.ProductExistsAsync(productId);
-        if (!productExists) return false;
-
-        var existingItem = await _cartItemRepository.GetCartItemAsync(userId, productId);
+        var existingItem = await cartItemRepository.GetCartItemAsync(userId, dto.ProductDetailId);
 
         if (existingItem is not null)
         {
-            existingItem.Quantity += quantity;
-            await _cartItemRepository.UpdateCartItemAsync(existingItem);
+            existingItem.Quantity += dto.Quantity;
+            await cartItemRepository.UpdateAsync(existingItem);
         }
         else
         {
-            var newItem = new CartItemEntity
-            {
-                UserId = userId,
-                ProductId = productId,
-                Quantity = quantity
-            };
+            var newItem = mapper.Map<CartItemEntity>(dto);
+            newItem.UserId = userId;
             
-            await _cartItemRepository.AddCartItemAsync(newItem);
+            await cartItemRepository.CreateAsync(newItem);
         }
-
-        return true;
     }
 
-    public async Task<bool> DeleteCartItemAsync(int userId, int productId)
+    public async Task DeleteCartItemAsync(string userId, long productDetailId)
     {
-        var cartItem = await _cartItemRepository.GetCartItemAsync(userId, productId);
-        if (cartItem is null) return false;
+        var cartItem = await cartItemRepository.GetCartItemAsync(userId, productDetailId)
+                          ?? throw new KeyNotFoundException("Cart item not found.");
         
-        await _cartItemRepository.DeleteCartItemAsync(cartItem);
-
-        return true;
+        await cartItemRepository.DeleteAsync(cartItem);
     }
 
-    public async Task<bool> UpdateCartItemAsync(int userId, int productId, int quantity)
+    public async Task UpdateCartItemAsync(string userId, UpdateCartItem dto)
     {
-        var cartItem = await _cartItemRepository.GetCartItemAsync(userId, productId);
-        if (cartItem is null) return false;
+        var cartItem = await cartItemRepository.GetCartItemAsync(userId, dto.ProductDetailId)
+                         ?? throw new KeyNotFoundException("Cart item not found.");
         
-        cartItem.Quantity = quantity;
+        cartItem.Quantity = dto.Quantity;
         
-        await _cartItemRepository.UpdateCartItemAsync(cartItem);
-
-        return true;
+        await cartItemRepository.UpdateAsync(cartItem);
     }
 
-    public async Task<bool> ClearCartItemsByUserIdAsync(int userId)
+    public async Task ClearCartItemsByUserIdAsync(string userId)
     {
-        await _cartItemRepository.ClearCartItemsByUserIdAsync(userId);
-
-        return true;
+        await cartItemRepository.ClearCartItemsByUserIdAsync(userId);
     }
 }

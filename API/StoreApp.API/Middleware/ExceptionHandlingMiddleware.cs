@@ -1,4 +1,6 @@
-using StoreApp.Models.Dtos;
+using StoreApp.BLL.Exceptions;
+using StoreApp.DAL.Exceptions;
+using StoreApp.Models;
 using System.Text.Json;
 
 namespace StoreApp.API.Middleware;
@@ -32,8 +34,11 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
     {
         return exception switch
         {
+            BadRequestException brEx => new ErrorResponseDto(brEx.Message, StatusCodes.Status400BadRequest),
             UnauthorizedAccessException uaEx => new ErrorResponseDto(uaEx.Message, StatusCodes.Status401Unauthorized),
             KeyNotFoundException knfEx => new ErrorResponseDto(knfEx.Message, StatusCodes.Status404NotFound),
+            ForeignKeyViolationException fkEx => new ErrorResponseDto(fkEx.Message, StatusCodes.Status400BadRequest),
+            DuplicateRecordException drEx => new ErrorResponseDto(drEx.Message, StatusCodes.Status409Conflict),
             _ => new ErrorResponseDto("An unexpected error occurred. Please try again later.")
         };
     }

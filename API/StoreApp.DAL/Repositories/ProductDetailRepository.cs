@@ -1,0 +1,9 @@
+using StoreApp.DAL.Data;
+using StoreApp.DAL.Entities;
+using StoreApp.DAL.Exceptions.Handlers;
+using StoreApp.DAL.Repositories.Interfaces;
+
+namespace StoreApp.DAL.Repositories;
+
+public class ProductDetailRepository(AppDbContext appDbContext, IDbExceptionHandler handler) 
+    : GenericRepository<ProductDetailEntity, AppDbContext, long>(appDbContext, handler) , IProductDetailRepository;

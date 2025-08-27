@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using StoreApp.BLL.Options;
-using StoreApp.Models.Dtos;
-using StoreApp.BLL.Interfaces.Security;
+using StoreApp.DAL.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -10,43 +9,74 @@ using System.Text;
 
 namespace StoreApp.BLL.Security;
 
-public class JwtProvider : IJwtProvider
+public class JwtProvider(IOptions<JwtOptions> jwtOptions) : IJwtProvider
 {
-    private readonly JwtOptions _jwtOptions;
+    private readonly JwtOptions _jwtOptions = jwtOptions.Value;
 
-    public JwtProvider(IOptions<JwtOptions> jwtOptions)
+    public string GenerateToken(UserEntity user, IEnumerable<Claim>? userClaims = null)
     {
-        _jwtOptions = jwtOptions.Value;
-    }
+        var tokenHandler = new JwtSecurityTokenHandler();
 
-    public string GenerateToken(UserTokenDto user)
-    {
-        Claim[] claims = [
-            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new(ClaimTypes.Role, user.Role.ToString()),
-            new(ClaimTypes.Email, user.Email)];
+        var claims = GenerateUserClaims(user, userClaims);
+        var key = Encoding.UTF8.GetBytes(_jwtOptions.SecretKey);
 
-        var signingCredentials = new SigningCredentials(
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.SecretKey)),
-            SecurityAlgorithms.HmacSha256);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddMinutes(_jwtOptions.ExpiresMinutes),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+        };
 
-        var token = new JwtSecurityToken(
-            claims: claims,
-            signingCredentials: signingCredentials,
-            expires: DateTime.UtcNow.AddMinutes(_jwtOptions.ExpiresMinutes));
-
-        var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-
-        return tokenValue;
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 
     public string GenerateRefreshToken()
     {
-        var randomNumber = new byte[32];
-        using (var rng = RandomNumberGenerator.Create())
+        return Guid.NewGuid().ToString();
+    }
+
+    public string GetUserIdFromExpiredToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_jwtOptions.SecretKey);
+
+        var validationParameters = new TokenValidationParameters
         {
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero,
+            ValidateLifetime = false
+        };
+
+        var principal = tokenHandler.ValidateToken(token, validationParameters, out var securityToken);
+        if (securityToken is not JwtSecurityToken jwtSecurityToken || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+        {
+            throw new SecurityTokenException("Invalid token");
         }
+        
+        return principal.FindFirst(ClaimTypes.Sid)?.Value
+            ?? throw new SecurityTokenException("User ID claim not found in token");
+    }
+    
+    private static List<Claim> GenerateUserClaims(UserEntity user, IEnumerable<Claim>? userClaims)
+    {
+        var claims = new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(ClaimTypes.Sid, user.Id),
+            new(ClaimTypes.Name, user.UserName!),
+            new(ClaimTypes.Email, user.Email!),
+            new(ClaimTypes.NameIdentifier, user.Id),
+        };
+
+        if (userClaims != null && userClaims.Any())
+        {
+            claims.AddRange(userClaims);
+        }
+
+        return claims;
     }
 }

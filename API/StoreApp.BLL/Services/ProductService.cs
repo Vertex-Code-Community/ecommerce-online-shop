@@ -3,106 +3,64 @@ using StoreApp.DAL.Entities;
 using StoreApp.DAL.Repositories.Interfaces;
 using StoreApp.Shared.Constants;
 using StoreApp.Models;
-using StoreApp.BLL.Interfaces.Services;
+using StoreApp.BLL.Services.Interfaces;
+using StoreApp.Shared;
 
 namespace StoreApp.BLL.Services;
 
-public class ProductService : IProductService
+public class ProductService(IProductRepository productRepository, IMapper mapper) : IProductService
 {
-    private readonly IProductRepository _productRepository;
-    private readonly IMapper _mapper;
-
-    public ProductService(IProductRepository productRepository, IMapper mapper)
+    public async Task<FilterResult<ProductModel>> GetFilteredProductsAsync(ProductFilter filter)
     {
-        _productRepository = productRepository;
-        _mapper = mapper;
-    }
-
-    public async Task<IEnumerable<ProductModel>> GetAllProductsAsync()
-    {
-        var productEntities = await _productRepository.GetAllProductsAsync();
-
-        return _mapper.Map<IEnumerable<ProductModel>>(productEntities);
-    }
-
-    public async Task<IEnumerable<ProductModel>> GetFilteredProductsAsync(decimal? minPrice, decimal? maxPrice, string? searchTerm)
-    {
-        var productEntities = await _productRepository.GetFilteredProductsAsync(minPrice, maxPrice, searchTerm);
-        return _mapper.Map<IEnumerable<ProductModel>>(productEntities);
-    }
-
-    public async Task<IEnumerable<ProductModel>> GetNewArrivalsAsync(int take)
-    {
-        var entities = await _productRepository.GetNewArrivalsAsync(take);
-        return _mapper.Map<IEnumerable<ProductModel>>(entities);
-    }
-
-    public async Task<IEnumerable<ProductModel>> GetTopSellingAsync(int take)
-    {
-        var entities = await _productRepository.GetTopSellingAsync(take);
-        return _mapper.Map<IEnumerable<ProductModel>>(entities);
-    }
-
-    public async Task<IEnumerable<ProductModel>> GetRecommendationsAsync(int productId, int take)
-    {
-        var entities = await _productRepository.GetRecommendationsAsync(productId, take);
-        return _mapper.Map<IEnumerable<ProductModel>>(entities);
-    }
-
-    public async Task<ProductModel?> GetProductByIdAsync(int id)
-    {
-        var productEntity = await _productRepository.GetProductByIdAsync(id);
-        if (productEntity is not null)
-        {
-            return _mapper.Map<ProductModel>(productEntity);
-        }
-
-        return _mapper.Map<ProductModel>(productEntity);
-    }
-
-    public async Task<bool> AddProductAsync(ProductModel product)
-    {
-        var productEntity = _mapper.Map<ProductEntity>(product);
-        productEntity.ImageUrl = await SaveImageToDiskAsync(product.ImageData);
-
-        await _productRepository.AddProductAsync(productEntity);
-
-        return true;
-    }
-
-    public async Task<bool> UpdateProductByIdAsync(int id, ProductModel product)
-    {
-        var existingProduct = await _productRepository.GetProductByIdAsync(id);
-        if (existingProduct is null) return false;
-
-        existingProduct.Name = product.Name;
-        existingProduct.Description = product.Description;
-        existingProduct.Price = product.Price;
-        existingProduct.Discount = product.Discount;
-        existingProduct.UnitsInStock = product.UnitsInStock;
-
-        if (product.ImageData?.Length > 0)
-        {
-            DeleteImageFile(existingProduct.ImageUrl);
-
-            existingProduct.ImageUrl = await SaveImageToDiskAsync(product.ImageData);
-        }
-
-        await _productRepository.UpdateProductAsync(existingProduct);
-
-        return true;
-    }
-
-    public async Task<bool> DeleteProductByIdAsync(int id)
-    {
-        var product = await _productRepository.GetProductByIdAsync(id);
-        if (product is null) return false;
-
-        DeleteImageFile(product.ImageUrl);
-
-        await _productRepository.DeleteProductByIdAsync(id);
+        var dbFilter = mapper.Map<DAL.Filtering.ProductFilter>(filter);
+        var productEntities = await productRepository.GetFilteredAsync(dbFilter);
         
-        return true;
+        var mapped = mapper.Map<IEnumerable<ProductModel>>(productEntities.Items);
+        return productEntities.Clone(mapped);
+    }
+
+    public async Task<FullProductModel> GetProductByIdAsync(int id)
+    {
+        var productEntity = await productRepository.GetByIdAsync(id, p => p.ProductDetails)
+                            ?? throw new KeyNotFoundException("Product not found.");
+
+        return mapper.Map<FullProductModel>(productEntity);
+    }
+
+    public async Task AddProductAsync(CreateProduct model)
+    {
+        var productEntity = mapper.Map<ProductEntity>(model);
+        //todo: use cloud storage in future
+        productEntity.MainImageUrl = await SaveImageToDiskAsync(model.ImageData);
+
+        await productRepository.CreateAsync(productEntity);
+    }
+
+    public async Task UpdateProductByIdAsync(UpdateProduct model)
+    {
+        var existingProduct = await productRepository.GetByIdAsync(model.Id)
+                                ?? throw new KeyNotFoundException("Product not found.");
+
+        mapper.Map(model, existingProduct);
+
+        if (model.ImageData?.Length > 0)
+        {
+            DeleteImageFile(existingProduct.MainImageUrl);
+
+            existingProduct.MainImageUrl = await SaveImageToDiskAsync(model.ImageData);
+        }
+
+        await productRepository.UpdateAsync(existingProduct);
+    }
+
+    public async Task DeleteProductByIdAsync(int id)
+    {
+        var product = await productRepository.GetByIdAsync(id)
+                        ?? throw new KeyNotFoundException("Product not found.");
+
+        DeleteImageFile(product.MainImageUrl);
+
+        await productRepository.DeleteAsync(product);
     }
 
     private async Task<string?> SaveImageToDiskAsync(byte[]? imageData)
