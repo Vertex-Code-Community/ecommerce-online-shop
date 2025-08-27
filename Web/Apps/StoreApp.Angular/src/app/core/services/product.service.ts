@@ -1,22 +1,20 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Product} from '../../shared/models/product.model';
-import {PagedResult} from '../../shared/models/pagedResultT';
-import {environment} from '../../../environments/environment';
+import { PagedResult } from '../../shared/models/pagedResultT';
+import { environment } from '../../../environments/environment';
+import { Product } from '../../shared/models/product/product';
+import { FullProduct } from '../../shared/models/product/fullProduct';
+import { CreateProduct } from '../../shared/models/product/createProduct';
+import { UpdateProduct } from '../../shared/models/product/updateProduct';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-
   private apiUrl = `${environment.apiUrl}/product`;
 
-  constructor(private http: HttpClient) { }
-
-  getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}`, { withCredentials: true });
-  }
+  http: HttpClient = inject(HttpClient);
 
   getPagedProducts(page: number, pageSize: number): Observable<PagedResult<Product>> {
     const pageZeroBased = Math.max(0, page - 1);
@@ -26,25 +24,22 @@ export class ProductService {
       .set('pageIndex', String(pageZeroBased))
       .set('pageSize', String(pageSize));
 
-    return this.http.get<PagedResult<Product>>(`${this.apiUrl}/paged`, {
-      params,
-      withCredentials: true
-    });
+    return this.http.get<PagedResult<Product>>(`${this.apiUrl}/paged`, { params });
   }
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/${id}`, { withCredentials: true });
+  getProductById(id: number): Observable<FullProduct> {
+    return this.http.get<FullProduct>(`${this.apiUrl}/${id}`);
   }
 
-  addProduct(product: Product): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}`, product, { withCredentials: true });
+  addProduct(product: CreateProduct): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}`, product);
   }
 
-  updateProductById(id: number, product: Product): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, product, { withCredentials: true });
+  updateProduct(product: UpdateProduct): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}`, product);
   }
 
   deleteProductById(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { withCredentials: true });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -13,11 +13,12 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideRouterStore } from '@ngrx/router-store';
-import {ThemeService} from './core/services/theme.service';
-import {authInterceptor} from './core/interceptors/auth-interceptor';
+import { ThemeService } from './core/services/theme.service';
+import { authInterceptor } from './core/interceptors/auth-interceptor';
 
 import { appReducers } from './store/app.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
+import { ProductEffects } from './store/products/product.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,7 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAppInitializer(() => inject(ThemeService).init()),
     provideStore(appReducers),
-    provideEffects([AuthEffects]),
+    provideEffects([AuthEffects, ProductEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideRouterStore()
   ]

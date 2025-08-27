@@ -1,11 +1,16 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { environment } from '../../../../../environments/environment';
-import { ProductService } from '../../../../core/services/product.service';
-import { FileInputComponent } from '../../../../shared/components/file-input/file-input.component';
-import { Product } from '../../../../shared/models/product.model';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable, tap } from 'rxjs';
+import { AppState } from '../../../../store/app.state';
+import * as ProductActions from '../../../../store/products/product.actions';
+import { selectCurrentProduct } from '../../../../store/products/product.selectors';
+import {FileInputComponent} from '../../../../shared/components/file-input/file-input.component';
+import {environment} from '../../../../../environments/environment';
+import {FullProduct} from '../../../../shared/models/product/fullProduct';
+import {UpdateProduct} from '../../../../shared/models/product/updateProduct';
 
 @Component({
   selector: 'app-product-form-page',
@@ -16,18 +21,21 @@ import { Product } from '../../../../shared/models/product.model';
 })
 export class ProductFormPage implements OnInit {
 
-  private productService = inject(ProductService);
+  private store = inject(Store<AppState>);
   private fb = inject(FormBuilder);
-  private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   baseUrl = environment.baseUrl;
   productForm!: FormGroup;
   isEditMode = false;
   productId?: number;
 
+  product$: Observable<FullProduct | null> = this.store.select(selectCurrentProduct);
+
   ngOnInit(): void {
     this.productForm = this.fb.group({
+      id: [0],
       name: ['', Validators.required],
       description: [''],
       price: [0, [Validators.required, Validators.min(0.01)]],
@@ -39,14 +47,16 @@ export class ProductFormPage implements OnInit {
       if (idParam) {
         this.isEditMode = true;
         this.productId = +idParam;
-        this.loadProduct(this.productId);
-      }
-    });
-  }
+        this.store.dispatch(ProductActions.loadProduct({ id: this.productId }));
 
-  private loadProduct(id: number): void {
-    this.productService.getProductById(id).subscribe(product => {
-      this.productForm.patchValue(product);
+        this.product$.pipe(
+          tap(product => {
+            if (product) {
+              this.productForm.patchValue(product);
+            }
+          })
+        ).subscribe();
+      }
     });
   }
 
@@ -62,17 +72,15 @@ export class ProductFormPage implements OnInit {
   onSubmit(): void {
     if (this.productForm.invalid) return;
 
-    const product: Product = this.productForm.value;
+    const product: UpdateProduct = this.productForm.value;
 
     if (this.isEditMode && this.productId != null) {
-      this.productService.updateProductById(this.productId, product).subscribe(() => {
-        this.router.navigate(['/products']);
-      });
+      this.store.dispatch(ProductActions.updateProduct(product));
     } else {
-      this.productService.addProduct(product).subscribe(() => {
-        this.router.navigate(['/products']);
-      });
+      this.store.dispatch(ProductActions.addProduct(product));
     }
+
+    this.router.navigate(['/products']);
   }
 
   onGoBack() {

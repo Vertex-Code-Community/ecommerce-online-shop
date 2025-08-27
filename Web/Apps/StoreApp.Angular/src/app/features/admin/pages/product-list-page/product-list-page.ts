@@ -1,84 +1,58 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { LoadingSpinnerComponent}  from '../../../../shared/components/loading-spinner/loading-spinner.component';
-import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
-import { Product } from '../../../../shared/models/product.model';
-import { ProductService } from '../../../../core/services/product.service';
+import { Store } from '@ngrx/store';
 import { ProductListComponent } from '../../components/product/product-list/product-list.component';
-
+import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
+import { AppState } from '../../../../store/app.state';
+import { Product } from '../../../../shared/models/product/product';
+import {
+  selectCurrentPage, selectPageSize,
+  selectProductLoading,
+  selectProducts,
+  selectTotalCount
+} from '../../../../store/products/product.selectors';
+import * as ProductActions from '../../../../store/products/product.actions';
 @Component({
   selector: 'app-product-list-page',
   imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, PaginationComponent],
   templateUrl: './product-list-page.html',
   standalone: true,
-  styleUrl: './product-list-page.css'
+  styleUrls: ['./product-list-page.css']
 })
 export class ProductListPage implements OnInit {
-  products: Product[] = [];
-  isLoading: boolean = false;
-  currentPage: number = 1;
-  pageSize: number = 10;
-  totalCount: number = 0;
+  private store = inject(Store<AppState>);
+  private router = inject(Router);
 
-  productService: ProductService = inject(ProductService);
-  router: Router = inject(Router);
+  products$ = this.store.select(selectProducts);
+  isLoading$ = this.store.select(selectProductLoading);
+  totalCount$ = this.store.select(selectTotalCount);
+  currentPage$ = this.store.select(selectCurrentPage);
+  pageSize$ = this.store.select(selectPageSize);
 
   ngOnInit(): void {
-    this.loadPage();
-  }
-
-  private loadPage(): void {
-    this.isLoading = true;
-    this.productService.getPagedProducts(this.currentPage, this.pageSize).subscribe({
-      next: (response) => {
-        this.products = response.items;
-        this.totalCount = response.totalCount;
-      },
-      error: (error) => {
-        console.log('Error fetching products', error);
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
+    this.store.dispatch(ProductActions.loadProducts({ page: 1, pageSize: 10 }));
   }
 
   onAddProduct() {
     this.router.navigate(['/products/new']);
   }
 
-  onProductSelected(product: Product): void {
+  onProductSelected(product: Product) {
     this.router.navigate(['/products/edit', product.id]);
   }
 
-  onProductDelete(product: Product): void {
+  onProductDelete(product: Product) {
     if (!confirm(`Delete product: "${product.name}"?`)) return;
-
-    this.productService.deleteProductById(product.id).subscribe({
-      next: (response) => {
-        // After deletion, reload the page and adjust current page if needed
-        this.totalCount = Math.max(0, this.totalCount - 1);
-        const lastPage = Math.max(1, Math.ceil(this.totalCount / this.pageSize));
-        if (this.currentPage > lastPage) {
-          this.currentPage = lastPage;
-        }
-        this.loadPage();
-      },
-      error: (error) => {
-        console.log('Error deleting product', error);
-      }
-    });
+    this.store.dispatch(ProductActions.deleteProduct({ id: product.id }));
   }
 
-  onPageChange(page: number): void {
-    this.currentPage = page;
-    this.loadPage();
+  onPageChange(page: number) {
+    this.store.dispatch(ProductActions.setCurrentPage({ page }));
   }
 
-  onPageSizeChange(size: number): void {
-    this.pageSize = size;
-    this.currentPage = 1;
-    this.loadPage();
+  onPageSizeChange(size: number) {
+    this.store.dispatch(ProductActions.setPageSize({ pageSize: size }));
   }
 }

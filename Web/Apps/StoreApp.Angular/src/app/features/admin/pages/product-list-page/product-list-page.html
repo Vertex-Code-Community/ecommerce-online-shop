@@ -5,20 +5,23 @@
       Add Product
     </button>
   </div>
-  <app-product-list
-    [products]="products"
-    (productClicked)="onProductSelected($event)"
-    (productDeleted)="onProductDelete($event)"/>
 
-  @if(isLoading)
+  <app-product-list
+    [products]="(products$ | async)!"
+    (productClicked)="onProductSelected($event)"
+    (productDeleted)="onProductDelete($event)">
+  </app-product-list>
+
+  @if (isLoading$ | async)
   {
     <app-loading-spinner class="loading-spinner"/>
   }
 
   <app-pagination
-    [totalItems]="totalCount"
-    [pageSize]="pageSize"
-    [currentPage]="currentPage"
+    [totalItems]="(totalCount$ | async)!"
+    [pageSize]="(pageSize$ | async)!"
+    [currentPage]="(currentPage$ | async)!"
     (pageChange)="onPageChange($event)"
-    (pageSizeChange)="onPageSizeChange($event)"/>
+    (pageSizeChange)="onPageSizeChange($event)">
+  </app-pagination>
 </div>
