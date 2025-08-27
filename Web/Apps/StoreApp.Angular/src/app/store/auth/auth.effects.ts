@@ -41,11 +41,16 @@ export class AuthEffects {
   refreshToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.refreshToken),
-      mergeMap(() =>
-        this.authService.refreshToken().pipe(
+      mergeMap((tokens) =>
+        this.authService.refreshToken(tokens).pipe(
           map((tokens) => AuthActions.refreshTokenSuccess(tokens)),
           catchError((err) =>
-            of(AuthActions.refreshTokenFailure({ message: err.message, statusCode: err.status }))
+            of(
+              AuthActions.refreshTokenFailure({
+                message: err.message,
+                statusCode: err.status ?? 500
+              })
+            )
           )
         )
       )

@@ -18,7 +18,7 @@ export class AuthService {
     return this.http.post<void>(`${this.apiUrl}/logout`, {});
   }
 
-  refreshToken(): Observable<Tokens> {
-    return this.http.post<Tokens>(`${this.apiUrl}/refresh-token`, {});
+  refreshToken(request: Tokens): Observable<Tokens> {
+    return this.http.post<Tokens>(`${this.apiUrl}/refresh-token`, request);
   }
 }
