@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProductService } from '../../services/product.service';
-import { Product } from '../../models/product.model';
 import { CommonModule } from '@angular/common';
-import { FileInputComponent } from "../../components/file-input/file-input.component";
-import { environment } from '../../../environments/environment';
+import {environment} from '../../../../../environments/environment';
+import {ProductService} from '../../../../core/services/product.service';
+import {FileInputComponent} from '../../../../shared/components/file-input/file-input.component';
+import {Product} from '../../../../shared/models/product.model';
 
 @Component({
   selector: 'app-product-form-page',
   imports: [CommonModule, ReactiveFormsModule, FileInputComponent],
   templateUrl: './product-form-page.html',
+  standalone: true,
   styleUrl: './product-form-page.css'
 })
 export class ProductFormPage implements OnInit {

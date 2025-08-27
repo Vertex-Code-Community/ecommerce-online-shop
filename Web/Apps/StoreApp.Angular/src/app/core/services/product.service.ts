@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Product } from '../models/product.model';
 import { Observable } from 'rxjs';
-import { PagedResult } from '../models/pagedResultT';
+import {Product} from '../../shared/models/product.model';
+import {PagedResult} from '../../shared/models/pagedResultT';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

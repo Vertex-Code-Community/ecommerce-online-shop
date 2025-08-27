@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../models/product.model';
-import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
-import { ProductListComponent } from '../../components/product/product-list/product-list.component';
 import { Router } from '@angular/router';
-import { LoadingSpinnerComponent } from "../../components/loading-spinner/loading-spinner.component";
-import { PaginationComponent } from "../../components/pagination/pagination.component";
+import {ProductListComponent} from '../../../../shared/components/product/product-list/product-list.component';
+import {LoadingSpinnerComponent} from '../../../../shared/components/loading-spinner/loading-spinner.component';
+import {PaginationComponent} from '../../../../shared/components/pagination/pagination.component';
+import {Product} from '../../../../shared/models/product.model';
+import {ProductService} from '../../../../core/services/product.service';
 
 @Component({
   selector: 'app-product-list-page',
   imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, PaginationComponent],
   templateUrl: './product-list-page.html',
+  standalone: true,
   styleUrl: './product-list-page.css'
 })
 export class ProductListPage implements OnInit {
-  
+
   products: Product[] = [];
   isLoading: boolean = false;
   currentPage: number = 1;

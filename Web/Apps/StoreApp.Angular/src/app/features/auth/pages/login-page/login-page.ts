@@ -2,19 +2,20 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import {AuthService} from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login-page.html',
+  standalone: true,
   styleUrl: './login-page.css'
 })
 export class LoginPage {
- 
+
   loginForm: FormGroup;
   showPassword = false;
-  
+
   constructor(
     private authService: AuthService,
     private router: Router
@@ -28,7 +29,7 @@ export class LoginPage {
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-  
+
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;

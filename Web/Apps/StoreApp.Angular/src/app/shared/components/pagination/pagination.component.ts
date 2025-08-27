@@ -16,8 +16,7 @@ interface PageItem {
   styleUrl: './pagination.component.css'
 })
 export class PaginationComponent {
-
-    @Input() totalItems: number = 0;
+  @Input() totalItems: number = 0;
   @Input() pageSize: number = 10;
   @Input() currentPage: number = 1;
   @Input() pageSizeOptions: number[] = [5, 10, 20, 50];
@@ -133,5 +132,3 @@ export class PaginationComponent {
     return pages;
   }
 }
-
-

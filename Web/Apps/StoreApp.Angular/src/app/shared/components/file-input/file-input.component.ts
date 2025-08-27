@@ -5,13 +5,14 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'app-file-input',
   imports: [CommonModule],
   templateUrl: './file-input.component.html',
+  standalone: true,
   styleUrl: './file-input.component.css'
 })
 export class FileInputComponent {
-  
+
   @Input() buttonText = 'Upload File';
   @Output() fileSelected = new EventEmitter<File>();
-  
+
   fileName: string | null = null;
 
   onFileSelected(event: Event) {
