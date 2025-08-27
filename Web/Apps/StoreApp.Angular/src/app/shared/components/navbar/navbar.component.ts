@@ -6,20 +6,18 @@ import { Observable } from 'rxjs';
 import { AppState } from '../../../store/app.state';
 import * as AuthActions from '../../../store/auth/auth.actions';
 import { selectIsAuthenticated } from '../../../store/auth/auth.selectors';
-import { ThemeService } from '../../../core/services/theme.service';
+import * as ThemeActions from '../../../store/theme/theme.actions';
 
 @Component({
   selector: 'app-navbar',
   imports: [CommonModule, RouterLink],
   templateUrl: './navbar.component.html',
   standalone: true,
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-
   private store = inject(Store<AppState>);
   private router = inject(Router);
-  private themeService = inject(ThemeService);
 
   isAuthenticated$: Observable<boolean> = this.store.select(selectIsAuthenticated);
 
@@ -29,6 +27,6 @@ export class NavbarComponent {
   }
 
   onToggleTheme(): void {
-    this.themeService.toggleTheme();
+    this.store.dispatch(ThemeActions.toggleTheme());
   }
 }
