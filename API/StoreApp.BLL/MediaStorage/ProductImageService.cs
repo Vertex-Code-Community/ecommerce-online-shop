@@ -51,13 +51,13 @@ public class ProductImageService(IBlobService blobService) : IProductImageServic
             throw new BadRequestException("Image URL cannot be null or empty");
         }
 
-        var uri = new Uri(imageUrl);
-        var blobName = uri.Segments.LastOrDefault()?.TrimStart('/');
-
-        if (string.IsNullOrWhiteSpace(blobName) || !blobName.StartsWith($"product-{productId}/"))
+        if (string.IsNullOrWhiteSpace(imageUrl) || !imageUrl.Contains($"product-{productId}/"))
         {
             throw new BadRequestException("The provided image URL does not match the specified product ID");
         }
+        
+        var uri = new Uri(imageUrl);
+        var blobName = uri.Segments.Skip(2).Aggregate((a, b) => a + b);
 
         await blobService.DeleteFileAsync(blobName, ContainerName);
     }

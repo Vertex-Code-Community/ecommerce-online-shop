@@ -11,6 +11,7 @@ namespace StoreApp.API.Controllers;
 [Route("api/[controller]")]
 public class ProductController(IProductService productService) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] ProductFilter filter)
     {
@@ -18,6 +19,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(products);
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync(int id)
     {

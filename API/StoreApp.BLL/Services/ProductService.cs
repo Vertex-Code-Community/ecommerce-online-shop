@@ -10,6 +10,7 @@ namespace StoreApp.BLL.Services;
 
 public class ProductService(
     IProductRepository productRepository,
+    IProductDetailRepository productDetailRepository,
     IProductImagesRepository productImagesRepository,
     IProductImageService imageService,
     IMapper mapper) : IProductService
@@ -25,7 +26,7 @@ public class ProductService(
 
     public async Task<FullProductModel> GetProductByIdAsync(int id)
     {
-        var productEntity = await productRepository.GetByIdAsync(id, p => p.ProductDetails)
+        var productEntity = await productRepository.GetByIdAsync(id, p => p.ProductDetails, p => p.ProductImages)
                             ?? throw new KeyNotFoundException("Product not found.");
 
         return mapper.Map<FullProductModel>(productEntity);
@@ -64,11 +65,12 @@ public class ProductService(
 
     public async Task DeleteProductByIdAsync(int id)
     {
-        var product = await productRepository.GetByIdAsync(id)
+        var product = await productRepository.GetByIdAsync(id, p => p.ProductDetails)
                         ?? throw new KeyNotFoundException("Product not found.");
 
         await imageService.DeleteProductImagesAsync(product.Id);
 
+        await productDetailRepository.DeleteRangeAsync(product.ProductDetails);
         await productRepository.DeleteAsync(product);
     }
 
@@ -78,7 +80,7 @@ public class ProductService(
         
         if (!model.IsMain && !string.IsNullOrWhiteSpace(model.ColorHex))
         {
-            product = await productRepository.GetByIdAsync(model.ProductId, p => p.ProductImages)
+            product = await productRepository.GetByIdAsync(model.ProductId, p => p.ProductImages, p => p.ProductDetails)
                 ?? throw new KeyNotFoundException("Product not found.");
         }
         else
@@ -98,6 +100,9 @@ public class ProductService(
         if (!model.IsMain && !string.IsNullOrWhiteSpace(model.ColorHex))
         {
             var images = product.ProductImages?.FirstOrDefault(d => d.ColorHex.Equals(model.ColorHex, StringComparison.OrdinalIgnoreCase));
+            var details = product.ProductDetails.FirstOrDefault(d => d.ColorHex.Equals(model.ColorHex, StringComparison.OrdinalIgnoreCase))
+                ?? throw new KeyNotFoundException("Product details with the specified color not found.");
+            
             if (images == null)
             {
                 images = new ProductImagesEntity
@@ -108,6 +113,8 @@ public class ProductService(
                 };
                 
                 await productImagesRepository.CreateAsync(images);
+                details.ProductImagesId = images.Id;
+                await productRepository.UpdateAsync(product);
             }
             else
             {
