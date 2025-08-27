@@ -10,5 +10,6 @@ public interface IProductService
     Task AddProductAsync(CreateProduct model);
     Task UpdateProductByIdAsync(UpdateProduct model);
     Task UploadProductImageAsync(UploadProductImage model);
+    Task DeleteProductImageAsync(DeleteProductImage model);
     Task DeleteProductByIdAsync(int id);
 }

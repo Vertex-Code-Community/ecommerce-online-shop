@@ -13,11 +13,11 @@ public class ProductEntity : IBaseEntity<int>
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public ICollection<CartItemEntity> CartItems { get; set; } = new List<CartItemEntity>();
-    
-    public ICollection<ReviewEntity> Reviews { get; set; } = new List<ReviewEntity>();
+    public ICollection<CartItemEntity> CartItems { get; set; } = [];
 
-    public List<ProductDetailEntity> ProductDetails { get; set; } = [];
+    public ICollection<ReviewEntity> Reviews { get; set; } = [];
+
+    public ICollection<ProductDetailEntity> ProductDetails { get; set; } = [];
     
-    public List<ProductImagesEntity> ProductImages { get; set; } = [];
+    public ICollection<ProductImagesEntity> ProductImages { get; set; } = [];
 }

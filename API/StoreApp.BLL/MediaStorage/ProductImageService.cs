@@ -43,6 +43,24 @@ public class ProductImageService(IBlobService blobService) : IProductImageServic
         var folderPrefix = $"product-{productId}";
         await blobService.DeleteFolderAsync(folderPrefix, ContainerName);
     }
+    
+    public async Task DeleteProductImageAsync(int productId, string imageUrl)
+    {
+        if (string.IsNullOrWhiteSpace(imageUrl))
+        {
+            throw new BadRequestException("Image URL cannot be null or empty");
+        }
+
+        var uri = new Uri(imageUrl);
+        var blobName = uri.Segments.LastOrDefault()?.TrimStart('/');
+
+        if (string.IsNullOrWhiteSpace(blobName) || !blobName.StartsWith($"product-{productId}/"))
+        {
+            throw new BadRequestException("The provided image URL does not match the specified product ID");
+        }
+
+        await blobService.DeleteFileAsync(blobName, ContainerName);
+    }
 
     public async Task DeleteColorImagesAsync(int productId, string colorHex)
     {

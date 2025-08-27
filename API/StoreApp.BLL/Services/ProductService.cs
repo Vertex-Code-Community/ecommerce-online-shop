@@ -118,4 +118,26 @@ public class ProductService(
             }
         }
     }
+
+    public async Task DeleteProductImageAsync(DeleteProductImage model)
+    {
+        var product = await productRepository.GetByIdAsync(model.ProductId, p => p.ProductImages)
+            ?? throw new KeyNotFoundException("Product not found.");
+        
+        if (product.MainImageUrl == model.Url)
+        {
+            product.MainImageUrl = product.ProductImages.FirstOrDefault()?.ImagesUrls.FirstOrDefault();
+            await productRepository.UpdateAsync(product);
+        }
+        else
+        {
+            var images = product.ProductImages?.FirstOrDefault(d => d.ImagesUrls.Contains(model.Url))
+                ?? throw new KeyNotFoundException("Image not found.");
+        
+            images.ImagesUrls = images.ImagesUrls.Where(u => u != model.Url).ToList();
+            await productImagesRepository.UpdateAsync(images);
+        }
+        
+        await imageService.DeleteProductImageAsync(product.Id, model.Url);
+    }
 }

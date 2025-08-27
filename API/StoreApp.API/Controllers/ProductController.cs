@@ -39,9 +39,17 @@ public class ProductController(IProductService productService) : ControllerBase
         return NoContent();
     }
     
+    [HttpPost("image")]
     public async Task<IActionResult> UploadImageAsync([FromBody] UploadProductImage model)
     {
         await productService.UploadProductImageAsync(model);
+        return NoContent();
+    }
+    
+    [HttpDelete("image")]
+    public async Task<IActionResult> DeleteImageAsync([FromBody] DeleteProductImage model)
+    {
+        await productService.DeleteProductImageAsync(model);
         return NoContent();
     }
 

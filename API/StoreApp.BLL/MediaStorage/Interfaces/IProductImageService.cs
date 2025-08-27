@@ -8,6 +8,8 @@ public interface IProductImageService
 
     Task<string> UploadImageAsync(UploadProductImage request);
 
+    Task DeleteProductImageAsync(int productId, string imageUrl);
+    
     Task DeleteProductImagesAsync(int productId);
     
     Task DeleteColorImagesAsync(int productId, string colorHex);
