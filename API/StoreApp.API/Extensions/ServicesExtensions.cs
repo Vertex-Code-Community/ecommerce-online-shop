@@ -38,7 +38,10 @@ public static class ServicesExtensions
         services.AddScoped<ICartItemService, CartItemService>();
         services.AddScoped<IReviewService, ReviewService>();
         
-        services.AddSingleton(_ => new BlobServiceClient(configuration.GetConnectionString("AzureBlobStorage")));
+        var blobConnectionString = configuration.GetConnectionString("AzureBlobStorage")
+            ?? throw new InvalidOperationException("Connection string 'AzureBlobStorage' not found.");
+        
+        services.AddSingleton(_ => new BlobServiceClient(blobConnectionString));
         services.AddScoped<IBlobService, AzureBlobService>();
         services.AddScoped<IProductImageService, ProductImageService>();
 
