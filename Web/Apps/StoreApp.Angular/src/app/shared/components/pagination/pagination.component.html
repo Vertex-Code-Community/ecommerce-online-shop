@@ -1,70 +1,79 @@
 <div class="pagination" [class.disabled]="disabled">
   <div class="pagination-left">
-    <button
-      class="btn"
-      [disabled]="disabled || isFirstPage"
-      (click)="goToFirst()"
-      *ngIf="boundaryLinks"
-    >
-      «
-    </button>
-    <button
-      class="btn"
-      [disabled]="disabled || isFirstPage"
-      (click)="goToPrevious()"
-      *ngIf="directionLinks"
-    >
-      ‹
-    </button>
-
-    <ng-container *ngFor="let item of pageItems">
+    @if (boundaryLinks) {
       <button
-        *ngIf="item.type === 'page'"
-        class="btn page"
-        [class.active]="item.isActive"
-        (click)="goToPage(item.number!)"
-        [disabled]="disabled"
+        class="btn"
+        [disabled]="disabled || isFirstPage"
+        (click)="goToFirst()"
       >
-        {{ item.number }}
+        «
       </button>
-      <span *ngIf="item.type === 'ellipsis'" class="ellipsis">…</span>
-    </ng-container>
+    }
 
-    <button
-      class="btn"
-      [disabled]="disabled || isLastPage"
-      (click)="goToNext()"
-      *ngIf="directionLinks"
-    >
-      ›
-    </button>
-    <button
-      class="btn"
-      [disabled]="disabled || isLastPage"
-      (click)="goToLast()"
-      *ngIf="boundaryLinks"
-    >
-      »
-    </button>
+    @if (directionLinks) {
+      <button
+        class="btn"
+        [disabled]="disabled || isFirstPage"
+        (click)="goToPrevious()"
+      >
+        ‹
+      </button>
+    }
+
+    @for (item of pageItems; track item) {
+      @if (item.type === 'page') {
+        <button
+          class="btn page"
+          [class.active]="item.isActive"
+          (click)="goToPage(item.number!)"
+          [disabled]="disabled"
+        >
+          {{ item.number }}
+        </button>
+      } @else if (item.type === 'ellipsis') {
+        <span class="ellipsis">…</span>
+      }
+    }
+
+    @if (directionLinks) {
+      <button
+        class="btn"
+        [disabled]="disabled || isLastPage"
+        (click)="goToNext()"
+      >
+        ›
+      </button>
+    }
+
+    @if (boundaryLinks) {
+      <button
+        class="btn"
+        [disabled]="disabled || isLastPage"
+        (click)="goToLast()"
+      >
+        »
+      </button>
+    }
   </div>
 
   <div class="pagination-right">
-    <span class="totals" *ngIf="showTotals && totalItems > 0"
-      >{{ fromItem }}–{{ toItem }} of {{ totalItems }}</span
-    >
+    @if (showTotals && totalItems > 0) {
+      <span class="totals">{{ fromItem }}–{{ toItem }} of {{ totalItems }}</span>
+    }
 
-    <label *ngIf="showPageSizeSelector" class="size-label">
-      <span>Per page</span>
-      <select
-        [disabled]="disabled"
-        [ngModel]="pageSize"
-        (ngModelChange)="onSelectPageSize($event)"
-      >
-        <option *ngFor="let size of pageSizeOptions" [ngValue]="size">
-          {{ size }}
-        </option>
-      </select>
-    </label>
+    @if (showPageSizeSelector) {
+      <label class="size-label">
+        <span>Per page</span>
+        <select
+          [disabled]="disabled"
+          [ngModel]="pageSize"
+          (ngModelChange)="onSelectPageSize($event)"
+        >
+          @for (size of pageSizeOptions; track size) {
+            <option [ngValue]="size">{{ size }}</option>
+          }
+        </select>
+      </label>
+    }
   </div>
 </div>
-

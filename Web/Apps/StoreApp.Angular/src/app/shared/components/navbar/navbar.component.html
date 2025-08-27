@@ -4,20 +4,17 @@
   </div>
 
   <div class="navbar-right">
-    <button
-      class="navbar-item"
-      type="button"
-      (click)="onToggleTheme()"
-      aria-label="Toggle theme"
-    >
+    <button class="navbar-item" type="button" aria-label="Toggle theme" (click)="onToggleTheme()">
       🌓
     </button>
-    <ng-container *ngIf="isAuthenticated; else loginBtn">
+
+    @if (isAuthenticated$ | async)
+    {
       <a class="navbar-item" routerLink="/products">Products</a>
       <a class="navbar-item" (click)="onLogout()">Logout</a>
-    </ng-container>
-    <ng-template #loginBtn>
+    }
+    @else {
       <a class="navbar-item" routerLink="/login">Login</a>
-    </ng-template>
+    }
   </div>
 </nav>

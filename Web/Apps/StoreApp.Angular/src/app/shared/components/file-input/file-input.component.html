@@ -3,5 +3,9 @@
     <input type="file" (change)="onFileSelected($event)" />
     <span>{{ buttonText }}</span>
   </label>
-  <div *ngIf="fileName" class="file-name">{{ fileName }}</div>
+
+  @if (fileName)
+  {
+    <div class="file-name">{{ fileName }}</div>
+  }
 </div>

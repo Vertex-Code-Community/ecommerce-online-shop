@@ -1,32 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {environment} from '../../../../../environments/environment';
-import {ProductService} from '../../../../core/services/product.service';
-import {FileInputComponent} from '../../../../shared/components/file-input/file-input.component';
-import {Product} from '../../../../shared/models/product.model';
+import { environment } from '../../../../../environments/environment';
+import { ProductService } from '../../../../core/services/product.service';
+import { FileInputComponent } from '../../../../shared/components/file-input/file-input.component';
+import { Product } from '../../../../shared/models/product.model';
 
 @Component({
   selector: 'app-product-form-page',
   imports: [CommonModule, ReactiveFormsModule, FileInputComponent],
   templateUrl: './product-form-page.html',
   standalone: true,
-  styleUrl: './product-form-page.css'
+  styleUrls: ['./product-form-page.css']
 })
 export class ProductFormPage implements OnInit {
+
+  private productService = inject(ProductService);
+  private fb = inject(FormBuilder);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   baseUrl = environment.baseUrl;
   productForm!: FormGroup;
   isEditMode = false;
   productId?: number;
-
-  constructor(
-    private productService: ProductService,
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
@@ -46,7 +44,7 @@ export class ProductFormPage implements OnInit {
     });
   }
 
-  loadProduct(id: number): void {
+  private loadProduct(id: number): void {
     this.productService.getProductById(id).subscribe(product => {
       this.productForm.patchValue(product);
     });

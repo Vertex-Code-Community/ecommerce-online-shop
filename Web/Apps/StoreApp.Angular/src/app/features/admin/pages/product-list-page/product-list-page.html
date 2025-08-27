@@ -8,18 +8,17 @@
   <app-product-list
     [products]="products"
     (productClicked)="onProductSelected($event)"
-    (productDeleted)="onProductDelete($event)"
-  ></app-product-list>
-  <app-loading-spinner
-    class="loading-spinner"
-    *ngIf="isLoading"
-  ></app-loading-spinner>
+    (productDeleted)="onProductDelete($event)"/>
+
+  @if(isLoading)
+  {
+    <app-loading-spinner class="loading-spinner"/>
+  }
 
   <app-pagination
     [totalItems]="totalCount"
     [pageSize]="pageSize"
     [currentPage]="currentPage"
     (pageChange)="onPageChange($event)"
-    (pageSizeChange)="onPageSizeChange($event)"
-  ></app-pagination>
+    (pageSizeChange)="onPageSizeChange($event)"/>
 </div>

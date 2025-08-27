@@ -1,7 +1,8 @@
 <div class="product-form-container">
   <div class="product-form-header">
-    <h2>{{ isEditMode ? 'Edit' : 'Add' }} product</h2>
+    <h2>@if (isEditMode) { Edit } @else { Add } product</h2>
   </div>
+
   <form class="product-form" [formGroup]="productForm" (ngSubmit)="onSubmit()">
     <div class="form-field name-container">
       <label class="input-label">Name</label>
@@ -19,23 +20,24 @@
     </div>
 
     <div class="form-field image-container">
-      <img
-        *ngIf="productForm.value.imageData || productForm.value.imageUrl"
-        [src]="productForm.value.imageData
-              ? 'data:image/png;base64,' + productForm.value.imageData
-              : baseUrl + productForm.value.imageUrl"
-        class="product-image"
-      />
+      @if (productForm.value.imageData || productForm.value.imageUrl) {
+        <img
+          [src]="productForm.value.imageData
+                ? 'data:image/png;base64,' + productForm.value.imageData
+                : baseUrl + productForm.value.imageUrl"
+          class="product-image"
+        />
+      }
+
       <app-file-input
         class="full-width"
         [buttonText]="'Load image'"
         (fileSelected)="onFileSelected($event)"
-      >
-      </app-file-input>
+      ></app-file-input>
     </div>
 
     <div class="form-field form-actions">
-      <button type="submit">{{ isEditMode ? 'Update' : 'Add' }} product</button>
+      <button type="submit">@if (isEditMode) { Update } @else { Add } product</button>
       <button type="button" (click)="onGoBack()">Go back</button>
     </div>
   </form>

@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import {ProductListComponent} from '../../../../shared/components/product/product-list/product-list.component';
-import {LoadingSpinnerComponent} from '../../../../shared/components/loading-spinner/loading-spinner.component';
-import {PaginationComponent} from '../../../../shared/components/pagination/pagination.component';
-import {Product} from '../../../../shared/models/product.model';
-import {ProductService} from '../../../../core/services/product.service';
+import { LoadingSpinnerComponent}  from '../../../../shared/components/loading-spinner/loading-spinner.component';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
+import { Product } from '../../../../shared/models/product.model';
+import { ProductService } from '../../../../core/services/product.service';
+import { ProductListComponent } from '../../components/product/product-list/product-list.component';
 
 @Component({
   selector: 'app-product-list-page',
@@ -15,17 +15,14 @@ import {ProductService} from '../../../../core/services/product.service';
   styleUrl: './product-list-page.css'
 })
 export class ProductListPage implements OnInit {
-
   products: Product[] = [];
   isLoading: boolean = false;
   currentPage: number = 1;
   pageSize: number = 10;
   totalCount: number = 0;
 
-  constructor(
-    private productService: ProductService,
-    private router: Router
-  ) { }
+  productService: ProductService = inject(ProductService);
+  router: Router = inject(Router);
 
   ngOnInit(): void {
     this.loadPage();

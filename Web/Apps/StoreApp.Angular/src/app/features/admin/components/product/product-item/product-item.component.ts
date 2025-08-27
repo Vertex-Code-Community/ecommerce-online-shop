@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Product } from '../../../models/product.model';
 import { CommonModule } from '@angular/common';
-import {environment} from '../../../../../environments/environment';
+import { Product } from '../../../../../shared/models/product.model';
 
 @Component({
   selector: 'app-product-item',
@@ -11,9 +10,6 @@ import {environment} from '../../../../../environments/environment';
   styleUrl: './product-item.component.css'
 })
 export class ProductItemComponent {
-
-  baseUrl = environment.baseUrl;
-
   @Input() product!: Product;
   @Output() editProductClicked = new EventEmitter<Product>();
   @Output() deleteProductClicked = new EventEmitter<Product>();
