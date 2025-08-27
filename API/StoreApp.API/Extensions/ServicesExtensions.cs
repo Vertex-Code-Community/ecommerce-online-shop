@@ -1,9 +1,11 @@
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StoreApp.BLL.MapperProfiles;
+using StoreApp.BLL.MediaStorage;
 using StoreApp.BLL.Options;
 using StoreApp.BLL.Security;
 using StoreApp.BLL.Services;
@@ -20,13 +22,14 @@ namespace StoreApp.API.Extensions;
 
 public static class ServicesExtensions
 {
-    public static IServiceCollection ConfigureServices(this IServiceCollection services)
+    public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IDbExceptionHandler, SqlExceptionHandler>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
         services.AddScoped<ICartItemRepository, CartItemRepository>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
+        services.AddScoped<IProductImagesRepository, ProductImagesRepository>();
 
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IAuthService, AuthService>();
@@ -34,6 +37,13 @@ public static class ServicesExtensions
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ICartItemService, CartItemService>();
         services.AddScoped<IReviewService, ReviewService>();
+        
+        var blobConnectionString = configuration.GetConnectionString("AzureBlobStorage")
+            ?? throw new InvalidOperationException("Connection string 'AzureBlobStorage' not found.");
+        
+        services.AddSingleton(_ => new BlobServiceClient(blobConnectionString));
+        services.AddScoped<IBlobService, AzureBlobService>();
+        services.AddScoped<IProductImageService, ProductImageService>();
 
         services.AddAutoMapper(typeof(UserMapperProfile).Assembly);
         

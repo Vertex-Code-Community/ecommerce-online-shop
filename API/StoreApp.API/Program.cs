@@ -3,12 +3,13 @@ using StoreApp.API.Middleware;
 using StoreApp.DAL.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
 builder.Services
-    .ConfigureCors(builder.Configuration)
-    .ConfigureAuthorization(builder.Configuration)
+    .ConfigureCors(configuration)
+    .ConfigureAuthorization(configuration)
     .ConfigureSwagger()
-    .ConfigureServices();
+    .ConfigureServices(configuration);
 
 var app = builder.Build();
 

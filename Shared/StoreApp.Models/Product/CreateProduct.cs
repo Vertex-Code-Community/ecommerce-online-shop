@@ -16,7 +16,7 @@ public record CreateProduct
     public required decimal Price { get; set; }
 
     [MaxLength(4 * 1024 * 1024, ErrorMessage = "Image size should not exceed 4MB")]
-    public byte[]? ImageData { get; set; }
+    public string? ImageData { get; set; }
 
     [Range(0, 1, ErrorMessage = "Discount must be between 0 and 1 (e.g., 0.15 for 15%)")]
     public decimal? Discount { get; set; }

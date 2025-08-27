@@ -11,6 +11,7 @@ namespace StoreApp.API.Controllers;
 [Route("api/[controller]")]
 public class ProductController(IProductService productService) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetAllAsync([FromQuery] ProductFilter filter)
     {
@@ -18,6 +19,7 @@ public class ProductController(IProductService productService) : ControllerBase
         return Ok(products);
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync(int id)
     {
@@ -36,6 +38,20 @@ public class ProductController(IProductService productService) : ControllerBase
     public async Task<IActionResult> UpdateByIdAsync([FromBody] UpdateProduct model)
     {
         await productService.UpdateProductByIdAsync(model);
+        return NoContent();
+    }
+    
+    [HttpPost("image")]
+    public async Task<IActionResult> UploadImageAsync([FromBody] UploadProductImage model)
+    {
+        await productService.UploadProductImageAsync(model);
+        return NoContent();
+    }
+    
+    [HttpDelete("image")]
+    public async Task<IActionResult> DeleteImageAsync([FromBody] DeleteProductImage model)
+    {
+        await productService.DeleteProductImageAsync(model);
         return NoContent();
     }
 

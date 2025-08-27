@@ -34,7 +34,7 @@ public class ProductImagesEntityConfigurations : IEntityTypeConfiguration<Produc
             .IsUnique();
 
         builder.HasOne<ProductEntity>()
-            .WithMany()
+            .WithMany(p => p.ProductImages)
             .HasForeignKey(pi => pi.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
     }

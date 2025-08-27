@@ -11,14 +11,17 @@ public class ProductMappingProfile : Profile
         CreateMap<ProductDetailEntity, ProductDetailModel>()
             .ForMember(dest => dest.ImageUrls,
                 opt => opt.MapFrom(src => 
-                    src.ProductImages != null || !src.ProductImages.ImagesUrls.Any()
-                        ? new List<string>() : src.ProductImages.ImagesUrls));
-        
-        CreateMap<ProductEntity, ProductModel>();
+                    src.ProductImages != null && src.ProductImages.ImagesUrls.Any()
+                        ? src.ProductImages.ImagesUrls : new List<string>()));
+
+        CreateMap<ProductEntity, ProductModel>()
+            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.MainImageUrl));
+
         CreateMap<CreateProduct, ProductEntity>();
         CreateMap<UpdateProduct, ProductEntity>();
 
         CreateMap<ProductEntity, FullProductModel>()
+            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.MainImageUrl))
             .ForMember(p => p.Details, opt => opt.MapFrom(src => src.ProductDetails))
             .ForMember(p => p.Rating, opt => opt.MapFrom(src => src.Reviews.Any() ? src.Reviews.Average(r => r.Rating) : 0));
 
