@@ -29,6 +29,7 @@ public static class ServicesExtensions
         services.AddScoped<IProductDetailRepository, ProductDetailRepository>();
         services.AddScoped<ICartItemRepository, CartItemRepository>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
+        services.AddScoped<IProductImagesRepository, ProductImagesRepository>();
 
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IAuthService, AuthService>();

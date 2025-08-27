@@ -18,4 +18,6 @@ public class ProductEntity : IBaseEntity<int>
     public ICollection<ReviewEntity> Reviews { get; set; } = new List<ReviewEntity>();
 
     public List<ProductDetailEntity> ProductDetails { get; set; } = [];
+    
+    public List<ProductImagesEntity> ProductImages { get; set; } = [];
 }
