@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using StoreApp.BLL.MediaStorage;
 using StoreApp.DAL.Entities;
 using StoreApp.DAL.Repositories.Interfaces;
-using StoreApp.Shared.Constants;
 using StoreApp.Models;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.Shared;
 
 namespace StoreApp.BLL.Services;
 
-public class ProductService(IProductRepository productRepository, IMapper mapper) : IProductService
+public class ProductService(
+    IProductRepository productRepository,
+    IProductImageService imageService,
+    IMapper mapper) : IProductService
 {
     public async Task<FilterResult<ProductModel>> GetFilteredProductsAsync(ProductFilter filter)
     {
@@ -30,10 +33,15 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
     public async Task AddProductAsync(CreateProduct model)
     {
         var productEntity = mapper.Map<ProductEntity>(model);
-        //todo: use cloud storage in future
-        productEntity.MainImageUrl = await SaveImageToDiskAsync(model.ImageData);
-
         await productRepository.CreateAsync(productEntity);
+
+        if (model.ImageData?.Length > 0)
+        {
+            var url = await imageService.UploadMainImageAsync(productEntity.Id, model.ImageData);
+
+            productEntity.MainImageUrl = url;
+            await productRepository.UpdateAsync(productEntity);
+        }
     }
 
     public async Task UpdateProductByIdAsync(UpdateProduct model)
@@ -45,9 +53,9 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
 
         if (model.ImageData?.Length > 0)
         {
-            DeleteImageFile(existingProduct.MainImageUrl);
-
-            existingProduct.MainImageUrl = await SaveImageToDiskAsync(model.ImageData);
+            await imageService.DeleteProductImagesAsync(existingProduct.Id);
+            var url = await imageService.UploadMainImageAsync(existingProduct.Id, model.ImageData);
+            existingProduct.MainImageUrl = url;
         }
 
         await productRepository.UpdateAsync(existingProduct);
@@ -58,45 +66,8 @@ public class ProductService(IProductRepository productRepository, IMapper mapper
         var product = await productRepository.GetByIdAsync(id)
                         ?? throw new KeyNotFoundException("Product not found.");
 
-        DeleteImageFile(product.MainImageUrl);
+        await imageService.DeleteProductImagesAsync(product.Id);
 
         await productRepository.DeleteAsync(product);
-    }
-
-    private async Task<string?> SaveImageToDiskAsync(byte[]? imageData)
-    {
-        if (imageData is null || imageData.Length == 0)
-            return null;
-
-        var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), FilesConstants.ImageFolder);
-        if (!Directory.Exists(uploadsPath))
-            Directory.CreateDirectory(uploadsPath);
-
-        var fileName = $"{Guid.NewGuid()}.jpg";
-        var filePath = Path.Combine(uploadsPath, fileName);
-
-        await File.WriteAllBytesAsync(filePath, imageData);
-
-        return $"/images/{fileName}";
-    }
-
-    private void DeleteImageFile(string? imageUrl)
-    {
-        if (string.IsNullOrEmpty(imageUrl)) return;
-
-        var webRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-        var imagePath = Path.Combine(webRootPath, imageUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
-
-        if (File.Exists(imagePath))
-        {
-            try
-            {
-                File.Delete(imagePath);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
     }
 }
