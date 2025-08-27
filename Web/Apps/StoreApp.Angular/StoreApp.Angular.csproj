@@ -16,7 +16,6 @@
     <Folder Include="src\app\features\admin\pages\" />
     <Folder Include="src\app\features\admin\store\" />
     <Folder Include="src\app\features\auth\components\" />
-    <Folder Include="src\app\features\auth\store\" />
     <Folder Include="src\app\features\client\components\" />
     <Folder Include="src\app\features\client\pages\" />
     <Folder Include="src\app\features\client\store\" />

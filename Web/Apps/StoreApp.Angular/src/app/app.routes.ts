@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { LoginPage } from './pages/login-page/login-page';
-import { ProductListPage } from './pages/product-list-page/product-list-page';
-import { ProductFormPage } from './pages/product-form-page/product-form-page';
-import { guestGuard } from './guards/guest-guard';
-import { authGuard } from './guards/auth-guard';
+import { LoginPage } from './features/auth/pages/login-page/login-page';
+import { guestGuard } from './core/guards/guest-guard';
+import { ProductListPage } from './features/admin/pages/product-list-page/product-list-page';
+import { authGuard } from './core/guards/auth-guard';
+import { ProductFormPage } from './features/admin/pages/product-form-page/product-form-page';
 
 export const routes: Routes = [
     { path: 'login', component: LoginPage, canActivate: [guestGuard] },
