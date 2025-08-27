@@ -38,6 +38,12 @@ public class ProductController(IProductService productService) : ControllerBase
         await productService.UpdateProductByIdAsync(model);
         return NoContent();
     }
+    
+    public async Task<IActionResult> UploadImageAsync([FromBody] UploadProductImage model)
+    {
+        await productService.UploadProductImageAsync(model);
+        return NoContent();
+    }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteByIdAsync(int id)

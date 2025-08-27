@@ -9,5 +9,6 @@ public interface IProductService
     Task<FilterResult<ProductModel>> GetFilteredProductsAsync(ProductFilter filter);
     Task AddProductAsync(CreateProduct model);
     Task UpdateProductByIdAsync(UpdateProduct model);
+    Task UploadProductImageAsync(UploadProductImage model);
     Task DeleteProductByIdAsync(int id);
 }

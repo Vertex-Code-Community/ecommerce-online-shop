@@ -10,6 +10,7 @@ namespace StoreApp.BLL.Services;
 
 public class ProductService(
     IProductRepository productRepository,
+    IProductImagesRepository productImagesRepository,
     IProductImageService imageService,
     IMapper mapper) : IProductService
 {
@@ -69,5 +70,52 @@ public class ProductService(
         await imageService.DeleteProductImagesAsync(product.Id);
 
         await productRepository.DeleteAsync(product);
+    }
+
+    public async Task UploadProductImageAsync(UploadProductImage model)
+    {
+        ProductEntity product;
+        
+        if (!model.IsMain && !string.IsNullOrWhiteSpace(model.ColorHex))
+        {
+            product = await productRepository.GetByIdAsync(model.ProductId, p => p.ProductImages)
+                ?? throw new KeyNotFoundException("Product not found.");
+        }
+        else
+        {
+            product = await productRepository.GetByIdAsync(model.ProductId)
+                ?? throw new KeyNotFoundException("Product not found.");
+        }
+
+        var url = await imageService.UploadImageAsync(model);
+        
+        if (model.IsMain)
+        {
+            product.MainImageUrl = url;
+            await productRepository.UpdateAsync(product);
+        }
+
+        if (!model.IsMain && !string.IsNullOrWhiteSpace(model.ColorHex))
+        {
+            var images = product.ProductImages?.FirstOrDefault(d => d.ColorHex.Equals(model.ColorHex, StringComparison.OrdinalIgnoreCase));
+            if (images == null)
+            {
+                images = new ProductImagesEntity
+                {
+                    ColorHex = model.ColorHex,
+                    ProductId = product.Id,
+                    ImagesUrls = new List<string> { url }
+                };
+                
+                await productImagesRepository.CreateAsync(images);
+            }
+            else
+            {
+                var urls = images.ImagesUrls.ToList();
+                urls.Add(url);
+                images.ImagesUrls = urls;
+                await productImagesRepository.UpdateAsync(images);
+            }
+        }
     }
 }
