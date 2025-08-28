@@ -1,8 +1,9 @@
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; // Додаємо FormsModule для [(ngModel)]
 
-interface PageItem {
+// ... Інтерфейс PageItem
+export interface PageItem {
   type: 'page' | 'ellipsis';
   number?: number;
   isActive?: boolean;
@@ -13,7 +14,7 @@ interface PageItem {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './pagination.component.html',
-  styleUrl: './pagination.component.css'
+  styleUrls: ['./pagination.component.css']
 })
 export class PaginationComponent {
   @Input() totalItems: number = 0;
@@ -56,9 +57,6 @@ export class PaginationComponent {
 
   onSelectPageSize(newSize: number): void {
     if (this.disabled) return;
-    if (newSize === this.pageSize) return;
-    this.pageSize = newSize;
-    this.currentPage = 1;
     this.pageSizeChange.emit(newSize);
   }
 
@@ -86,7 +84,6 @@ export class PaginationComponent {
     if (this.disabled) return;
     const target = Math.max(1, Math.min(this.totalPages, page));
     if (target === this.currentPage) return;
-    this.currentPage = target;
     this.pageChange.emit(target);
   }
 

@@ -19,6 +19,6 @@ export class AuthService {
   }
 
   refreshToken(request: Tokens): Observable<Tokens> {
-    return this.http.post<Tokens>(`${this.apiUrl}/refresh-token`, request);
+    return this.http.post<Tokens>(`${this.apiUrl}/refresh-tokens`, request);
   }
 }

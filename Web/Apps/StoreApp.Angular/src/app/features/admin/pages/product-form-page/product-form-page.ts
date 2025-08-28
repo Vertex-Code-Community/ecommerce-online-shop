@@ -39,7 +39,8 @@ export class ProductFormPage implements OnInit {
       name: ['', Validators.required],
       description: [''],
       price: [0, [Validators.required, Validators.min(0.01)]],
-      imageData: [null]
+      imageData: [null],
+      imageUrl: ['']
     });
 
     this.route.paramMap.subscribe(params => {
@@ -63,7 +64,7 @@ export class ProductFormPage implements OnInit {
   onFileSelected(file: File): void {
     const reader = new FileReader();
     reader.onload = () => {
-      const base64 = (reader.result as string).split(',')[1];
+      const base64 = (reader.result as string);
       this.productForm.patchValue({ imageData: base64 });
     };
     reader.readAsDataURL(file);

@@ -6,9 +6,7 @@ import { UpdateProduct } from '../../shared/models/product/updateProduct';
 import { PagedResult } from '../../shared/models/pagedResultT';
 import { ErrorResult } from '../../shared/models/errorResult';
 
-export const loadProducts = createAction('[Product] Load Products',
-  props<{ page: number; pageSize: number }>()
-);
+export const loadProducts = createAction('[Product] Load Products');
 
 export const loadProductsSuccess = createAction(
   '[Product] Load Products Success',

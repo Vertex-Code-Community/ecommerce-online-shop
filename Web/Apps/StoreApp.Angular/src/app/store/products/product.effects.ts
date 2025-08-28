@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ProductActions from './product.actions';
 import { ProductService } from '../../core/services/product.service';
-import { catchError, map, mergeMap, of, tap, withLatestFrom } from 'rxjs';
+import { catchError, map, mergeMap, of, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { selectCurrentPage, selectPageSize } from './product.selectors';
@@ -16,7 +16,11 @@ export class ProductEffects {
   loadProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.loadProducts),
-      mergeMap(({ page, pageSize }) =>
+      withLatestFrom(
+        this.store.select(selectCurrentPage),
+        this.store.select(selectPageSize)
+      ),
+      mergeMap(([_, page, pageSize]) =>
         this.productService.getPagedProducts(page, pageSize).pipe(
           map(result => ProductActions.loadProductsSuccess({ result })),
           catchError(err => of(ProductActions.loadProductsFailure(err)))
@@ -46,13 +50,13 @@ export class ProductEffects {
           catchError(err => of(ProductActions.addProductFailure(err)))
         )
       )
-    ));
+    )
+  );
 
   reloadAfterAdd$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.addProductSuccess),
-      withLatestFrom(this.store.select(selectCurrentPage), this.store.select(selectPageSize)),
-      map(([_, page, pageSize]) => ProductActions.loadProducts({ page, pageSize }))
+      map(() => ProductActions.loadProducts())
     )
   );
 
@@ -71,8 +75,7 @@ export class ProductEffects {
   reloadAfterUpdate$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.updateProductSuccess),
-      withLatestFrom(this.store.select(selectCurrentPage), this.store.select(selectPageSize)),
-      map(([_, page, pageSize]) => ProductActions.loadProducts({ page, pageSize }))
+      map(() => ProductActions.loadProducts())
     )
   );
 
@@ -91,8 +94,14 @@ export class ProductEffects {
   reloadAfterDelete$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductActions.deleteProductSuccess),
-      withLatestFrom(this.store.select(selectCurrentPage), this.store.select(selectPageSize)),
-      map(([_, page, pageSize]) => ProductActions.loadProducts({ page, pageSize }))
+      map(() => ProductActions.loadProducts())
+    )
+  );
+
+  setPage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.setCurrentPage, ProductActions.setPageSize),
+      map(() => ProductActions.loadProducts())
     )
   );
 }

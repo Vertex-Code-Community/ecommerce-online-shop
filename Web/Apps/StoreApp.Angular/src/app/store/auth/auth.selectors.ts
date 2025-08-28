@@ -17,6 +17,14 @@ export const selectRefreshToken = createSelector(
   (state) => state.refreshToken
 );
 
+export const selectAuthTokens = createSelector(
+  selectAuthState,
+  (state) => ({
+    accessToken: state.accessToken,
+    refreshToken: state.refreshToken,
+  })
+);
+
 export const selectAuthLoading = createSelector(
   selectAuthState,
   (state) => state.loading

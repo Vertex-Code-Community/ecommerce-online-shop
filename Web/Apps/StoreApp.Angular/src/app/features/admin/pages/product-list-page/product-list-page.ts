@@ -14,9 +14,12 @@ import {
   selectTotalCount
 } from '../../../../store/products/product.selectors';
 import * as ProductActions from '../../../../store/products/product.actions';
+import { combineLatest } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+
 @Component({
   selector: 'app-product-list-page',
-  imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, PaginationComponent],
+  imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, PaginationComponent, AsyncPipe],
   templateUrl: './product-list-page.html',
   standalone: true,
   styleUrls: ['./product-list-page.css']
@@ -25,14 +28,16 @@ export class ProductListPage implements OnInit {
   private store = inject(Store<AppState>);
   private router = inject(Router);
 
-  products$ = this.store.select(selectProducts);
-  isLoading$ = this.store.select(selectProductLoading);
-  totalCount$ = this.store.select(selectTotalCount);
-  currentPage$ = this.store.select(selectCurrentPage);
-  pageSize$ = this.store.select(selectPageSize);
+  productData$ = combineLatest({
+    products: this.store.select(selectProducts),
+    totalCount: this.store.select(selectTotalCount),
+    currentPage: this.store.select(selectCurrentPage),
+    pageSize: this.store.select(selectPageSize),
+    isLoading: this.store.select(selectProductLoading)
+  });
 
   ngOnInit(): void {
-    this.store.dispatch(ProductActions.loadProducts({ page: 1, pageSize: 10 }));
+    this.store.dispatch(ProductActions.loadProducts());
   }
 
   onAddProduct() {

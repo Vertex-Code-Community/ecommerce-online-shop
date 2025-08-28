@@ -25,8 +25,8 @@
       @if (productForm.value.imageData || productForm.value.imageUrl) {
         <img
           [src]="productForm.value.imageData
-            ? 'data:image/png;base64,' + productForm.value.imageData
-            : baseUrl + productForm.value.imageUrl"
+            ? productForm.value.imageData
+            : productForm.value.imageUrl"
           class="product-image"
         />
       }

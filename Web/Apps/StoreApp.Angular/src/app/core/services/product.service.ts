@@ -17,14 +17,19 @@ export class ProductService {
   http: HttpClient = inject(HttpClient);
 
   getPagedProducts(page: number, pageSize: number): Observable<PagedResult<Product>> {
-    const pageZeroBased = Math.max(0, page - 1);
+    if (page <= 0) {
+      page = 1;
+    }
+
+    if (pageSize <= 0) {
+      pageSize = 10;
+    }
+
     const params = new HttpParams()
-      .set('page', String(page))
       .set('pageNumber', String(page))
-      .set('pageIndex', String(pageZeroBased))
       .set('pageSize', String(pageSize));
 
-    return this.http.get<PagedResult<Product>>(`${this.apiUrl}/paged`, { params });
+    return this.http.get<PagedResult<Product>>(`${this.apiUrl}`, { params });
   }
 
   getProductById(id: number): Observable<FullProduct> {

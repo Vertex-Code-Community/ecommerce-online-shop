@@ -1,27 +1,28 @@
 <div class="product-list-container">
-  <div class="product-list-header">
-    <h2>Products</h2>
-    <button class="add-product-button" (click)="onAddProduct()">
-      Add Product
-    </button>
-  </div>
+  @if (productData$ | async; as productData) {
+    <div class="product-list-header">
+      <h2>Products</h2>
+      <button class="add-product-button" (click)="onAddProduct()">
+        Add Product
+      </button>
+    </div>
 
-  <app-product-list
-    [products]="(products$ | async)!"
-    (productClicked)="onProductSelected($event)"
-    (productDeleted)="onProductDelete($event)">
-  </app-product-list>
+    <app-product-list
+      [products]="productData.products!"
+      (productClicked)="onProductSelected($event)"
+      (productDeleted)="onProductDelete($event)">
+    </app-product-list>
 
-  @if (isLoading$ | async)
-  {
-    <app-loading-spinner class="loading-spinner"/>
+    @if (productData.isLoading) {
+      <app-loading-spinner class="loading-spinner"/>
+    }
+
+    <app-pagination
+      [totalItems]="productData.totalCount ?? 0"
+      [pageSize]="productData.pageSize ?? 10"
+      [currentPage]="productData.currentPage ?? 1"
+      (pageChange)="onPageChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
   }
-
-  <app-pagination
-    [totalItems]="(totalCount$ | async)!"
-    [pageSize]="(pageSize$ | async)!"
-    [currentPage]="(currentPage$ | async)!"
-    (pageChange)="onPageChange($event)"
-    (pageSizeChange)="onPageSizeChange($event)">
-  </app-pagination>
 </div>
