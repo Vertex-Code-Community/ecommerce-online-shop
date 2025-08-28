@@ -1,6 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
 .header-section-wrapper {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   width: 100%;
   background: #FFFFFF;
   height: 96px;
@@ -10,7 +14,7 @@
 .header-block-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: start;
   width: 100%;
   max-width: 90vw;
   height: 48px;
@@ -191,7 +195,6 @@
   }
 
   .header-block-container {
-    flex-wrap: wrap;
     justify-content: flex-start;
     gap: 12px;
     height: auto;
