@@ -1,0 +1,5 @@
+/* Client layout styles */
+.client-content {
+  margin-top: 96px; /* Account for header height */
+  min-height: calc(100vh - 96px);
+}
