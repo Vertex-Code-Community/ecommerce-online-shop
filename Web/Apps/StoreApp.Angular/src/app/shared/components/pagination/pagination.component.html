@@ -1,29 +1,29 @@
-<div class="pagination" [class.disabled]="disabled">
-  <div class="pagination-left">
-    @if (boundaryLinks) {
-      <button
-        class="btn"
-        [disabled]="disabled || isFirstPage"
-        (click)="goToFirst()"
-      >
-        «
-      </button>
-    }
+<div class="pagination-wrapper" [class.disabled]="disabled">
+  @if (boundaryLinks) {
+    <button
+      class="nav-button"
+      [disabled]="disabled || isFirstPage"
+      (click)="goToFirst()"
+    >
+      «
+    </button>
+  }
 
-    @if (directionLinks) {
-      <button
-        class="btn"
-        [disabled]="disabled || isFirstPage"
-        (click)="goToPrevious()"
-      >
-        ‹
-      </button>
-    }
+  @if (directionLinks) {
+    <button
+      class="nav-button"
+      [disabled]="disabled || isFirstPage"
+      (click)="goToPrevious()"
+    >
+      ← Previous
+    </button>
+  }
 
+  <div class="page-items">
     @for (item of pageItems; track item) {
       @if (item.type === 'page') {
         <button
-          class="btn page"
+          class="page-button"
           [class.active]="item.isActive"
           (click)="goToPage(item.number!)"
           [disabled]="disabled"
@@ -31,30 +31,30 @@
           {{ item.number }}
         </button>
       } @else if (item.type === 'ellipsis') {
-        <span class="ellipsis">…</span>
+        <span class="dots">…</span>
       }
     }
-
-    @if (directionLinks) {
-      <button
-        class="btn"
-        [disabled]="disabled || isLastPage"
-        (click)="goToNext()"
-      >
-        ›
-      </button>
-    }
-
-    @if (boundaryLinks) {
-      <button
-        class="btn"
-        [disabled]="disabled || isLastPage"
-        (click)="goToLast()"
-      >
-        »
-      </button>
-    }
   </div>
+
+  @if (directionLinks) {
+    <button
+      class="nav-button"
+      [disabled]="disabled || isLastPage"
+      (click)="goToNext()"
+    >
+      Next →
+    </button>
+  }
+
+  @if (boundaryLinks) {
+    <button
+      class="nav-button"
+      [disabled]="disabled || isLastPage"
+      (click)="goToLast()"
+    >
+      »
+    </button>
+  }
 
   <div class="pagination-right">
     @if (showTotals && totalItems > 0) {
