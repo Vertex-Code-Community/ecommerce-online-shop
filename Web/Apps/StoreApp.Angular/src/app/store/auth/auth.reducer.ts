@@ -10,10 +10,41 @@ export interface AuthState {
   error: ErrorResult | null;
 }
 
+const getStoredTokens = () => {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    return { accessToken, refreshToken };
+  } catch (error) {
+    console.warn('Failed to read from localStorage:', error);
+    return { accessToken: null, refreshToken: null };
+  }
+};
+
+const setStoredTokens = (accessToken: string, refreshToken: string) => {
+  try {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  } catch (error) {
+    console.warn('Failed to write to localStorage:', error);
+  }
+};
+
+const removeStoredTokens = () => {
+  try {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+  } catch (error) {
+    console.warn('Failed to remove from localStorage:', error);
+  }
+};
+
+const { accessToken, refreshToken } = getStoredTokens();
+
 export const initialState: AuthState = {
-  accessToken: localStorage.getItem('accessToken'),
-  refreshToken: localStorage.getItem('refreshToken'),
-  isAuthenticated: !!localStorage.getItem('accessToken'),
+  accessToken,
+  refreshToken,
+  isAuthenticated: !!accessToken,
   loading: false,
   error: null,
 };
@@ -21,11 +52,14 @@ export const initialState: AuthState = {
 export const authReducer = createReducer(
   initialState,
 
-  on(AuthActions.login, (state) => ({...state, loading: true, error: null,})),
+  on(AuthActions.login, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
 
   on(AuthActions.loginSuccess, (state, { accessToken, refreshToken }) => {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+    setStoredTokens(accessToken, refreshToken);
     return {
       ...state,
       accessToken,
@@ -36,13 +70,19 @@ export const authReducer = createReducer(
     };
   }),
 
-  on(AuthActions.loginFailure, (state, error) => ({...state, loading: false, error,})),
+  on(AuthActions.loginFailure, (state, error) => ({
+    ...state,
+    loading: false,
+    error
+  })),
 
-  on(AuthActions.logout, (state) => ({ ...state, loading: true })),
+  on(AuthActions.logout, (state) => ({
+    ...state,
+    loading: true
+  })),
 
   on(AuthActions.logoutSuccess, () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    removeStoredTokens();
     return {
       accessToken: null,
       refreshToken: null,
@@ -52,11 +92,14 @@ export const authReducer = createReducer(
     };
   }),
 
-  on(AuthActions.logoutFailure, (state, error) => ({...state, loading: false, error,})),
+  on(AuthActions.logoutFailure, (state, error) => ({
+    ...state,
+    loading: false,
+    error
+  })),
 
   on(AuthActions.setTokens, (state, { accessToken, refreshToken }) => {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+    setStoredTokens(accessToken, refreshToken);
     return {
       ...state,
       accessToken,
@@ -66,11 +109,14 @@ export const authReducer = createReducer(
     };
   }),
 
-  on(AuthActions.refreshToken, (state) => ({ ...state, loading: true })),
+  on(AuthActions.refreshToken, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
 
   on(AuthActions.refreshTokenSuccess, (state, { accessToken, refreshToken }) => {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+    setStoredTokens(accessToken, refreshToken);
     return {
       ...state,
       accessToken,
@@ -81,5 +127,28 @@ export const authReducer = createReducer(
     };
   }),
 
-  on(AuthActions.refreshTokenFailure, (state, error) => ({...state, loading: false, error,}))
+  on(AuthActions.refreshTokenFailure, (state, error) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+
+  on(AuthActions.clearTokens, (state) => {
+    removeStoredTokens();
+    return {
+      ...state,
+      accessToken: null,
+      refreshToken: null,
+      isAuthenticated: false,
+      error: null,
+    };
+  }),
+
+  on(AuthActions.clearTokensSuccess, (state) => ({
+    ...state,
+    accessToken: null,
+    refreshToken: null,
+    isAuthenticated: false,
+    error: null,
+  }))
 );

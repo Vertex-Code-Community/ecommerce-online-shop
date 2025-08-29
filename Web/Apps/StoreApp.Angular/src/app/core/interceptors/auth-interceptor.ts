@@ -1,19 +1,21 @@
 import { inject } from '@angular/core';
 import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { catchError, switchMap, throwError } from 'rxjs';
+import { catchError, switchMap, throwError, from } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { TokenService } from '../services/token.service';
 import * as AuthActions from '../../store/auth/auth.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 
+let isRefreshing = false;
+let refreshSubscribers: Array<(token: string) => void> = [];
+
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
-  const router = inject(Router);
   const authService = inject(AuthService);
+  const tokenService = inject(TokenService);
   const store = inject(Store<AppState>);
 
-  const accessToken = localStorage.getItem('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
+  const { accessToken, refreshToken } = tokenService.getCurrentTokens();
 
   const authReq = accessToken
     ? req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } })
@@ -21,9 +23,9 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse | any) => {
-      // 👇 Головна зміна: перевіряємо, чи це помилка 401, або ж мережева помилка (статус 0)
-      // з конкретним текстом (якщо є) чи типом помилки.
-      const isUnauthorizedError = (error instanceof HttpErrorResponse && error.status === 401) || error.message?.includes('401');
+      const isUnauthorizedError = (error instanceof HttpErrorResponse && error.status === 401) ||
+                                  error.message?.includes('401') ||
+                                  error.statusCode === 401;
 
       if (!isUnauthorizedError) {
         console.warn('Interceptor caught non-401 or unexpected error:', error);
@@ -33,29 +35,56 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
       console.log('401 or similar unauthorized error detected, trying refresh...');
 
       if (!refreshToken) {
-        // Якщо refresh-токена немає, перенаправляємо на логін
-        router.navigate(['/login']);
+        console.log('No refresh token available, clearing tokens');
+        tokenService.clearTokens();
         return throwError(() => new Error('No refresh token available.'));
       }
 
-      // Використовуємо .pipe(take(1)) для запобігання нескінченних циклів
+      if (tokenService.isTokenExpired()) {
+        console.log('Token is expired, clearing tokens');
+        tokenService.clearTokens();
+        return throwError(() => new Error('Token expired.'));
+      }
+
+      if (isRefreshing) {
+        return from(new Promise<string>((resolve) => {
+          refreshSubscribers.push(resolve);
+        })).pipe(
+          switchMap((token) => {
+            const clonedReq = req.clone({
+              setHeaders: { Authorization: `Bearer ${token}` }
+            });
+            return next(clonedReq);
+          })
+        );
+      }
+
+      isRefreshing = true;
+      refreshSubscribers = [];
+
       return authService.refreshToken({ accessToken: accessToken || '', refreshToken }).pipe(
         switchMap(newTokens => {
-          // Зберігаємо нові токени
-          localStorage.setItem('accessToken', newTokens.accessToken);
-          localStorage.setItem('refreshToken', newTokens.refreshToken);
-          store.dispatch(AuthActions.setTokens(newTokens));
+          console.log('Token refresh successful, updating store');
+          store.dispatch(AuthActions.refreshTokenSuccess(newTokens));
 
-          // Повторюємо оригінальний запит з новим токеном
+          refreshSubscribers.forEach(callback => callback(newTokens.accessToken));
+          refreshSubscribers = [];
+          isRefreshing = false;
+
           const clonedReq = req.clone({
             setHeaders: { Authorization: `Bearer ${newTokens.accessToken}` }
           });
           return next(clonedReq);
         }),
         catchError(refreshErr => {
-          // Якщо оновлення токена не вдалось, перенаправляємо на логін
           console.error('Refresh failed:', refreshErr);
-          router.navigate(['/login']);
+          console.log('Token refresh failed, clearing tokens');
+
+          refreshSubscribers.forEach(callback => callback(''));
+          refreshSubscribers = [];
+          isRefreshing = false;
+
+          tokenService.clearTokens();
           return throwError(() => refreshErr);
         })
       );

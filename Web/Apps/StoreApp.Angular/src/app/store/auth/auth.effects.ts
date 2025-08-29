@@ -1,24 +1,29 @@
-import {inject, Injectable} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from './auth.actions';
-import { catchError, map, mergeMap, of } from 'rxjs';
-import {AuthService} from '../../core/services/auth.service';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
-
   actions$: Actions = inject(Actions);
   authService: AuthService = inject(AuthService);
+  router: Router = inject(Router);
 
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      mergeMap((login) =>
-        this.authService.login(login).pipe(
+      mergeMap((loginRequest) =>
+        this.authService.login(loginRequest).pipe(
           map((tokens) => AuthActions.loginSuccess(tokens)),
-          catchError((err) =>
-            of(AuthActions.loginFailure({ message: err.message, statusCode: err.status }))
-          )
+          catchError((err) => {
+            console.error('Login error:', err);
+            return of(AuthActions.loginFailure({
+              message: err?.message || 'Login failed',
+              statusCode: err?.statusCode || 500
+            }));
+          })
         )
       )
     )
@@ -30,9 +35,11 @@ export class AuthEffects {
       mergeMap(() =>
         this.authService.logout().pipe(
           map(() => AuthActions.logoutSuccess()),
-          catchError((err) =>
-            of(AuthActions.logoutFailure({ message: err.message, statusCode: err.status }))
-          )
+          catchError((err) => {
+            console.error('Logout error:', err);
+            // Even if logout fails on server, we should clear local state
+            return of(AuthActions.logoutSuccess());
+          })
         )
       )
     )
@@ -43,17 +50,71 @@ export class AuthEffects {
       ofType(AuthActions.refreshToken),
       mergeMap((tokens) =>
         this.authService.refreshToken(tokens).pipe(
-          map((tokens) => AuthActions.refreshTokenSuccess(tokens)),
-          catchError((err) =>
-            of(
+          map((newTokens) => AuthActions.refreshTokenSuccess(newTokens)),
+          catchError((err) => {
+            console.error('Token refresh error:', err);
+            return of(
               AuthActions.refreshTokenFailure({
-                message: err.message,
-                statusCode: err.status ?? 500
+                message: err?.message || 'Token refresh failed',
+                statusCode: err?.statusCode ?? 500
               })
-            )
-          )
+            );
+          })
         )
       )
     )
+  );
+
+  autoClearTokensOnRefreshFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.refreshTokenFailure),
+      tap(() => {
+        console.log('Auto-clearing tokens due to refresh failure');
+      }),
+      map(() => AuthActions.clearTokens())
+    )
+  );
+
+  autoClearTokensOnLogoutSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logoutSuccess),
+      tap(() => {
+        console.log('Auto-clearing tokens on logout success');
+      }),
+      map(() => AuthActions.clearTokensSuccess())
+    )
+  );
+
+  navigateToLoginOnAuthFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginFailure, AuthActions.refreshTokenFailure),
+      tap(() => {
+        console.log('Authentication failed, navigating to login');
+        this.router.navigate(['/login']);
+      })
+    ),
+    { dispatch: false }
+  );
+
+  navigateToHomeOnLoginSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginSuccess),
+      tap(() => {
+        console.log('Login successful, navigating to home');
+        this.router.navigate(['/']);
+      })
+    ),
+    { dispatch: false }
+  );
+
+  navigateToLoginOnLogout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.logoutSuccess, AuthActions.clearTokensSuccess),
+      tap(() => {
+        console.log('Logged out, navigating to login');
+        this.router.navigate(['/login']);
+      })
+    ),
+    { dispatch: false }
   );
 }

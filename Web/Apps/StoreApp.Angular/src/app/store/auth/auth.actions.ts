@@ -18,3 +18,6 @@ export const setTokens = createAction('[Auth] Set Tokens', props<Tokens>());
 export const refreshToken = createAction('[Auth] Refresh Token', props<Tokens>());
 export const refreshTokenSuccess = createAction('[Auth] Refresh Token Success', props<Tokens>());
 export const refreshTokenFailure = createAction('[Auth] Refresh Token Failure', props<ErrorResult>());
+
+export const clearTokens = createAction('[Auth] Clear Tokens');
+export const clearTokensSuccess = createAction('[Auth] Clear Tokens Success');
