@@ -15,8 +15,8 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.login),
       mergeMap((loginRequest) =>
-        this.authService.login(loginRequest).pipe(
-          map((tokens) => AuthActions.loginSuccess(tokens)),
+        this.authService.login(loginRequest.request).pipe(
+          map((tokens) => AuthActions.loginSuccess({ tokens })),
           catchError((err) => {
             console.error('Login error:', err);
             return of(AuthActions.loginFailure({
@@ -49,8 +49,8 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(AuthActions.refreshToken),
       mergeMap((tokens) =>
-        this.authService.refreshToken(tokens).pipe(
-          map((newTokens) => AuthActions.refreshTokenSuccess(newTokens)),
+        this.authService.refreshToken(tokens.tokens).pipe(
+          map((newTokens) => AuthActions.refreshTokenSuccess({ tokens: newTokens })),
           catchError((err) => {
             console.error('Token refresh error:', err);
             return of(

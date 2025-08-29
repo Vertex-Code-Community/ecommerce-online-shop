@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as AuthActions from './auth.actions';
 import { ErrorResult } from '../../shared/models/errorResult';
+import {Tokens} from "../../shared/models/auth/tokens";
 
 export interface AuthState {
   accessToken: string | null;
@@ -21,10 +22,10 @@ const getStoredTokens = () => {
   }
 };
 
-const setStoredTokens = (accessToken: string, refreshToken: string) => {
+const setStoredTokens = (tokens: Tokens) => {
   try {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('accessToken', tokens.accessToken);
+    localStorage.setItem('refreshToken', tokens.refreshToken);
   } catch (error) {
     console.warn('Failed to write to localStorage:', error);
   }
@@ -58,12 +59,12 @@ export const authReducer = createReducer(
     error: null
   })),
 
-  on(AuthActions.loginSuccess, (state, { accessToken, refreshToken }) => {
-    setStoredTokens(accessToken, refreshToken);
+  on(AuthActions.loginSuccess, (state, {tokens}) => {
+    setStoredTokens(tokens);
     return {
       ...state,
-      accessToken,
-      refreshToken,
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
       isAuthenticated: true,
       loading: false,
       error: null,
@@ -73,7 +74,7 @@ export const authReducer = createReducer(
   on(AuthActions.loginFailure, (state, error) => ({
     ...state,
     loading: false,
-    error
+    error: { message: error.message, statusCode: error.statusCode }
   })),
 
   on(AuthActions.logout, (state) => ({
@@ -95,15 +96,15 @@ export const authReducer = createReducer(
   on(AuthActions.logoutFailure, (state, error) => ({
     ...state,
     loading: false,
-    error
+    error: { message: error.message, statusCode: error.statusCode }
   })),
 
-  on(AuthActions.setTokens, (state, { accessToken, refreshToken }) => {
-    setStoredTokens(accessToken, refreshToken);
+  on(AuthActions.setTokens, (state, { tokens }) => {
+    setStoredTokens(tokens);
     return {
       ...state,
-      accessToken,
-      refreshToken,
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
       isAuthenticated: true,
       error: null,
     };
@@ -115,12 +116,12 @@ export const authReducer = createReducer(
     error: null
   })),
 
-  on(AuthActions.refreshTokenSuccess, (state, { accessToken, refreshToken }) => {
-    setStoredTokens(accessToken, refreshToken);
+  on(AuthActions.refreshTokenSuccess, (state, { tokens }) => {
+    setStoredTokens(tokens);
     return {
       ...state,
-      accessToken,
-      refreshToken,
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
       isAuthenticated: true,
       loading: false,
       error: null,
@@ -130,7 +131,7 @@ export const authReducer = createReducer(
   on(AuthActions.refreshTokenFailure, (state, error) => ({
     ...state,
     loading: false,
-    error
+    error: { message: error.message, statusCode: error.statusCode }
   })),
 
   on(AuthActions.clearTokens, (state) => {
