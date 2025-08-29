@@ -4,14 +4,15 @@ import { ProductListComponent } from '../../components/product-list/product-list
 import { Store } from '@ngrx/store';
 import {AppState} from '../../../../store/app.state';
 import { selectProductLoading, selectProducts } from '../../../../store/products/product.selectors';
-import {LoadingSpinnerComponent} from '../../../../shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
 import { loadProducts } from '../../../../store/products/product.actions';
-import {StartComponent} from '../../components/start/start.component';
+import { StartComponent } from '../../components/start/start.component';
+import { BrandsComponent } from '../../components/brands/brands.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, StartComponent],
+  imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, StartComponent, BrandsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
