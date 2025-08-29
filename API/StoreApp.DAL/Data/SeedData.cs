@@ -10,7 +10,6 @@ public class Seeder(RoleManager<IdentityRole> roleManager, UserManager<UserEntit
     public async Task Seed()
     {
         await SeedRoles();
-        await SeedAdmin();
         await SeedProducts();
         await SeedUsers();
     }
@@ -29,28 +28,6 @@ public class Seeder(RoleManager<IdentityRole> roleManager, UserManager<UserEntit
             {
                 await roleManager.CreateAsync(role);
             }
-        }
-    }
-
-    private async Task SeedAdmin()
-    {
-        var admins = await userManager.GetUsersInRoleAsync(UserRole.Admin.ToString());
-        if (admins.Any())
-        {
-            return;
-        }
-
-        const string email = "admin@example.com";
-        var admin = new UserEntity
-        {
-            UserName = email,
-            Email = email,
-        };
-        
-        var result = await userManager.CreateAsync(admin, "Password123");
-        if (!result.Succeeded)
-        {
-            await userManager.AddToRoleAsync(admin, UserRole.Admin.ToString());
         }
     }
 
