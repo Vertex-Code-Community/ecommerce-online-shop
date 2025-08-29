@@ -32,4 +32,5 @@ export class HomeComponent implements OnInit {
 
   protected readonly MOCK_STYLES = MOCK_STYLES;
   protected readonly MOCK_BRANDS = MOCK_BRANDS;
+  protected readonly MOCK_REVIEWS = MOCK_REVIEWS;
 }

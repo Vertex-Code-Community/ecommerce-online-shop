@@ -1,0 +1,29 @@
+<div class="wrapper">
+  <div class="list">
+    <div class="header">
+      <div class="header-text">OUR HAPPY CUSTOMERS</div>
+      <div class="header-arrows">
+        <button (click)="scrollRight()" class="arrow-button">
+          <img src="/svg/arrow.svg" alt="Scroll right" class="arrow-icon arrow-right">
+        </button>
+        <button (click)="scrollLeft()" class="arrow-button">
+          <img src="/svg/arrow.svg" alt="Scroll left" class="arrow-icon arrow-left">
+        </button>
+      </div>
+    </div>
+
+    <div class="blur-container">
+
+      <div class="content content--scrollable" #reviewsContainer>
+        @for (review of reviews; track review.id) {
+          <div class="review-item">
+            <app-review [review]="review" [width]="'400px'"></app-review>
+          </div>
+        }
+
+      </div>
+      <div class="blur-left"></div>
+      <div class="blur-right"></div>
+    </div>
+  </div>
+</div>

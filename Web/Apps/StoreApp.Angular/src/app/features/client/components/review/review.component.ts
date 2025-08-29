@@ -12,4 +12,5 @@ import { ProductRatingComponent } from '../../../../shared/components/product-ra
 })
 export class ReviewComponent {
   @Input() review!: Review;
+  @Input() width: string = '600px';
 }
