@@ -8,7 +8,7 @@
     </div>
 
     <app-product-list
-      [products]="productData.products!"
+      [products]="productData.products || []"
       (productClicked)="onProductSelected($event)"
       (productDeleted)="onProductDelete($event)">
     </app-product-list>

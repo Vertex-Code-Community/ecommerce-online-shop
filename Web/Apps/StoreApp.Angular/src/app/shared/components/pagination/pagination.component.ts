@@ -1,8 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Додаємо FormsModule для [(ngModel)]
+import { FormsModule } from '@angular/forms';
 
-// ... Інтерфейс PageItem
 export interface PageItem {
   type: 'page' | 'ellipsis';
   number?: number;
@@ -14,7 +13,8 @@ export interface PageItem {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './pagination.component.html',
-  styleUrls: ['./pagination.component.css']
+  styleUrls: ['./pagination.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaginationComponent {
   @Input() totalItems: number = 0;
@@ -32,31 +32,39 @@ export class PaginationComponent {
   @Output() pageSizeChange = new EventEmitter<number>();
 
   get totalPages(): number {
-    if (!this.pageSize || this.pageSize <= 0) {
+    const total = this.totalItems || 0;
+    const size = this.pageSize || 10;
+    if (!size || size <= 0) {
       return 0;
     }
-    return Math.max(0, Math.ceil(this.totalItems / this.pageSize));
+    return Math.max(0, Math.ceil(total / size));
   }
 
   get isFirstPage(): boolean {
-    return this.currentPage <= 1;
+    return (this.currentPage || 1) <= 1;
   }
 
   get isLastPage(): boolean {
-    return this.currentPage >= this.totalPages;
+    return (this.currentPage || 1) >= this.totalPages;
   }
 
   get fromItem(): number {
-    if (this.totalItems === 0) return 0;
-    return (this.currentPage - 1) * this.pageSize + 1;
+    const total = this.totalItems || 0;
+    if (total === 0) return 0;
+    const current = this.currentPage || 1;
+    const size = this.pageSize || 10;
+    return (current - 1) * size + 1;
   }
 
   get toItem(): number {
-    return Math.min(this.currentPage * this.pageSize, this.totalItems);
+    const total = this.totalItems || 0;
+    const current = this.currentPage || 1;
+    const size = this.pageSize || 10;
+    return Math.min(current * size, total);
   }
 
   onSelectPageSize(newSize: number): void {
-    if (this.disabled) return;
+    if (this.disabled || !newSize) return;
     this.pageSizeChange.emit(newSize);
   }
 
@@ -67,12 +75,14 @@ export class PaginationComponent {
 
   goToPrevious(): void {
     if (this.disabled || this.isFirstPage) return;
-    this.goToPage(this.currentPage - 1);
+    const current = this.currentPage || 1;
+    this.goToPage(current - 1);
   }
 
   goToNext(): void {
     if (this.disabled || this.isLastPage) return;
-    this.goToPage(this.currentPage + 1);
+    const current = this.currentPage || 1;
+    this.goToPage(current + 1);
   }
 
   goToLast(): void {
@@ -81,23 +91,25 @@ export class PaginationComponent {
   }
 
   goToPage(page: number): void {
-    if (this.disabled) return;
+    if (this.disabled || !page) return;
     const target = Math.max(1, Math.min(this.totalPages, page));
-    if (target === this.currentPage) return;
+    const current = this.currentPage || 1;
+    if (target === current) return;
     this.pageChange.emit(target);
   }
 
   get pageItems(): PageItem[] {
     const pages: PageItem[] = [];
     const total = this.totalPages;
-    const max = Math.max(3, this.maxPagesToShow);
+    const max = Math.max(3, this.maxPagesToShow || 5);
 
     if (total <= 1) {
       return pages;
     }
 
     const addPage = (n: number) => {
-      pages.push({ type: 'page', number: n, isActive: n === this.currentPage });
+      const current = this.currentPage || 1;
+      pages.push({ type: 'page', number: n, isActive: n === current });
     };
     const addEllipsis = () => pages.push({ type: 'ellipsis' });
 
@@ -107,7 +119,8 @@ export class PaginationComponent {
     }
 
     const half = Math.floor(max / 2);
-    let start = Math.max(1, this.currentPage - half);
+    const current = this.currentPage || 1;
+    let start = Math.max(1, current - half);
     let end = Math.min(total, start + max - 1);
 
     if (end - start + 1 < max) {

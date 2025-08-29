@@ -20,12 +20,20 @@ export class ProductEffects {
         this.store.select(selectCurrentPage),
         this.store.select(selectPageSize)
       ),
-      mergeMap(([_, page, pageSize]) =>
-        this.productService.getPagedProducts(page, pageSize).pipe(
+      mergeMap(([_, page, pageSize]) => {
+        const safePage = page || 1;
+        const safePageSize = pageSize || 10;
+        return this.productService.getPagedProducts(safePage, safePageSize).pipe(
           map(result => ProductActions.loadProductsSuccess({ result })),
-          catchError(err => of(ProductActions.loadProductsFailure(err)))
-        )
-      )
+          catchError(err => {
+            console.error('Error loading products:', err);
+            return of(ProductActions.loadProductsFailure({ 
+              message: err?.message || 'Failed to load products',
+              statusCode: err?.status || 500
+            }));
+          })
+        );
+      })
     )
   );
 
@@ -35,7 +43,13 @@ export class ProductEffects {
       mergeMap(({ id }) =>
         this.productService.getProductById(id).pipe(
           map(product => ProductActions.loadProductSuccess(product)),
-          catchError(err => of(ProductActions.loadProductFailure(err)))
+          catchError(err => {
+            console.error('Error loading product:', err);
+            return of(ProductActions.loadProductFailure({ 
+              message: err?.message || 'Failed to load product',
+              statusCode: err?.status || 500
+            }));
+          })
         )
       )
     )
@@ -47,7 +61,13 @@ export class ProductEffects {
       mergeMap(product =>
         this.productService.addProduct(product).pipe(
           map(() => ProductActions.addProductSuccess()),
-          catchError(err => of(ProductActions.addProductFailure(err)))
+          catchError(err => {
+            console.error('Error adding product:', err);
+            return of(ProductActions.addProductFailure({ 
+              message: err?.message || 'Failed to add product',
+              statusCode: err?.status || 500
+            }));
+          })
         )
       )
     )
@@ -66,7 +86,13 @@ export class ProductEffects {
       mergeMap(product =>
         this.productService.updateProduct(product).pipe(
           map(() => ProductActions.updateProductSuccess()),
-          catchError(err => of(ProductActions.updateProductFailure(err)))
+          catchError(err => {
+            console.error('Error updating product:', err);
+            return of(ProductActions.updateProductFailure({ 
+              message: err?.message || 'Failed to update product',
+              statusCode: err?.status || 500
+            }));
+          })
         )
       )
     )
@@ -85,7 +111,13 @@ export class ProductEffects {
       mergeMap(({ id }) =>
         this.productService.deleteProductById(id).pipe(
           map(() => ProductActions.deleteProductSuccess()),
-          catchError(err => of(ProductActions.deleteProductFailure(err)))
+          catchError(err => {
+            console.error('Error deleting product:', err);
+            return of(ProductActions.deleteProductFailure({ 
+              message: err?.message || 'Failed to delete product',
+              statusCode: err?.status || 500
+            }));
+          })
         )
       )
     )

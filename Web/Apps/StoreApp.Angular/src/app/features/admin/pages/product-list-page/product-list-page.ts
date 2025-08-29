@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -22,7 +22,8 @@ import { AsyncPipe } from '@angular/common';
   imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, PaginationComponent, AsyncPipe],
   templateUrl: './product-list-page.html',
   standalone: true,
-  styleUrls: ['./product-list-page.css']
+  styleUrls: ['./product-list-page.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListPage implements OnInit {
   private store = inject(Store<AppState>);
@@ -37,7 +38,9 @@ export class ProductListPage implements OnInit {
   });
 
   ngOnInit(): void {
-    this.store.dispatch(ProductActions.loadProducts());
+    setTimeout(() => {
+      this.store.dispatch(ProductActions.loadProducts());
+    }, 0);
   }
 
   onAddProduct() {
@@ -45,19 +48,23 @@ export class ProductListPage implements OnInit {
   }
 
   onProductSelected(product: Product) {
+    if (!product?.id) return;
     this.router.navigate(['/products/edit', product.id]);
   }
 
   onProductDelete(product: Product) {
+    if (!product?.id || !product?.name) return;
     if (!confirm(`Delete product: "${product.name}"?`)) return;
     this.store.dispatch(ProductActions.deleteProduct({ id: product.id }));
   }
 
   onPageChange(page: number) {
+    if (!page || page < 1) return;
     this.store.dispatch(ProductActions.setCurrentPage({ page }));
   }
 
   onPageSizeChange(size: number) {
+    if (!size || size < 1) return;
     this.store.dispatch(ProductActions.setPageSize({ pageSize: size }));
   }
 }

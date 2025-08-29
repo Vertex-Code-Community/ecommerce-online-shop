@@ -5,35 +5,35 @@ export const selectProductState = createFeatureSelector<ProductState>('product')
 
 export const selectProducts = createSelector(
   selectProductState,
-  (state) => state.products
+  (state) => state?.products || []
 );
 
 export const selectTotalCount = createSelector(
   selectProductState,
-  (state) => state.totalCount
+  (state) => state?.totalCount ?? 0
 );
 
 export const selectCurrentProduct = createSelector(
   selectProductState,
-  (state) => state.currentProduct
+  (state) => state?.currentProduct || null
 );
 
 export const selectProductLoading = createSelector(
   selectProductState,
-  (state) => state.loading
+  (state) => state?.loading ?? false
 );
 
 export const selectProductError = createSelector(
   selectProductState,
-  (state) => state.error
+  (state) => state?.error || null
 );
 
 export const selectCurrentPage = createSelector(
   selectProductState,
-  (state) => state.currentPage
+  (state) => state?.currentPage ?? 1
 );
 
 export const selectPageSize = createSelector(
   selectProductState,
-  (state) => state.pageSize
+  (state) => state?.pageSize ?? 10
 );
