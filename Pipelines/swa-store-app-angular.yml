@@ -6,21 +6,18 @@ pool:
 
 variables:
   node_version: '20.x'
-  buildConfiguration: 'Release'
   angular_project_path: 'Web/Apps/StoreApp.Angular'
 
 steps:
-  - task: UseNode@1
-    displayName: 'Install Node.js'
+  - task: NodeTool@0
+    displayName: 'Install Node.js 20.x'
     inputs:
       versionSpec: '$(node_version)'
 
   - script: |
-      echo "Current working directory:"
-      pwd
-      echo "Listing contents:"
-      ls -la
-    displayName: 'Debug working directory'
+      node -v
+      npm -v
+    displayName: 'Check Node & npm versions'
 
   - script: |
       cd $(angular_project_path)
@@ -36,12 +33,6 @@ steps:
       cd $(angular_project_path)
       npm run build -- --configuration production
     displayName: 'Build Angular app'
-
-  - task: CmdLine@2
-    displayName: 'List dist contents'
-    inputs:
-      script: |
-        ls -R $(angular_project_path)/dist
 
   - task: AzureStaticWebApp@0
     displayName: 'Deploy to Azure Static Web App'
