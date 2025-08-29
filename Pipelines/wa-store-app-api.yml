@@ -1,0 +1,54 @@
+trigger: none
+pr: none
+
+pool:
+  name: 'Azure Pipelines'
+
+variables:
+  buildConfiguration: '$(BUILD_CONFIGURATION)'
+  azureSubscription: 'store-app-azure-connection'
+  appName: 'wa-store-app'
+
+  projects: |
+    API/StoreApp.BLL/StoreApp.BLL.csproj
+    API/StoreApp.DAL/StoreApp.DAL.csproj
+    API/StoreApp.API/StoreApp.API.csproj
+    Shared/StoreApp.Shared/StoreApp.Shared.csproj
+    Shared/StoreApp.Models/StoreApp.Models.csproj
+
+steps:
+  - task: UseDotNet@2
+    displayName: 'Install .NET Core SDK'
+    inputs:
+      packageType: 'sdk'
+      version: '9.0.x'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      projects: $(projects)
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet build'
+    inputs:
+      command: 'build'
+      arguments: --configuration $(buildConfiguration)
+      projects: $(projects)
+
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet publish'
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: $(projects)
+      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      zipAfterPublish: true
+
+  - task: AzureWebApp@1
+    displayName: 'Deploy to Azure App Service'
+    inputs:
+      azureSubscription: $(azureSubscription)
+      appType: 'webApp'
+      appName: $(appName)
+      package: '$(Build.ArtifactStagingDirectory)/StoreApp.API.zip'

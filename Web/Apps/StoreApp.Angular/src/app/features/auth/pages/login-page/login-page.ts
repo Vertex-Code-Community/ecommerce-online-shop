@@ -43,7 +43,7 @@ export class LoginPage {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
-      this.store.dispatch(AuthActions.login({ email, password }));
+      this.store.dispatch(AuthActions.login({ request: { email, password } }));
 
       this.store.select(AuthSelectors.selectIsAuthenticated).subscribe(isAuth => {
         if (isAuth) {

@@ -2,20 +2,25 @@ import { inject } from '@angular/core';
 import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpErrorResponse } from '@angular/common/http';
 import { catchError, switchMap, throwError, from } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { TokenService } from '../services/token.service';
 import * as AuthActions from '../../store/auth/auth.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
+import { selectAuthTokens } from '../../store/auth/auth.selectors';
 
 let isRefreshing = false;
 let refreshSubscribers: Array<(token: string) => void> = [];
 
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
   const authService = inject(AuthService);
-  const tokenService = inject(TokenService);
   const store = inject(Store<AppState>);
 
-  const { accessToken, refreshToken } = tokenService.getCurrentTokens();
+  let accessToken: string | null = null;
+  let refreshToken: string | null = null;
+
+  store.select(selectAuthTokens).subscribe(tokens => {
+    accessToken = tokens.accessToken;
+    refreshToken = tokens.refreshToken;
+  }).unsubscribe();
 
   const authReq = accessToken
     ? req.clone({ setHeaders: { Authorization: `Bearer ${accessToken}` } })
@@ -36,14 +41,8 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
 
       if (!refreshToken) {
         console.log('No refresh token available, clearing tokens');
-        tokenService.clearTokens();
+        store.dispatch(AuthActions.clearTokens());
         return throwError(() => new Error('No refresh token available.'));
-      }
-
-      if (tokenService.isTokenExpired()) {
-        console.log('Token is expired, clearing tokens');
-        tokenService.clearTokens();
-        return throwError(() => new Error('Token expired.'));
       }
 
       if (isRefreshing) {
@@ -65,7 +64,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
       return authService.refreshToken({ accessToken: accessToken || '', refreshToken }).pipe(
         switchMap(newTokens => {
           console.log('Token refresh successful, updating store');
-          store.dispatch(AuthActions.refreshTokenSuccess(newTokens));
+          store.dispatch(AuthActions.refreshTokenSuccess({tokens: newTokens}));
 
           refreshSubscribers.forEach(callback => callback(newTokens.accessToken));
           refreshSubscribers = [];
@@ -84,7 +83,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
           refreshSubscribers = [];
           isRefreshing = false;
 
-          tokenService.clearTokens();
+          store.dispatch(AuthActions.clearTokens());
           return throwError(() => refreshErr);
         })
       );
