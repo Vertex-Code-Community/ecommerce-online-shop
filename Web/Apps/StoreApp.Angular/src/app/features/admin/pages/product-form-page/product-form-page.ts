@@ -26,7 +26,6 @@ export class ProductFormPage implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  baseUrl = environment.baseUrl;
   productForm!: FormGroup;
   isEditMode = false;
   productId?: number;

@@ -1,0 +1,44 @@
+trigger: none
+pr: none
+
+pool:
+  name: 'Azure Pipelines'
+
+variables:
+  node_version: '20.x'
+  buildConfiguration: 'Release'
+  angular_project_path: 'Web/StoreApp.AngularClient'
+  dist_folder: 'dist'
+
+steps:
+  - task: UseNode@1
+    displayName: 'Install Node.js'
+    inputs:
+      versionSpec: '$(node_version)'
+
+  - script: |
+      cd $(angular_project_path)
+      npm ci
+    displayName: 'Install npm packages'
+
+  - script: |
+      cd $(angular_project_path)
+      npm run build -- --configuration production
+    displayName: 'Build Angular app'
+
+  - task: CmdLine@2
+    displayName: 'List dist contents'
+    inputs:
+      script: |
+        ls -R $(angular_project_path)/$(dist_folder)
+
+  - task: AzureStaticWebApp@0
+    displayName: 'Deploy to Azure Static Web App'
+    inputs:
+      cwd: '$(angular_project_path)'
+      app_location: '/'
+      skip_app_build: true
+      skip_api_build: true
+      output_location: '$(dist_folder)'
+    env:
+      azure_static_web_apps_api_token: '$(AZURE_STATIC_WEB_APPS_API_TOKEN)'
