@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="navbar-left">
+    <span class="navbar-title">StoreApp Admin</span>
+  </div>
+
+  <div class="navbar-right">
+    <button class="navbar-item" type="button" aria-label="Toggle theme" (click)="onToggleTheme()">
+      🌓
+    </button>
+
+    @if (isAuthenticated$ | async)
+    {
+      <a class="navbar-item" routerLink="/products">Products</a>
+      <a class="navbar-item" (click)="onLogout()">Logout</a>
+    }
+    @else {
+      <a class="navbar-item" routerLink="/login">Login</a>
+    }
+  </div>
+</nav>

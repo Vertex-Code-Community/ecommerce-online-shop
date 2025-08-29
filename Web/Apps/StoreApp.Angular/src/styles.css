@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Import custom fonts */
+@import url('./styles/fonts.css');
+
 :root {
   --bg: #ffffff;
   --fg: #101418;
@@ -7,6 +10,12 @@
   --primary: #2b6cb0;
   --muted: #737a86;
   --border: color-mix(in oklab, var(--fg) 12%, transparent);
+
+  /* Fonts */
+  --font-satoshi-regular: 'Satoshi Regular', sans-serif;
+  --font-satoshi-medium: 'Satoshi Medium', sans-serif;
+  --font-satoshi-bold: 'Satoshi Bold', sans-serif;
+  --font-integral-bold: 'Integral CF Bold', sans-serif;
 
   /* Sidebar */
   --sidebar: var(--surface);
@@ -43,7 +52,7 @@
 html, body {
   height: 100%;
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-satoshi-regular);
   font-size: 16px;
   line-height: 1.5;
   color: var(--fg);

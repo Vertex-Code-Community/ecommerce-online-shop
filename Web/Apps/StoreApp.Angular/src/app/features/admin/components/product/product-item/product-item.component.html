@@ -1,0 +1,20 @@
+<div class="product-item">
+
+  @if (product.imageUrl)
+  {
+    <div>
+      <img [src]="product.imageUrl" class="product-image"/>
+    </div>
+  }
+
+  <div class="product-details">
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+    <p>Price: {{ product.price }}</p>
+
+    <div class="product-actions">
+      <button (click)="onEditClick($event)">Edit</button>
+      <button (click)="onDeleteClick($event)">Delete</button>
+    </div>
+  </div>
+</div>

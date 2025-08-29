@@ -1,0 +1,44 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.home-page-wrapper {
+
+}
+
+.products-wrapper {
+  margin-top: 72px;
+  padding: 0 40px;
+}
+
+.separator-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 64px 0;
+}
+
+.separator {
+  width: 100%;
+  max-width: 1200px;
+  height: 1px;
+  background-color: #000000;
+  opacity: 10%;
+}
+
+@media (max-width: 640px) {
+  .products-wrapper {
+    margin-top: 50px;
+  }
+
+  .separator {
+    width: 95%;
+  }
+
+  .separator-wrapper {
+    padding: 40px 0;
+  }
+
+  .separator {
+    width: 100%;
+  }
+}

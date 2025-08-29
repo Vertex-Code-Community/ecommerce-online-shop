@@ -1,0 +1,16 @@
+<div (click)="onCardClick()" class="product-card">
+    <div class="image-container">
+        <img class="image" [src]="product.imageUrl" [alt]="product.name" />
+    </div>
+    <div class="title">{{ product.name }}</div>
+    <app-product-rating
+        [rating]="product.rating"
+        [textSize]="'1em'">
+    </app-product-rating>
+    <app-product-price
+        [currentPrice]="product.price"
+        [oldPrice]="getOldPrice()"
+        [discount]="product.discount"
+        [textSize]="'1em'">
+    </app-product-price>
+</div>

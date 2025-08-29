@@ -1,0 +1,35 @@
+<div class="home-page-wrapper">
+  <app-start/>
+<!--  <BrandsComponent />-->
+  <div class="products-wrapper">
+    @if (loading$ | async) {
+      <div class="loading-spinner">
+        <app-loading-spinner />
+      </div>
+    } @else {
+      <app-product-list
+        [headerText]="'NEW ARRIVALS'"
+        [products]="(products$ | async)!"
+        [isScrollable]="true"
+      />
+    }
+
+    <div class="separator-wrapper">
+      <div class="separator"></div>
+    </div>
+
+    @if (loading$ | async) {
+      <div class="loading-spinner">
+        <app-loading-spinner />
+      </div>
+    } @else {
+      <app-product-list
+        [headerText]="'TOP SELLING'"
+        [products]="(products$ | async)!"
+        [isScrollable]="true"
+      />
+    }
+  </div>
+<!--  <StylesComponent />-->
+<!--  <CustomersComponent />-->
+</div>
