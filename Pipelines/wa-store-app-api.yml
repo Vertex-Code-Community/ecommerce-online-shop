@@ -11,8 +11,8 @@ variables:
 
   projects: |
     API/StoreApp.BLL/StoreApp.BLL.csproj
-    API/AuthenticateApp.DAL/StoreApp.DAL.csproj
-    API/AuthenticateApp.API/StoreApp.API.csproj
+    API/StoreApp.DAL/StoreApp.DAL.csproj
+    API/StoreApp.API/StoreApp.API.csproj
     Shared/StoreApp.Shared/StoreApp.Shared.csproj
     Shared/StoreApp.Models/StoreApp.Models.csproj
 
