@@ -8,11 +8,14 @@ import { LoadingSpinnerComponent } from '../../../../shared/components/loading-s
 import { loadProducts } from '../../../../store/products/product.actions';
 import { StartComponent } from '../../components/start/start.component';
 import { BrandsComponent } from '../../components/brands/brands.component';
+import {StylesComponent} from '../../components/styles/styles.component';
+import {MOCK_STYLES} from '../../../../mocks/styles.mock';
+import {MOCK_BRANDS} from '../../../../mocks/brands.mock';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, StartComponent, BrandsComponent],
+  imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, StartComponent, BrandsComponent, StylesComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -22,7 +25,9 @@ export class HomeComponent implements OnInit {
   loading$ = this.store.select(selectProductLoading);
 
   ngOnInit(): void {
-    // dispatch action to load products
     this.store.dispatch(loadProducts());
   }
+
+  protected readonly MOCK_STYLES = MOCK_STYLES;
+  protected readonly MOCK_BRANDS = MOCK_BRANDS;
 }
