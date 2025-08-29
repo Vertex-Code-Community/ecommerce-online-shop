@@ -8,7 +8,6 @@ variables:
   node_version: '20.x'
   buildConfiguration: 'Release'
   angular_project_path: 'Web/Apps/StoreApp.Angular'
-  dist_folder: 'dist'
 
 steps:
   - task: UseNode@1
@@ -17,9 +16,21 @@ steps:
       versionSpec: '$(node_version)'
 
   - script: |
+      echo "Current working directory:"
+      pwd
+      echo "Listing contents:"
+      ls -la
+    displayName: 'Debug working directory'
+
+  - script: |
       cd $(angular_project_path)
-      npm ci
-    displayName: 'Install npm packages'
+      echo "Cleaning npm cache..."
+      npm cache clean --force
+      echo "Removing node_modules if exist..."
+      rm -rf node_modules
+      echo "Installing npm packages..."
+      npm install
+    displayName: 'Clean install npm packages'
 
   - script: |
       cd $(angular_project_path)
@@ -30,7 +41,7 @@ steps:
     displayName: 'List dist contents'
     inputs:
       script: |
-        ls -R $(angular_project_path)/$(dist_folder)
+        ls -R $(angular_project_path)/dist
 
   - task: AzureStaticWebApp@0
     displayName: 'Deploy to Azure Static Web App'
@@ -39,6 +50,6 @@ steps:
       app_location: '/'
       skip_app_build: true
       skip_api_build: true
-      output_location: '$(dist_folder)'
+      output_location: 'dist/admin-client/browser'
     env:
       azure_static_web_apps_api_token: '$(AZURE_STATIC_WEB_APPS_API_TOKEN)'
