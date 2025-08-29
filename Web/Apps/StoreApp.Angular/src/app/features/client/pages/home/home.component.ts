@@ -1,21 +1,23 @@
-import {Component, inject, OnInit} from '@angular/core';
+import { Component, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductListComponent } from '../../components/product-list/product-list.component';
 import { Store } from '@ngrx/store';
-import {AppState} from '../../../../store/app.state';
+import { AppState } from '../../../../store/app.state';
 import { selectProductLoading, selectProducts } from '../../../../store/products/product.selectors';
 import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
 import { loadProducts } from '../../../../store/products/product.actions';
-import { StartComponent } from '../../components/start/start.component';
-import { BrandsComponent } from '../../components/brands/brands.component';
-import {StylesComponent} from '../../components/styles/styles.component';
-import {MOCK_STYLES} from '../../../../mocks/styles.mock';
-import {MOCK_BRANDS} from '../../../../mocks/brands.mock';
+import { StartComponent } from './start/start.component';
+import { BrandsComponent } from './brands/brands.component';
+import { StylesComponent } from './styles/styles.component';
+import { MOCK_STYLES } from '../../../../mocks/styles.mock';
+import { MOCK_BRANDS } from '../../../../mocks/brands.mock';
+import {MOCK_REVIEWS} from '../../../../mocks/reviews.mock';
+import {CustomerReviewsComponent} from './customer-reviews/customer-reviews.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, StartComponent, BrandsComponent, StylesComponent],
+  imports: [CommonModule, ProductListComponent, LoadingSpinnerComponent, StartComponent, BrandsComponent, StylesComponent, CustomerReviewsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

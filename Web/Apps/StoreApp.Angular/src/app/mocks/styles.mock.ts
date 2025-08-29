@@ -1,4 +1,4 @@
-import { StyleItem } from '../features/client/components/styles/styles.component';
+import {StyleItem} from '../features/client/pages/home/styles/styles.component';
 
 export const MOCK_STYLES: StyleItem[] = [
   {
