@@ -48,11 +48,12 @@ steps:
   - task: FileTransform@1
     displayName: 'Inject connection strings from pipeline variables'
     inputs:
-      folderPath: '$(Build.ArtifactStagingDirectory)'
+      folderPath: '$(Build.ArtifactStagingDirectory)/StoreApp.API'
       fileType: 'json'
+      targetFiles: '**/appsettings.json'
     env:
-      ConnectionStrings__DefaultConnection: '$(SQL_CONNECTION_STRING)'
-      ConnectionStrings__AzureBlobStorage: '$(AZURE_BLOB_STORAGE)'
+      ConnectionStrings__DefaultConnection: "$(SQL_CONNECTION_STRING)"
+      ConnectionStrings__AzureBlobStorage: "$(AZURE_BLOB_STORAGE)"
 
   - task: AzureWebApp@1
     displayName: 'Deploy to Azure App Service'
