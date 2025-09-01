@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
 
     ]

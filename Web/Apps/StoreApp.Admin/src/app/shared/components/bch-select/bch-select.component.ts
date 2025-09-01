@@ -8,7 +8,6 @@ import {
   ElementRef,
   OnInit,
   OnDestroy,
-  HostListener,
   ChangeDetectorRef,
   forwardRef,
   ContentChild
@@ -97,10 +96,7 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
   private onChange = (value: any) => {};
   private onTouched = () => {};
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef
-  ) {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.updateFilteredOptions();
@@ -111,7 +107,6 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
     this.destroy$.complete();
   }
 
-  // ControlValueAccessor implementation
   writeValue(value: any): void {
     if (this.multiple) {
       this.selectedValues = Array.isArray(value) ? value : [];
@@ -357,20 +352,6 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
           this.toggleDropdown();
         }
         break;
-    }
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: Event): void {
-    if (!this.elementRef.nativeElement.contains(event.target as Node)) {
-      this.closeDropdown();
-    }
-  }
-
-  @HostListener('document:scroll', ['$event'])
-  onDocumentScroll(): void {
-    if (this.isOpen) {
-      this.closeDropdown();
     }
   }
 

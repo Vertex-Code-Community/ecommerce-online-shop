@@ -1,5 +1,5 @@
-@import 'shared/variables';
-@import 'shared/mixins';
+@use 'shared/variables' as *;
+@use 'shared/mixins' as *;
 
 $price-gap: 10px;
 $price-margin-top: $spacing-sm;

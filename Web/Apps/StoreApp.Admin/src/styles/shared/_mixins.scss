@@ -1,4 +1,5 @@
-@import './variables';
+@use './variables' as *;
+@use "sass:color" as c;
 
 // Layout Mixins
 @mixin flex-center {
@@ -94,12 +95,16 @@
   }
 }
 
-@mixin button-variant($bg-color, $text-color, $hover-bg-color) {
+@mixin button-variant($bg-color, $text-color, $hover-bg-color: null) {
   background-color: $bg-color;
   color: $text-color;
 
   &:hover:not(:disabled) {
-    background-color: $hover-bg-color;
+    @if $hover-bg-color {
+      background-color: $hover-bg-color;
+    } @else {
+      background-color: c.adjust($bg-color, $lightness: -10%);
+    }
   }
 
   &:active:not(:disabled) {
@@ -238,7 +243,7 @@
     border-radius: $border-radius-sm;
 
     &:hover {
-      background: darken($thumb-color, 10%);
+      background: c.adjust($thumb-color, $lightness: -10%);
     }
   }
 

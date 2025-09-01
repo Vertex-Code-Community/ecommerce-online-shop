@@ -2,29 +2,48 @@
 // Shared SCSS Variables for Admin Project
 // =============================================================================
 
-// Color System
-$color-bg-surface: var(--color-bg-surface, #ffffff);
-$color-bg-secondary: var(--color-bg-secondary, #f8f9fa);
-$color-text-primary: var(--color-text-primary, #333);
-$color-text-secondary: var(--color-text-secondary, #666);
-$color-text-muted: var(--color-text-muted, #999);
-$color-primary: var(--color-primary, #007bff);
-$color-primary-10a: var(--color-primary-10a, rgba(0, 123, 255, 0.1));
-$color-primary-80a: var(--color-primary-80a, rgba(0, 123, 255, 0.8));
-$color-success: var(--color-success, #28a745);
-$color-warning: var(--color-warning, #ffc107);
-$color-danger: var(--color-danger, #dc3545);
-$color-white-alt: var(--color-white-alt, #ffffff);
-$color-border: var(--color-border, #dee2e6);
-$icon-primary: var(--icon-primary, #666);
+// Layout Variables
+$header-height: 96px;
+
+// Base SCSS Colors (for SCSS functions)
+$scss-primary: #007bff;
+$scss-success: #28a745;
+$scss-warning: #ffc107;
+$scss-danger: #dc3545;
+$scss-white: #ffffff;
+$scss-black: #000000;
+$scss-gray-100: #f8f9fa;
+$scss-gray-300: #dee2e6;
+$scss-gray-500: #666;
+$scss-gray-600: #999;
+$scss-gray-900: #333;
+$scss-dark-bg: #2a2a2a;
+$scss-dark-secondary: #1a1a1a;
+$scss-dark-border: #404040;
+
+// Color System (CSS Variables for runtime theming)
+$color-bg-surface: var(--color-bg-surface, $scss-white);
+$color-bg-secondary: var(--color-bg-secondary, $scss-gray-100);
+$color-text-primary: var(--color-text-primary, $scss-gray-900);
+$color-text-secondary: var(--color-text-secondary, $scss-gray-500);
+$color-text-muted: var(--color-text-muted, $scss-gray-600);
+$color-primary: var(--color-primary, $scss-primary);
+$color-primary-10a: var(--color-primary-10a, rgba($scss-primary, 0.1));
+$color-primary-80a: var(--color-primary-80a, rgba($scss-primary, 0.8));
+$color-success: var(--color-success, $scss-success);
+$color-warning: var(--color-warning, $scss-warning);
+$color-danger: var(--color-danger, $scss-danger);
+$color-white-alt: var(--color-white-alt, $scss-white);
+$color-border: var(--color-border, $scss-gray-300);
+$icon-primary: var(--icon-primary, $scss-gray-500);
 
 // Dark theme colors
-$dark-bg-surface: var(--color-bg-surface, #2a2a2a);
-$dark-bg-secondary: var(--color-bg-secondary, #1a1a1a);
-$dark-text-primary: var(--color-text-primary, #ffffff);
+$dark-bg-surface: var(--color-bg-surface, $scss-dark-bg);
+$dark-bg-secondary: var(--color-bg-secondary, $scss-dark-secondary);
+$dark-text-primary: var(--color-text-primary, $scss-white);
 $dark-text-secondary: var(--color-text-secondary, #cccccc);
-$dark-text-muted: var(--color-text-muted, #999999);
-$dark-border: var(--color-border, #404040);
+$dark-text-muted: var(--color-text-muted, $scss-gray-600);
+$dark-border: var(--color-border, $scss-dark-border);
 
 // Spacing System
 $spacing-xs: 4px;

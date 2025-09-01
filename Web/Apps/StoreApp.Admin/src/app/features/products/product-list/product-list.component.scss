@@ -1,5 +1,5 @@
-@import 'shared/variables';
-@import 'shared/mixins';
+@use 'shared/variables' as *;
+@use 'shared/mixins' as *;
 
 $content-max-width: 1200px;
 $header-margin-bottom: 56px;

@@ -1,5 +1,5 @@
-@import './shared/variables';
-@import './shared/mixins';
+@use './shared/variables' as *;
+@use './shared/mixins' as *;
 
 :root {
   --color-bg-surface: #{$color-bg-surface};
@@ -84,20 +84,10 @@ body {
   @include flex-column;
 }
 
-app-navbar {
-  height: 60px;
-  flex-shrink: 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: $z-index-fixed;
-}
-
 .layout {
   @include flex-center;
   flex: 1;
-  margin-top: 60px;
+  margin-top: 0;
   min-height: 0;
 }
 
@@ -105,11 +95,11 @@ app-navbar {
   flex: 1;
   overflow: auto;
   padding: $spacing-md;
-  margin-left: 60px;
+  margin-left: 0;
   transition: margin-left $transition-normal;
 
   &.shifted {
-    margin-left: 200px;
+    margin-left: 250px;
   }
 }
 
@@ -167,11 +157,11 @@ app-navbar {
 
 @include respond-below('md') {
   .main-content {
-    margin-left: 0;
+    margin-left: 0 !important;
     padding: $spacing-sm;
 
     &.shifted {
-      margin-left: 0;
+      margin-left: 0 !important;
     }
   }
 }

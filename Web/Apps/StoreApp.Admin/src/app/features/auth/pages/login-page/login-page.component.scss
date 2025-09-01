@@ -1,5 +1,6 @@
-@import 'shared/variables';
-@import 'shared/mixins';
+@use 'shared/variables' as *;
+@use 'shared/mixins' as *;
+@use "sass:color";
 
 $login-form-width: 350px;
 $login-form-padding: $spacing-lg;
@@ -43,7 +44,7 @@ $toggle-btn-padding: 4px 8px;
 .login-button {
   width: 100%;
   @include button-base;
-  @include button-variant($color-primary, $color-white-alt, darken($color-primary, 10%));
+  @include button-variant($scss-primary, $scss-white, color.adjust($scss-primary, $lightness: -10%));
 }
 
 .email-container {
@@ -82,7 +83,7 @@ $toggle-btn-padding: 4px 8px;
     max-width: $login-form-width;
     margin: 0 $spacing-sm;
   }
-  
+
   .login-form-container {
     margin-top: 60px;
   }
@@ -94,10 +95,10 @@ $toggle-btn-padding: 4px 8px;
     border-color: $dark-border;
     color: $dark-text-primary;
   }
-  
+
   .toggle-password-btn {
     color: $dark-text-muted;
-    
+
     &:hover {
       color: $dark-text-primary;
     }

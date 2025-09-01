@@ -1,5 +1,5 @@
-@import 'shared/variables';
-@import 'shared/mixins';
+@use 'shared/variables' as *;
+@use 'shared/mixins' as *;
 
 $rating-margin-top: $spacing-sm;
 $star-size-ratio: 0.8;

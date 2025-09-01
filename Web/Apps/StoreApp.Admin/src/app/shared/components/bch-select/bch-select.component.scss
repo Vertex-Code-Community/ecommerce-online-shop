@@ -2,8 +2,8 @@
 // BCH Select Component Styles
 // =============================================================================
 
-@import 'shared/variables';
-@import 'shared/mixins';
+@use 'shared/variables' as *;
+@use 'shared/mixins' as *;
 
 // Component Specific Variables
 $bch-select-width: $select-width;
