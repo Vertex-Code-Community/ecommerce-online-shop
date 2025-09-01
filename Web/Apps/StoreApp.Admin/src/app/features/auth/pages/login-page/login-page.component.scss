@@ -1,10 +1,9 @@
 @use 'shared/variables' as *;
 @use 'shared/mixins' as *;
-@use "sass:color";
 
-$login-form-width: 350px;
-$login-form-padding: $spacing-lg;
-$login-input-height: 56px;
+$login-form-width: 400px;
+$login-form-padding: 24px 28px;
+$login-input-height: 40px;
 $title-margin-bottom: 40px;
 $email-margin-bottom: 15px;
 $password-margin-bottom: 30px;
@@ -27,24 +26,26 @@ $toggle-btn-padding: 4px 8px;
 
 .login-form {
   width: $login-form-width;
-  border-radius: $border-radius-md;
+  border-radius: 12px;
   padding: $login-form-padding;
-  background-color: var(--surface);
-  border: 1px solid var(--border);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--neutral-350);
   color: var(--fg);
-  @include shadow('md');
+  box-shadow: 0px 4px 12px var(--shadow-gray-250);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
 }
 
 .login-input {
   height: $login-input-height;
-  border-radius: $border-radius-md;
   @include input-base;
 }
 
 .login-button {
   width: 100%;
-  @include button-base;
-  @include button-variant($scss-primary, $scss-white, color.adjust($scss-primary, $lightness: -10%));
+  @include button-success;
 }
 
 .email-container {
@@ -69,11 +70,11 @@ $toggle-btn-padding: 4px 8px;
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--muted);
-  transition: color $transition-fast;
+  color: var(--color-text-muted);
+  transition: color 0.2s ease;
 
   &:hover {
-    color: var(--fg);
+    color: var(--color-text-primary);
   }
 }
 
@@ -91,16 +92,16 @@ $toggle-btn-padding: 4px 8px;
 
 @include dark-theme {
   .login-form {
-    background-color: $dark-bg-surface;
-    border-color: $dark-border;
-    color: $dark-text-primary;
+    background-color: var(--color-bg-surface);
+    border-color: var(--neutral-350);
+    color: var(--color-text-primary);
   }
 
   .toggle-password-btn {
-    color: $dark-text-muted;
+    color: var(--color-text-muted);
 
     &:hover {
-      color: $dark-text-primary;
+      color: var(--color-text-primary);
     }
   }
 }

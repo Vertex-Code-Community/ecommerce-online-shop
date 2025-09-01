@@ -100,11 +100,17 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
 
   ngOnInit(): void {
     this.updateFilteredOptions();
+    
+    // Listen for window resize to recalculate position
+    window.addEventListener('resize', this.handleResize.bind(this));
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    
+    // Remove resize listener
+    window.removeEventListener('resize', this.handleResize.bind(this));
   }
 
   writeValue(value: any): void {
@@ -256,11 +262,36 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
 
   private calculateDropdownPosition(): void {
     const rect = this.containerRef.nativeElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+    
+    // Calculate available space below and above
+    const spaceBelow = viewportHeight - rect.bottom;
+    const spaceAbove = rect.top;
+    
+    // Determine if dropdown should open upward
+    const shouldOpenUpward = spaceBelow < this.contentHeight && spaceAbove > spaceBelow;
+    
+    // Calculate position
+    let x = rect.left;
+    let y = shouldOpenUpward ? rect.top - this.contentHeight : rect.bottom;
+    
+    // Ensure dropdown doesn't go off-screen horizontally
+    if (x + rect.width > viewportWidth) {
+      x = viewportWidth - rect.width - 8; // 8px margin
+    }
+    if (x < 8) {
+      x = 8;
+    }
+    
     this.dropdownPosition = {
-      x: rect.left,
-      y: rect.bottom,
+      x,
+      y,
       width: rect.width
     };
+    
+    // Update upperSide property for styling
+    this.upperSide = shouldOpenUpward;
   }
 
   private setActiveIndexToSelectedOrFirst(): void {
@@ -303,6 +334,13 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
       top: offset,
       behavior: 'auto'
     });
+  }
+
+  private handleResize(): void {
+    if (this.isOpen) {
+      this.calculateDropdownPosition();
+      this.cdr.markForCheck();
+    }
   }
 
   // Event handlers

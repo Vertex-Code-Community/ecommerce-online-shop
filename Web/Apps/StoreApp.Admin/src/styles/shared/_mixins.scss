@@ -112,34 +112,85 @@
   }
 }
 
+@mixin button-success {
+  @include button-base;
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+  }
+}
+
+@mixin button-danger {
+  @include button-base;
+  background-color: var(--color-error-alt);
+  color: var(--color-text-inverse);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-error-alt2);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: var(--neutral-250);
+  color: var(--color-text-secondary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--neutral-400);
+  }
+}
+
+@mixin button-disabled {
+  @include button-base;
+  background-color: var(--neutral-200);
+  color: var(--neutral-600);
+  cursor: not-allowed;
+  pointer-events: none;
+
+  &:hover {
+    background-color: var(--neutral-200);
+    color: var(--neutral-600);
+  }
+}
+
 // Form Mixins
 @mixin input-base {
   width: 100%;
-  padding: $spacing-sm $spacing-md;
-  border: 1px solid $color-border;
-  border-radius: $border-radius-md;
-  font-family: $font-family-primary;
-  font-size: $font-size-sm;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--neutral-400);
+  border-radius: 0.375rem;
+  font-family: 'Product Sans', $font-family-primary;
+  font-size: 14px;
+  font-weight: 400;
   line-height: $line-height-normal;
-  color: $color-text-primary;
-  background-color: $color-bg-surface;
-  transition: border-color $transition-fast, box-shadow $transition-fast;
+  color: var(--neutral-850);
+  background-color: var(--color-bg-surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
 
   &::placeholder {
-    color: $color-text-muted;
+    color: var(--color-text-muted);
   }
 
   &:focus {
-    outline: none;
-    border-color: $color-primary;
-    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-20a);
   }
 
   &:disabled {
-    background-color: $color-bg-secondary;
-    color: $color-text-muted;
+    background-color: var(--neutral-200);
+    color: var(--neutral-600);
     cursor: not-allowed;
   }
+}
+
+@mixin textarea-base {
+  @include input-base;
+  height: 80px;
+  resize: none;
 }
 
 // Shadow Mixins

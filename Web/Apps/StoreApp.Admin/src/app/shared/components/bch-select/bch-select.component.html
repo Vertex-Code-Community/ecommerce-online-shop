@@ -65,8 +65,7 @@
       [style.max-height.px]="contentHeight"
       [style.width]="width"
       [style.left.px]="dropdownPosition.x"
-      [style.top.px]="upperSide ? dropdownPosition.y - contentHeight : dropdownPosition.y"
-      [style.transform]="upperSide ? 'none' : 'translateY(' + height + 'px)'">
+      [style.top.px]="dropdownPosition.y">
 
       <div #scroller class="bch-scroller">
 

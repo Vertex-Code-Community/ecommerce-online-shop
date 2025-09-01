@@ -2,24 +2,70 @@
 @use './shared/mixins' as *;
 
 :root {
+  --color-bg-page: #{$color-bg-page};
   --color-bg-surface: #{$color-bg-surface};
-  --color-bg-secondary: #{$color-bg-secondary};
+  --color-bg-subtle: #{$color-bg-subtle};
+  --color-bg-muted: #{$color-bg-muted};
+  
   --color-text-primary: #{$color-text-primary};
   --color-text-secondary: #{$color-text-secondary};
   --color-text-muted: #{$color-text-muted};
+  --color-text-subtle: #{$color-text-subtle};
+  --color-text-inverse: #{$color-text-inverse};
+  
   --color-primary: #{$color-primary};
+  --color-primary-hover: #{$color-primary-hover};
   --color-primary-10a: #{$color-primary-10a};
+  --color-primary-20a: #{$color-primary-20a};
   --color-primary-80a: #{$color-primary-80a};
+  
   --color-success: #{$color-success};
   --color-warning: #{$color-warning};
   --color-danger: #{$color-danger};
+  --color-error-alt: #{$color-error-alt};
+  --color-error-alt2: #{$color-error-alt2};
+  
+  --neutral-50: #{$scss-neutral-50};
+  --neutral-75: #{$scss-neutral-75};
+  --neutral-100: #{$scss-neutral-100};
+  --neutral-150: #{$scss-neutral-150};
+  --neutral-200: #{$scss-neutral-200};
+  --neutral-250: #{$scss-neutral-250};
+  --neutral-300: #{$scss-neutral-300};
+  --neutral-325: #{$scss-neutral-325};
+  --neutral-350: #{$scss-neutral-350};
+  --neutral-400: #{$scss-neutral-400};
+  --neutral-425: #{$scss-neutral-425};
+  --neutral-500: #{$scss-neutral-500};
+  --neutral-600: #{$scss-neutral-600};
+  --neutral-650: #{$scss-neutral-650};
+  --neutral-675: #{$scss-neutral-675};
+  --neutral-700: #{$scss-neutral-700};
+  --neutral-750: #{$scss-neutral-750};
+  --neutral-800: #{$scss-neutral-800};
+  --neutral-825: #{$scss-neutral-825};
+  --neutral-850: #{$scss-neutral-850};
+  --neutral-900: #{$scss-neutral-900};
+  
+  --color-white: #{$scss-white};
+  --color-white-soft: #{$color-bg-page};
   --color-white-alt: #{$color-white-alt};
   --color-border: #{$color-border};
+  
   --icon-primary: #{$icon-primary};
+  --icon-muted: #{$icon-muted};
+  --icon-inverse: #{$icon-inverse};
+  
+  --shadow-gray-200: rgba(190, 190, 190, 0.2);
+  --shadow-gray-250: rgba(183, 183, 183, 0.25);
+  --shadow-gray-200b: rgba(183, 183, 183, 0.2);
+  --shadow-blue-300: rgba(135, 145, 233, 0.3);
+  --shadow-soft-100: rgba(203, 203, 203, 0.1);
+  --shadow-soft-250: rgba(203, 203, 203, 0.25);
 
   --bg: var(--color-bg-surface);
   --fg: var(--color-text-primary);
-  --surface: var(--color-bg-secondary);
+  --surface: var(--color-bg-subtle);
   --primary: var(--color-primary);
   --muted: var(--color-text-muted);
   --border: var(--color-border);
@@ -40,16 +86,42 @@
 }
 
 :root[data-theme="dark"] {
+  --color-bg-page: #{$dark-bg-page};
   --color-bg-surface: #{$dark-bg-surface};
-  --color-bg-secondary: #{$dark-bg-secondary};
+  --color-bg-subtle: #{$dark-bg-subtle};
+  --color-bg-muted: #{$dark-bg-muted};
+  
   --color-text-primary: #{$dark-text-primary};
   --color-text-secondary: #{$dark-text-secondary};
   --color-text-muted: #{$dark-text-muted};
+  --color-text-subtle: #{$dark-text-subtle};
+  --color-text-inverse: #{$dark-text-inverse};
+  
+  --neutral-50: #181c23;
+  --neutral-75: #191f27;
+  --neutral-100: #1b222c;
+  --neutral-150: #1e2632;
+  --neutral-200: #212a38;
+  --neutral-250: #232e3f;
+  --neutral-300: #2a2e35;
+  --neutral-350: #2f343d;
+  --neutral-400: #333842;
+  --neutral-425: #3a3f4a;
+  --neutral-500: #4a505c;
+  --neutral-750: #c9cbd1;
+  --neutral-800: #d2d4d9;
+  --neutral-825: #d9dbe0;
+  --neutral-850: #e6e7ea;
+  
   --color-border: #{$dark-border};
+  
+  --icon-primary: var(--color-text-secondary);
+  --icon-muted: var(--color-text-muted);
+  --icon-inverse: var(--color-text-inverse);
 
   --bg: var(--color-bg-surface);
   --fg: var(--color-text-primary);
-  --surface: var(--color-bg-secondary);
+  --surface: var(--color-bg-subtle);
   --muted: var(--color-text-muted);
   --border: var(--color-border);
 

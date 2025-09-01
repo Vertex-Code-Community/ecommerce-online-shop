@@ -82,7 +82,7 @@ $button-min-width: 120px;
   @include shadow('sm');
 
   &:hover:not(:disabled) {
-    background-color: $color-bg-secondary;
+    background-color: $color-text-secondary;
     border-color: $color-text-muted;
     @include shadow('md');
   }
@@ -140,7 +140,7 @@ $button-min-width: 120px;
     border-color: $dark-border;
 
     &:hover:not(:disabled) {
-      background-color: $dark-bg-secondary;
+      background-color: $dark-text-secondary;
       border-color: $dark-text-muted;
     }
   }

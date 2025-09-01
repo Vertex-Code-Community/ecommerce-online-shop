@@ -19,10 +19,11 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   background: $color-primary-10a;
   border-left: 2px solid $color-primary;
   padding-left: $spacing-md - 2px;
+  text-align: center;
 }
 
 @mixin select-scrollbar {
-  @include scrollbar-styles(6px, #f1f1f1, $color-primary);
+  @include scrollbar-styles(6px, #f1f1f1, #33b469);
 }
 
 // SCSS Functions
@@ -39,6 +40,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   position: relative;
   will-change: filter;
   background: $color-bg-surface;
+  border: 1px solid $color-border;
   @include drop-shadow();
   border-radius: $bch-select-border-radius;
   outline: none;
@@ -73,6 +75,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   &.show {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+    border-bottom: none;
 
     .dropdown-arrow {
       transform: rotate(180deg);
@@ -80,6 +83,10 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 
     &.bch-upper-side {
       border-radius: 0 0 $bch-select-border-radius $bch-select-border-radius;
+      border-top: none;
+      border-bottom: none;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
     }
 
     .filter-input::placeholder {
@@ -155,6 +162,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   color: $color-text-primary;
   caret-color: $color-text-primary;
   cursor: pointer;
+  text-align: center;
 
   &::placeholder {
     color: $color-text-muted;
@@ -187,6 +195,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   cursor: pointer;
   @include text-ellipsis;
   flex: 1;
+  text-align: center;
 }
 
 // =============================================================================
@@ -219,10 +228,11 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 // Dropdown Content
 // =============================================================================
 .bch-content {
-  position: absolute;
+  position: fixed;
   z-index: $z-index-dropdown + 1;
   background: $color-bg-surface;
-  border-top: 1px solid $color-primary;
+  border: 1px solid $color-border;
+  border-top: none;
   border-radius: 0 0 $bch-select-border-radius $bch-select-border-radius;
   @include flex-column;
   overflow: hidden;
@@ -232,8 +242,8 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   pointer-events: auto;
 
   &.bch-upper-side {
-    border-top: none;
-    border-bottom: 1px solid $color-primary;
+    border-top: 1px solid $color-primary;
+    border-bottom: none;
     border-radius: $bch-select-border-radius $bch-select-border-radius 0 0;
   }
 }
@@ -277,7 +287,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 .bch-option {
   cursor: pointer;
   white-space: nowrap;
-  text-align: left;
+  text-align: center;
   padding-left: $spacing-md;
   @include flex-center;
   font-family: $font-family-primary;
@@ -329,22 +339,25 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 @include dark-theme {
   .bch-select-container {
     background: $dark-bg-surface;
+    border-color: $dark-border;
     @include drop-shadow(0.3);
   }
 
   .bch-content {
     background: $dark-bg-surface;
+    border-color: $dark-border;
     @include drop-shadow(0.3);
   }
 
   .filter-input,
-  .display-label,
-  .group-name {
+  .display-label {
     color: $dark-text-primary;
+    text-align: center;
   }
 
   .bch-option {
     color: $dark-text-secondary;
+    text-align: center;
   }
 
   .bch-group::before {

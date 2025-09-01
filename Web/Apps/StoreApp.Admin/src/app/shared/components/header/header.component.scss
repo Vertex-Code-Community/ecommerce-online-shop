@@ -1,34 +1,32 @@
 @use 'shared/variables' as *;
 @use 'shared/mixins' as *;
-@use "sass:color";
+@use "sass:color" as c;
 
-$header-height: 96px;
-$header-container-height: 48px;
-$header-margin: 24px 0;
-$header-gap: 40px;
-$logo-font-size: 32px;
+$header-height: 50px;
+$header-padding: 16px;
+$header-gap: 16px;
+$logo-font-size: 24px;
 $navbar-gap: 24px;
-$searchbar-width: 577px;
-$searchbar-height: 48px;
-$user-actions-gap: 14px;
-$login-btn-padding: $spacing-sm $spacing-md;
+$user-actions-gap: 16px;
+$login-btn-padding: 6px 14px;
 $login-btn-border-radius: $border-radius-md;
+$login-btn-width: 100px;
+$login-btn-height: 30px;
 
 .header-section-wrapper {
   @include flex-center;
   width: 100%;
-  background: $color-bg-surface;
+  background: var(--color-bg-page);
   height: $header-height;
-  border-bottom: 1px solid $color-border;
-  @include shadow('sm');
+  border-bottom: 1px solid var(--neutral-350);
+  padding-top: $header-padding;
 }
 
 .header-block-container {
   @include flex-center;
   width: 100%;
   max-width: var(--content-max-width, 1200px);
-  height: $header-container-height;
-  margin: $header-margin;
+  height: 100%;
   gap: 0 $header-gap;
   padding: 0 $spacing-md;
 }
@@ -40,15 +38,14 @@ $login-btn-border-radius: $border-radius-md;
 }
 
 .logo {
-  font-family: $font-family-secondary;
+  font-family: 'Product Sans', $font-family-primary;
   line-height: 1;
   font-size: $logo-font-size;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0px;
   text-align: center;
-  margin-top: -4px;
-  margin-bottom: 0;
-  color: $color-text-primary;
+  margin: 0;
+  color: var(--color-text-primary);
 }
 
 .theme-selector-wrapper {
@@ -64,31 +61,44 @@ $login-btn-border-radius: $border-radius-md;
 .user-actions {
   @include flex-center;
   gap: $user-actions-gap;
+  padding-right: 20px;
 }
 
 .login-btn {
   @include button-base;
-  @include button-variant($scss-primary, $scss-white, color.adjust($scss-primary, $lightness: -10%));
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
   padding: $login-btn-padding;
   border-radius: $login-btn-border-radius;
   @include flex-center;
   gap: $spacing-xs;
-  min-width: 100px;
-  @include shadow('sm');
+  width: $login-btn-width;
+  height: $login-btn-height;
+  font-family: 'DM Sans', $font-family-primary;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 15px;
+  transition: background 0.2s ease;
 
   &:hover:not(:disabled) {
-    @include shadow('md');
+    background-color: var(--color-primary-hover);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
   }
 }
 
 .login-icon {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .login-text {
-  font-family: $font-family-primary;
-  font-size: $font-size-sm;
+  font-family: 'DM Sans', $font-family-primary;
+  font-size: 16px;
   font-weight: 500;
+  line-height: 15px;
+  color: var(--color-text-inverse);
 }
 
 @include respond-below('md') {
@@ -102,18 +112,19 @@ $login-btn-border-radius: $border-radius-md;
   }
 
   .login-btn {
-    min-width: 80px;
-    padding: $spacing-xs $spacing-sm;
+    width: 80px;
+    height: 28px;
+    padding: 4px 10px;
   }
 
   .login-text {
-    font-size: $font-size-xs;
+    font-size: 14px;
   }
 }
 
 @include respond-below('sm') {
   .header-section-wrapper {
-    height: ($header-height * 0.8);
+    height: $header-height;
   }
 
   .header-block-container {
@@ -122,7 +133,7 @@ $login-btn-border-radius: $border-radius-md;
     gap: $spacing-sm;
     padding: 0 $spacing-sm;
     height: auto;
-    margin: 14px 0;
+    margin: 0;
   }
 
   .logo-wrapper {
@@ -144,15 +155,19 @@ $login-btn-border-radius: $border-radius-md;
     font-size: ($logo-font-size * 0.7);
     text-align: left;
   }
+
+  .user-actions {
+    padding-right: 0;
+  }
 }
 
 @include dark-theme {
   .header-section-wrapper {
-    background: $dark-bg-surface;
-    border-bottom-color: $dark-border;
+    background: var(--color-bg-page);
+    border-bottom-color: var(--neutral-350);
   }
 
   .logo {
-    color: $dark-text-primary;
+    color: var(--color-text-primary);
   }
 }
