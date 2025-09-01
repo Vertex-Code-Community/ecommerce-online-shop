@@ -5,6 +5,15 @@
 @use 'shared/variables' as *;
 @use 'shared/mixins' as *;
 
+// =============================================================================
+// Component CSS Variables
+// =============================================================================
+:host {
+  --dropdown-arrow-svg: url('/assets/icons/dropdown-arrow.svg');
+  --dropdown-arrow-color: #000000;
+  --dropdown-arrow-disabled-color: #808080;
+}
+
 // Component Specific Variables
 $bch-select-width: $select-width;
 $bch-select-height: $select-height;
@@ -16,8 +25,8 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 
 // Component Specific Mixins
 @mixin hover-effect {
-  background: $color-primary-10a;
-  border-left: 2px solid $color-primary;
+  background: var(--color-primary-10a);
+  border-left: 2px solid var(--color-primary);
   padding-left: $spacing-md;
   text-align: center;
 }
@@ -30,7 +39,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   &::-webkit-scrollbar-track {
     display: flex;
     justify-content: center;
-    border-top: 1px solid $scss-neutral-325;
+    border-top: 1px solid var(--neutral-325);
   }
 
   &::-webkit-scrollbar-track:vertical {
@@ -38,14 +47,14 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $color-primary;
+    background: var(--color-primary);
     border: 0.7px solid transparent;
     border-radius: $border-radius-sm;
     background-clip: content-box;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: $color-primary-80a;
+    background: var(--color-primary-80a);
     border: 0.7px solid transparent;
     border-radius: $border-radius-sm;
     background-clip: content-box;
@@ -65,7 +74,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   @include flex-center;
   position: relative;
   will-change: filter;
-  background: $color-bg-surface;
+  background: var(--color-bg-surface);
   @include drop-shadow();
   border-radius: $bch-select-border-radius;
   outline: none;
@@ -82,13 +91,13 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
     }
 
     .display-label {
-      color: $color-text-muted;
+      color: var(--color-text-muted);
       cursor: not-allowed;
     }
 
     .filter-input {
-      color: $color-text-muted;
-      caret-color: $color-text-muted;
+      color: var(--color-text-muted);
+      caret-color: var(--color-text-muted);
     }
 
     .dropdown-arrow {
@@ -113,8 +122,8 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
     }
 
     .filter-input::placeholder {
-      color: $color-text-muted;
-      caret-color: $color-text-muted;
+      color: var(--color-text-muted);
+      caret-color: var(--color-text-muted);
       opacity: 1.0;
     }
   }
@@ -127,8 +136,8 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   // Has selected items
   &.has-selected {
     .filter-input::placeholder {
-      color: $color-text-primary;
-      caret-color: $color-text-primary;
+      color: var(--color-text-primary);
+      caret-color: var(--color-text-primary);
       opacity: 1.0;
     }
   }
@@ -158,7 +167,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   min-width: 0;
   height: 24px;
   width: 24px;
-  background-color: $icon-primary;
+  background-color: var(--icon-primary);
   mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat left;
   -webkit-mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat left;
 
@@ -182,15 +191,15 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   font-weight: 400;
   font-size: $bch-select-font-size;
   line-height: $bch-select-line-height;
-  color: $color-text-primary;
-  caret-color: $color-text-primary;
+  color: var(--color-text-primary);
+  caret-color: var(--color-text-primary);
   cursor: pointer;
   text-align: center;
   pointer-events: none;
 
   &::placeholder {
-    color: $color-text-muted;
-    caret-color: $color-text-muted;
+    color: var(--color-text-muted);
+    caret-color: var(--color-text-muted);
     opacity: 1.0;
   }
 
@@ -215,7 +224,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   font-weight: 400;
   font-size: $bch-select-font-size;
   line-height: $bch-select-line-height;
-  color: $color-text-primary;
+  color: var(--color-text-primary);
   cursor: pointer;
   @include text-ellipsis;
   flex: 1;
@@ -229,10 +238,19 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   transition: all $transition-normal;
   width: 24px;
   height: 16px;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat;
-  background-size: contain;
   margin-left: auto;
   flex-shrink: 0;
+
+  // NEW: use mask instead of background image
+  background-color: var(--dropdown-arrow-color);
+  mask: var(--dropdown-arrow-svg) no-repeat center;
+  -webkit-mask: var(--dropdown-arrow-svg) no-repeat center;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+}
+
+.bch-select-container.disabled .dropdown-arrow {
+  background-color: var(--dropdown-arrow-disabled-color);
 }
 
 // =============================================================================
@@ -254,8 +272,8 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 .bch-content {
   position: fixed;
   z-index: $z-index-dropdown + 1;
-  background: $color-bg-surface;
-  border-top: 1px solid $color-primary;
+  background: var(--color-bg-surface);
+  border-top: 1px solid var(--color-primary);
   border-radius: 0px 0px $bch-select-border-radius $bch-select-border-radius;
   @include flex-column;
   overflow: hidden;
@@ -266,7 +284,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 
   &.bch-upper-side {
     border-top: none;
-    border-bottom: 1px solid $color-primary;
+    border-bottom: 1px solid var(--color-primary);
     border-radius: $bch-select-border-radius $bch-select-border-radius 0px 0px;
   }
 }
@@ -318,7 +336,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   font-style: normal;
   font-weight: 400;
   line-height: 22px;
-  color: $color-text-secondary;
+  color: var(--color-text-secondary);
 
   // Hover and active states
   &:not(.selected):not(.empty):hover,
@@ -328,15 +346,15 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 
   // Selected state
   &.selected {
-    background: $color-primary-80a;
-    color: $color-white-alt;
+    background: var(--color-primary-80a);
+    color: var(--color-white-alt);
     border-top: 1px solid #FEFEFE;
   }
 
   // Empty state
   &.empty {
     cursor: default;
-    color: $color-text-muted;
+    color: var(--color-text-muted);
   }
 }
 
@@ -358,41 +376,22 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 }
 
 // =============================================================================
-// Dark Theme Support
+// Dark Theme Overrides
 // =============================================================================
-@include dark-theme {
-  .bch-select-container {
-    background: $dark-bg-surface;
-    border-color: $dark-border;
-    @include drop-shadow(0.3);
-  }
+// Dark theme - use global selector with high specificity
+:host-context(html[data-theme="dark"]) .bch-select-container .dropdown-arrow {
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ededed" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat !important;
+}
 
-  .bch-content {
-    background: $dark-bg-surface;
-    border-color: $dark-border;
-    @include drop-shadow(0.3);
-  }
+:host-context(html[data-theme="dark"]) .bch-select-container.disabled .dropdown-arrow {
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23bebebe" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat !important;
+}
 
-  .filter-input,
-  .display-label {
-    color: $dark-text-primary;
-    text-align: center;
-  }
+// Fallback - direct global selector
+html[data-theme="dark"] .bch-select-container .dropdown-arrow {
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ededed" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat !important;
+}
 
-  .bch-option {
-    color: $dark-text-secondary;
-    text-align: center;
-  }
-
-  .bch-group::before {
-    background: $dark-border;
-  }
-
-  .dropdown-arrow {
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ededed" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat;
-  }
-
-  .bch-select-container.disabled .dropdown-arrow {
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23bebebe" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat;
-  }
+html[data-theme="dark"] .bch-select-container.disabled .dropdown-arrow {
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23bebebe" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat !important;
 }
