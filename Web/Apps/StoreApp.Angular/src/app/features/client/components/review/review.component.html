@@ -1,0 +1,16 @@
+<div class="review-wrapper" [style]="{ 'max-width': width }">
+  <div class="review">
+    <div class="review-rating">
+      <app-product-rating [rating]="review.rating" [showText]="false"/>
+    </div>
+    <div class="review-author">
+      <div class="author-text">{{ review.userName }}</div>
+      <div class="verified-customer">
+        <img [src]="'/svg/checked.svg'" alt="checked">
+      </div>
+    </div>
+    <div class="review-text">
+      "{{ review.comment }}"
+    </div>
+  </div>
+</div>

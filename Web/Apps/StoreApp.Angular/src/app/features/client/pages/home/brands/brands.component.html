@@ -1,0 +1,13 @@
+<div class="brands-section-wrapper">
+  <div class="brands-wrapper">
+    @for (brand of brands; track brand.name)
+    {
+      <div
+        class="brand-item"
+        [style.max-width]="brand.maxWidth"
+        [style.max-height]="brand.maxHeight">
+        <img [src]="brand.svgPath" [alt]="brand.name" class="brand-logo">
+      </div>
+    }
+  </div>
+</div>

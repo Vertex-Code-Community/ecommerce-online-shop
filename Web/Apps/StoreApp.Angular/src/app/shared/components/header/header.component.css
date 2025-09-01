@@ -4,7 +4,7 @@
 
 .header-section-wrapper {
   display: flex;
-  justify-content: start;
+  justify-content: center;
   width: 100%;
   background: #FFFFFF;
   height: 96px;
@@ -14,9 +14,9 @@
 .header-block-container {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
+  max-width: 1280px;
   width: 100%;
-  max-width: 90vw;
   height: 48px;
   margin: 24px 0;
   gap: 20px;

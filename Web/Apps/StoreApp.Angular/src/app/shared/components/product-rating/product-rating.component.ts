@@ -9,6 +9,7 @@ import { Component, Input } from '@angular/core';
 export class ProductRatingComponent {
   @Input() rating: number = 0;
   @Input() textSize: string = '1em';
+  @Input() showText: boolean = true;
 
   getStarsArray(): number[] {
     return Array.from({ length: Math.floor(this.rating) }, (_, i) => i);

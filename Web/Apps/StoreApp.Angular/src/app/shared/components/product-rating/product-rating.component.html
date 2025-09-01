@@ -4,5 +4,8 @@
             <span class="star">★</span>
         }
     </div>
-    <div class="text">{{ rating }}/5</div>
+
+    @if(showText) {
+        <div class="text">{{ rating }}/5</div>
+    }
 </div>

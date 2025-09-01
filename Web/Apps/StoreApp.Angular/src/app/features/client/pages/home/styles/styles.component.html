@@ -1,0 +1,15 @@
+<div class="styles-section-wrapper">
+  <div class="styles-wrapper">
+    <div class="styles-header-text">BROWSE BY DRESS STYLE</div>
+    <div class="style-cards">
+      @for (style of styles; track style.name; let i = $index) {
+        <div class="style-item" [class]="getStyleClass(style)">
+          <div class="style-item-text">{{ style.name }}</div>
+          <div class="style-image-wrapper">
+            <img class="style-image" [src]="style.imagePath" [alt]="style.name + ' style'" />
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

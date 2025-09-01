@@ -1,6 +1,7 @@
 <div class="home-page-wrapper">
   <app-start/>
-<!--  <BrandsComponent />-->
+  <app-brands [brands]="MOCK_BRANDS"/>
+
   <div class="products-wrapper">
     @if (loading$ | async) {
       <div class="loading-spinner">
@@ -30,6 +31,6 @@
       />
     }
   </div>
-<!--  <StylesComponent />-->
-<!--  <CustomersComponent />-->
+  <app-styles [styles]="MOCK_STYLES"/>
+  <app-customer-reviews [reviews]="MOCK_REVIEWS"/>
 </div>

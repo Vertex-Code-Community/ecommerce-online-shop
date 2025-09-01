@@ -11,6 +11,7 @@
 .star {
     color: #FFD700;
     font-size: calc(1em * 0.8);
+    margin-right: calc(1em * 0.3);
 }
 
 .text {
