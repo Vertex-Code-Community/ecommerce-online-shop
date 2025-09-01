@@ -52,12 +52,14 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
   @Input() scrollToSelected = true;
   @Input() upperSide = false;
   @Input() noItemsText = 'No items found';
-  @Input() width = '200px';
+  @Input() width = '290px';
   @Input() height = 56;
   @Input() itemHeight = 40;
   @Input() contentHeight = 200;
-  @Input() fontSize = '16px';
+  @Input() fontSize = '14px';
   @Input() cssClass = '';
+  @Input() defaultValue: T | null = null;
+  @Input() defaultText = 'Please Select';
 
   // Function inputs
   @Input() optionLabelFn: (item: T) => string = (item) => String(item);
@@ -91,6 +93,8 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
   destroy$ = new Subject<void>();
   flatOptions: { item: T; groupIndex: number; optionIndex: number }[] = [];
   dropdownPosition = { x: 0, y: 0, width: 0 };
+  private _placeholder = '';
+  private _scrolled = false;
 
   // ControlValueAccessor
   private onChange = (value: any) => {};
@@ -99,6 +103,19 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    // Set default values
+    if (!this.multiple && this.defaultValue && this.options.includes(this.defaultValue)) {
+      this.selectedValues = [this.defaultValue];
+    }
+
+    // Set placeholder text
+    if (this.selectedValues.length > 0) {
+      const text = this.optionLabelFn(this.selectedValues[0]);
+      this._placeholder = text || this.defaultText;
+    } else {
+      this._placeholder = this.defaultText;
+    }
+
     this.updateFilteredOptions();
     
     // Listen for window resize to recalculate position
@@ -144,18 +161,15 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
   }
 
   get displayText(): string {
-    if (!this.selectedValues.length) {
-      return this.placeholder;
-    }
-
-    if (this.multiple) {
-      if (this.showMultipleCount) {
-        return this.selectedValues.map(item => this.optionLabelFn(item)).join(', ');
-      }
+    if (this.multiple && this.showMultipleCount && this.selectedValues.length > 0) {
+      return this.selectedValues.map(item => this.optionLabelFn(item)).join(', ');
+    } else if (this.multiple && this.selectedValues.length > 0) {
       return `${this.selectedValues.length} items selected`;
+    } else if (this.selectedValues.length > 0) {
+      return this.optionLabelFn(this.selectedValues[0]);
+    } else {
+      return this._placeholder;
     }
-
-    return this.optionLabelFn(this.selectedValues[0]);
   }
 
   toggleDropdown(): void {
@@ -170,6 +184,7 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
 
     if (this.isOpen) {
       this.filterValue = '';
+      this._scrolled = false;
       this.updateFilteredOptions();
       this.setActiveIndexToSelectedOrFirst();
 
@@ -177,7 +192,8 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
         if (this.filtering && this.inputRef) {
           this.inputRef.nativeElement.focus();
         }
-        if (this.scrollToSelected) {
+        if (this.scrollToSelected && this.selectedValues.length > 0 && !this.multiple && !this._scrolled) {
+          this._scrolled = true;
           this.scrollActiveIntoView();
         }
       });
@@ -188,6 +204,7 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
     if (this.isOpen) {
       this.isOpen = false;
       this.filterValue = '';
+      this._scrolled = false;
       this.openChange.emit(false);
       this.focusOut.emit();
       this.onTouched();
@@ -210,8 +227,15 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
     } else {
       this.selectedValues = [option];
       this.closeDropdown();
+      this.filterValue = '';
+      
+      // Update placeholder
+      if (this.selectedValues.length > 0) {
+        this._placeholder = this.optionLabelFn(this.selectedValues[0]);
+      }
     }
 
+    this._scrolled = false;
     this.onChange(this.currentValue);
     this.selectionChange.emit(this.currentValue);
     this.cdr.markForCheck();

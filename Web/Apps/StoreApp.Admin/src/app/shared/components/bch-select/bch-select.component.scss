@@ -18,12 +18,38 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 @mixin hover-effect {
   background: $color-primary-10a;
   border-left: 2px solid $color-primary;
-  padding-left: $spacing-md - 2px;
+  padding-left: $spacing-md;
   text-align: center;
 }
 
 @mixin select-scrollbar {
-  @include scrollbar-styles(6px, #f1f1f1, #33b469);
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid $scss-neutral-325;
+  }
+
+  &::-webkit-scrollbar-track:vertical {
+    border-top: 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-primary;
+    border: 0.7px solid transparent;
+    border-radius: $border-radius-sm;
+    background-clip: content-box;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: $color-primary-80a;
+    border: 0.7px solid transparent;
+    border-radius: $border-radius-sm;
+    background-clip: content-box;
+  }
 }
 
 // SCSS Functions
@@ -40,7 +66,6 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   position: relative;
   will-change: filter;
   background: $color-bg-surface;
-  border: 1px solid $color-border;
   @include drop-shadow();
   border-radius: $bch-select-border-radius;
   outline: none;
@@ -82,11 +107,9 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
     }
 
     &.bch-upper-side {
-      border-radius: 0 0 $bch-select-border-radius $bch-select-border-radius;
       border-top: none;
       border-bottom: none;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
+      border-radius: 0 0 $bch-select-border-radius $bch-select-border-radius;
     }
 
     .filter-input::placeholder {
@@ -136,8 +159,8 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   height: 24px;
   width: 24px;
   background-color: $icon-primary;
-  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat center;
-  -webkit-mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat center;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat left;
+  -webkit-mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat left;
 
   &.opened {
     min-width: $spacing-lg;
@@ -163,6 +186,7 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   caret-color: $color-text-primary;
   cursor: pointer;
   text-align: center;
+  pointer-events: none;
 
   &::placeholder {
     color: $color-text-muted;
@@ -203,9 +227,9 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 // =============================================================================
 .dropdown-arrow {
   transition: all $transition-normal;
-  width: 14px;
-  height: 7px;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat;
+  width: 24px;
+  height: 16px;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat;
   background-size: contain;
   margin-left: auto;
   flex-shrink: 0;
@@ -231,9 +255,8 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   position: fixed;
   z-index: $z-index-dropdown + 1;
   background: $color-bg-surface;
-  border: 1px solid $color-border;
-  border-top: none;
-  border-radius: 0 0 $bch-select-border-radius $bch-select-border-radius;
+  border-top: 1px solid $color-primary;
+  border-radius: 0px 0px $bch-select-border-radius $bch-select-border-radius;
   @include flex-column;
   overflow: hidden;
   visibility: visible;
@@ -242,9 +265,9 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   pointer-events: auto;
 
   &.bch-upper-side {
-    border-top: 1px solid $color-primary;
-    border-bottom: none;
-    border-radius: $bch-select-border-radius $bch-select-border-radius 0 0;
+    border-top: none;
+    border-bottom: 1px solid $color-primary;
+    border-radius: $bch-select-border-radius $bch-select-border-radius 0px 0px;
   }
 }
 
@@ -289,7 +312,8 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
   white-space: nowrap;
   text-align: center;
   padding-left: $spacing-md;
-  @include flex-center;
+  display: flex;
+  align-items: center;
   font-family: $font-family-primary;
   font-style: normal;
   font-weight: 400;
@@ -362,5 +386,13 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 
   .bch-group::before {
     background: $dark-border;
+  }
+
+  .dropdown-arrow {
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23ededed" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat;
+  }
+
+  .bch-select-container.disabled .dropdown-arrow {
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23bebebe" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat;
   }
 }

@@ -279,7 +279,7 @@
 }
 
 // Scrollbar Mixins
-@mixin scrollbar-styles($width: 6px, $track-color: #f1f1f1, $thumb-color: $color-primary) {
+@mixin scrollbar-styles($width: 6px, $track-color: #f1f1f1, $thumb-color: #33b469) {
   &::-webkit-scrollbar {
     width: $width;
   }
@@ -294,7 +294,7 @@
     border-radius: $border-radius-sm;
 
     &:hover {
-      background: c.adjust($thumb-color, $lightness: -10%);
+      background: darken($thumb-color, 10%);
     }
   }
 

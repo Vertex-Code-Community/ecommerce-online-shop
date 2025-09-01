@@ -15,9 +15,9 @@ interface ThemeOption {
 })
 export class HeaderComponent {
   themeOptions: ThemeOption[] = [
-    { value: 'light', label: '🌞 Light' },
-    { value: 'dark', label: '🌙 Dark' },
-    { value: 'auto', label: '🔄 Auto' }
+    { value: 'light', label: 'Light' },
+    { value: 'dark', label: 'Dark' },
+    { value: 'auto', label: 'System' }
   ];
 
   onThemeChange(theme: ThemeOption | null) {
