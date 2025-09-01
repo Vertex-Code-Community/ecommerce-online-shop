@@ -6,6 +6,7 @@
   --color-bg-surface: #{$color-bg-surface};
   --color-bg-subtle: #{$color-bg-subtle};
   --color-bg-muted: #{$color-bg-muted};
+  --color-bg-secondary: #{$color-bg-subtle};
   
   --color-text-primary: #{$color-text-primary};
   --color-text-secondary: #{$color-text-secondary};
@@ -90,12 +91,25 @@
   --color-bg-surface: #{$dark-bg-surface};
   --color-bg-subtle: #{$dark-bg-subtle};
   --color-bg-muted: #{$dark-bg-muted};
+  --color-bg-secondary: #{$dark-bg-secondary};
   
   --color-text-primary: #{$dark-text-primary};
   --color-text-secondary: #{$dark-text-secondary};
   --color-text-muted: #{$dark-text-muted};
   --color-text-subtle: #{$dark-text-subtle};
   --color-text-inverse: #{$dark-text-inverse};
+  
+  --color-primary: #{$color-primary};
+  --color-primary-hover: #{$color-primary-hover};
+  --color-primary-10a: #{$color-primary-10a};
+  --color-primary-20a: #{$color-primary-20a};
+  --color-primary-80a: #{$color-primary-80a};
+  
+  --color-success: #{$color-success};
+  --color-warning: #{$color-warning};
+  --color-danger: #{$color-danger};
+  --color-error-alt: #{$color-error-alt};
+  --color-error-alt2: #{$color-error-alt2};
   
   --neutral-50: #181c23;
   --neutral-75: #191f27;
@@ -108,11 +122,19 @@
   --neutral-400: #333842;
   --neutral-425: #3a3f4a;
   --neutral-500: #4a505c;
+  --neutral-600: #{$scss-neutral-600};
+  --neutral-650: #{$scss-neutral-650};
+  --neutral-675: #{$scss-neutral-675};
+  --neutral-700: #{$scss-neutral-700};
   --neutral-750: #c9cbd1;
   --neutral-800: #d2d4d9;
   --neutral-825: #d9dbe0;
   --neutral-850: #e6e7ea;
+  --neutral-900: #{$scss-neutral-900};
   
+  --color-white: #{$scss-white};
+  --color-white-soft: #{$dark-bg-page};
+  --color-white-alt: #{$color-white-alt};
   --color-border: #{$dark-border};
   
   --icon-primary: var(--color-text-secondary);

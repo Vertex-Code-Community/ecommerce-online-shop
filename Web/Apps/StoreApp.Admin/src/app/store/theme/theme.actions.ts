@@ -2,7 +2,8 @@ import { createAction, props } from '@ngrx/store';
 
 export enum Theme {
   Light = 'light',
-  Dark = 'dark'
+  Dark = 'dark',
+  System = 'system'
 }
 
 export const initTheme = createAction('[Theme] Init');

@@ -117,7 +117,7 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
     }
 
     this.updateFilteredOptions();
-    
+
     // Listen for window resize to recalculate position
     window.addEventListener('resize', this.handleResize.bind(this));
   }
@@ -125,7 +125,7 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-    
+
     // Remove resize listener
     window.removeEventListener('resize', this.handleResize.bind(this));
   }
@@ -227,8 +227,9 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
     } else {
       this.selectedValues = [option];
       this.closeDropdown();
+      this.selectItem.emit(option);
       this.filterValue = '';
-      
+
       // Update placeholder
       if (this.selectedValues.length > 0) {
         this._placeholder = this.optionLabelFn(this.selectedValues[0]);
@@ -288,18 +289,18 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
     const rect = this.containerRef.nativeElement.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
     const viewportWidth = window.innerWidth;
-    
+
     // Calculate available space below and above
     const spaceBelow = viewportHeight - rect.bottom;
     const spaceAbove = rect.top;
-    
+
     // Determine if dropdown should open upward
     const shouldOpenUpward = spaceBelow < this.contentHeight && spaceAbove > spaceBelow;
-    
+
     // Calculate position
     let x = rect.left;
     let y = shouldOpenUpward ? rect.top - this.contentHeight : rect.bottom;
-    
+
     // Ensure dropdown doesn't go off-screen horizontally
     if (x + rect.width > viewportWidth) {
       x = viewportWidth - rect.width - 8; // 8px margin
@@ -307,13 +308,13 @@ export class BchSelectComponent<T = any> implements OnInit, OnDestroy, ControlVa
     if (x < 8) {
       x = 8;
     }
-    
+
     this.dropdownPosition = {
       x,
       y,
       width: rect.width
     };
-    
+
     // Update upperSide property for styling
     this.upperSide = shouldOpenUpward;
   }

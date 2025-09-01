@@ -7,7 +7,7 @@ export interface ThemeState {
 }
 
 export const initialState: ThemeState = {
-  current: Theme.Light
+  current: Theme.System
 };
 
 export const themeReducer = createReducer(

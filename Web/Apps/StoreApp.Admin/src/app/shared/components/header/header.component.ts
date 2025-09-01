@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { BchSelectComponent } from '../bch-select/bch-select.component';
-
-interface ThemeOption {
-  value: string;
-  label: string;
-}
+import { AppState } from '../../../store/app.state';
+import * as ThemeActions from '../../../store/theme/theme.actions';
+import { selectCurrentTheme } from '../../../store/theme/theme.selectors';
+import { Theme } from '../../../store/theme/theme.actions';
 
 @Component({
   selector: 'app-header',
@@ -13,18 +15,33 @@ interface ThemeOption {
   standalone: true,
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
-  themeOptions: ThemeOption[] = [
-    { value: 'light', label: 'Light' },
-    { value: 'dark', label: 'Dark' },
-    { value: 'auto', label: 'System' }
-  ];
+export class HeaderComponent implements OnInit, OnDestroy {
+  private store = inject(Store<AppState>);
+  private destroy$ = new Subject<void>();
 
-  onThemeChange(theme: ThemeOption | null) {
+  currentTheme$: Observable<Theme> = this.store.select(selectCurrentTheme);
+  selectedTheme: Theme = Theme.System;
+
+  themeOptions: Theme[] = [Theme.System, Theme.Light, Theme.Dark];
+
+  ngOnInit(): void {
+    this.store.dispatch(ThemeActions.initTheme());
+
+    this.currentTheme$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(theme => {
+      this.selectedTheme = theme;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onThemeChange(theme: Theme | null) {
     if (theme) {
-      console.log('Theme changed to:', theme.value);
-      // TODO: Implement theme switching logic
-      this.applyTheme(theme.value);
+      this.store.dispatch(ThemeActions.setTheme({ theme: theme }));
     }
   }
 
@@ -33,27 +50,11 @@ export class HeaderComponent {
     // TODO: Implement login navigation
   }
 
-  private applyTheme(theme: string) {
-    const root = document.documentElement;
-
-    switch (theme) {
-      case 'dark':
-        root.setAttribute('data-theme', 'dark');
-        break;
-      case 'light':
-        root.removeAttribute('data-theme');
-        break;
-      case 'auto':
-        root.removeAttribute('data-theme');
-        break;
-    }
+  optionLabel(theme: Theme): string {
+    return theme.charAt(0).toUpperCase() + theme.slice(1).toLowerCase();
   }
 
-  optionLabel(theme: ThemeOption): string {
-    return theme.label;
-  }
-
-  optionValue(theme: ThemeOption): string {
-    return theme.value;
+  optionValue(theme: Theme): Theme {
+    return theme;
   }
 }
