@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,6 +16,8 @@ import { Theme } from '../../../store/theme/theme.actions';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  @Output() sidebarToggle = new EventEmitter<void>();
+  
   private store = inject(Store<AppState>);
   private destroy$ = new Subject<void>();
 
@@ -49,6 +51,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     console.log('Login button clicked');
     // TODO: Implement login navigation
   }
+
+  onSidebarToggle() {
+    this.sidebarToggle.emit();
+  }
+
+
 
   optionLabel(theme: Theme): string {
     return theme.charAt(0).toUpperCase() + theme.slice(1).toLowerCase();
