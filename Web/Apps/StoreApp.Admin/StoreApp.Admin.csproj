@@ -6,15 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="package.json" />
-    <None Include="angular.json" />
     <None Include="src/**/*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="src\app\features\auth\components\" />
-    <Folder Include="src\app\features\home\components\" />
-    <Folder Include="src\assets\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,5 +46,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="public\" />
+    <Folder Include="src\app\mocks\" />
   </ItemGroup>
 </Project>

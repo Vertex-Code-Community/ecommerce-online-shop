@@ -1,0 +1,11 @@
+<div class="price">
+    <span class="current">{{ currentPrice | currency }}</span>
+    @if (oldPrice) {
+        <span class="old">{{ oldPrice | currency }}</span>
+    }
+    @if (discount) {
+        <span class="discount">
+            <span class="discount-text">-{{ discount }}%</span>
+        </span>
+    }
+</div>

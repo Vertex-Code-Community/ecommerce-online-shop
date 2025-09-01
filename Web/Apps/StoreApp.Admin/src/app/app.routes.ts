@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
 import { LoginPage } from './features/auth/pages/login-page/login-page';
 import { guestGuard } from './core/guards/guest-guard';
-import { ClientLayoutComponent } from './shared/layout/client-layout.component';
-import { HomeComponent } from './features/home/home.component';
+import { authGuard } from './core/guards/auth-guard';
+import { AdminLayoutComponent } from './shared/layout/admin-layout.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPage, canActivate: [guestGuard] },
 
   {
     path: '',
-    component: ClientLayoutComponent,
+    component: AdminLayoutComponent,
+    canActivate: [authGuard],
     children: [
-      { path: 'home', component: HomeComponent },
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
+
     ]
   },
 ];

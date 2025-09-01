@@ -1,0 +1,20 @@
+<div class="wrapper">
+    <div class="list">
+        @if (headerText) {
+            <div class="header">{{ headerText }}</div>
+        }
+        <div class="content" [class.content--scrollable]="isScrollable">
+            @for (product of products; track product.id) {
+                <app-product
+                    [product]="product"
+                    (cardClick)="onProductClick($event)">
+                </app-product>
+            }
+        </div>
+        @if (showViewAllButton) {
+            <div class="view-all">
+                <button class="view-all-btn" (click)="onViewAllClick()">View All</button>
+            </div>
+        }
+    </div>
+</div>

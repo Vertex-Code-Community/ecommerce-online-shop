@@ -1,0 +1,34 @@
+.price {
+    display: flex;
+    align-items: center;
+    font-family: 'Satoshi Bold', sans-serif;
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 100%;
+    letter-spacing: 0;
+    margin-top: 8px;
+    gap: 0 10px;
+}
+
+.current {
+    color: #000;
+}
+
+.old {
+    opacity: 0.4;
+    text-decoration: line-through;
+}
+
+.discount {
+    border-radius: 64px;
+    background-color: rgba(255, 51, 51, 0.1);
+}
+
+.discount-text {
+    font-family: 'Satoshi Medium', sans-serif;
+    font-weight: 500;
+    font-size: calc(1em * 0.5);
+    opacity: 1;
+    color: #FF3333;
+    padding: 2px 12px;
+}
