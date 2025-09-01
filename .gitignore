@@ -427,4 +427,5 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
-API/StoreApp.API/wwwroot/images
+**/.vscode/*
+**/.idea/
