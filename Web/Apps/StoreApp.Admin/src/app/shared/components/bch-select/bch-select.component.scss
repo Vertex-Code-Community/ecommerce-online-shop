@@ -362,15 +362,8 @@ $bch-select-line-height: $line-height-normal * $font-size-sm;
 // Responsive Styles
 // =============================================================================
 @include respond-below('md') {
-  .bch-select-container {
-    width: 100%;
-    min-width: 200px;
-  }
-
   .bch-content {
     max-width: 100vw;
-    left: 0 !important;
-    right: 0;
     margin: 0 $spacing-sm;
   }
 }

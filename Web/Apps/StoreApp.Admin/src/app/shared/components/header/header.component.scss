@@ -8,7 +8,7 @@ $header-gap: 16px;
 $logo-font-size: 24px;
 $navbar-gap: 24px;
 $user-actions-gap: 16px;
-$login-btn-padding: 6px 14px;
+$login-btn-padding: 10px 14px;
 $login-btn-border-radius: $border-radius-md;
 $login-btn-width: 100px;
 $login-btn-height: 30px;
@@ -71,7 +71,7 @@ $login-btn-height: 30px;
   padding: $login-btn-padding;
   border-radius: $login-btn-border-radius;
   @include flex-center;
-  gap: $spacing-xs;
+  gap: $spacing-sm;
   width: $login-btn-width;
   height: $login-btn-height;
   font-family: 'DM Sans', $font-family-primary;
@@ -79,6 +79,8 @@ $login-btn-height: 30px;
   font-size: 16px;
   line-height: 15px;
   transition: background 0.2s ease;
+  border: none;
+  outline: none;
 
   &:hover:not(:disabled) {
     background-color: var(--color-primary-hover);
@@ -87,10 +89,26 @@ $login-btn-height: 30px;
   &:active:not(:disabled) {
     transform: translateY(1px);
   }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
 }
 
 .login-icon {
-  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  background-color: var(--color-text-inverse);
+  mask: url('/assets/icons/user.svg') center no-repeat;
+  -webkit-mask: url('/assets/icons/user.svg') center no-repeat;
+  mask-size: contain;
+  -webkit-mask-size: contain;
 }
 
 .login-text {
@@ -109,16 +127,6 @@ $login-btn-height: 30px;
 
   .logo {
     font-size: ($logo-font-size * 0.8);
-  }
-
-  .login-btn {
-    width: 80px;
-    height: 28px;
-    padding: 4px 10px;
-  }
-
-  .login-text {
-    font-size: 14px;
   }
 }
 
