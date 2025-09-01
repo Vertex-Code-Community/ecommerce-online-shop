@@ -1,0 +1,50 @@
+@import 'shared/variables';
+@import 'shared/mixins';
+
+$sidebar-width: 250px;
+$main-padding: $spacing-lg;
+
+.app-wrapper {
+  @include flex-column;
+  height: 100vh;
+}
+
+.layout {
+  @include flex-center;
+  flex: 1;
+}
+
+.main-content {
+  flex: 1;
+  padding: $main-padding;
+  transition: margin-left $transition-normal;
+  background: $color-bg-surface;
+  min-height: calc(100vh - 60px);
+
+  &.shifted {
+    margin-left: $sidebar-width;
+  }
+}
+
+@include respond-below('md') {
+  .main-content {
+    padding: $spacing-md;
+    margin-left: 0 !important;
+
+    &.shifted {
+      margin-left: 0 !important;
+    }
+  }
+}
+
+@include respond-below('sm') {
+  .main-content {
+    padding: $spacing-sm;
+  }
+}
+
+@include dark-theme {
+  .main-content {
+    background: $dark-bg-surface;
+  }
+}

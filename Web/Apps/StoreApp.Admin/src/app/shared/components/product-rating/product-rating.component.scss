@@ -1,0 +1,60 @@
+@import 'shared/variables';
+@import 'shared/mixins';
+
+$rating-margin-top: $spacing-sm;
+$star-size-ratio: 0.8;
+$star-margin-ratio: 0.3;
+$text-margin-left: $spacing-md;
+$text-size-ratio: 0.7;
+$star-color: #FFD700;
+
+.rating {
+  @include flex-center;
+  margin-top: $rating-margin-top;
+}
+
+.stars {
+  @include flex-center;
+}
+
+.star {
+  color: $star-color;
+  font-size: calc(1em * $star-size-ratio);
+  margin-right: calc(1em * $star-margin-ratio);
+  
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.text {
+  margin-left: $text-margin-left;
+  font-family: $font-family-primary;
+  font-size: calc(1em * $text-size-ratio);
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: 0;
+  color: $color-text-secondary;
+}
+
+@include respond-below('sm') {
+  .rating {
+    margin-top: ($rating-margin-top * 0.8);
+  }
+  
+  .star {
+    font-size: calc(1em * ($star-size-ratio * 0.9));
+    margin-right: calc(1em * ($star-margin-ratio * 0.8));
+  }
+  
+  .text {
+    margin-left: ($text-margin-left * 0.8);
+    font-size: calc(1em * ($text-size-ratio * 0.9));
+  }
+}
+
+@include dark-theme {
+  .text {
+    color: $dark-text-secondary;
+  }
+}

@@ -5,7 +5,11 @@
   "projects": {
     "admin-client": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -26,8 +30,13 @@
               "src/staticwebapp.config.json"
             ],
             "styles": [
-              "src/styles.css"
-            ]
+              "src/styles/main.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            }
           },
           "configurations": {
             "production": {
@@ -89,7 +98,7 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles/main.scss"
             ]
           }
         }

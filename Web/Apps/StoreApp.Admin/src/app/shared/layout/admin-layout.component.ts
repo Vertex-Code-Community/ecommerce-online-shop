@@ -6,7 +6,7 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.css']
+  styleUrls: ['./admin-layout.component.scss']
 })
 export class AdminLayoutComponent {
   sidebarIsOpen = false;

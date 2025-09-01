@@ -6,7 +6,7 @@ import { Product } from '../../../shared/models/product/product';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css'],
+  styleUrls: ['./product.component.scss'],
   standalone: true,
   imports: [ProductRatingComponent, ProductPriceComponent]
 })

@@ -1,0 +1,353 @@
+// =============================================================================
+// BCH Select Component Styles
+// =============================================================================
+
+@import 'shared/variables';
+@import 'shared/mixins';
+
+// Component Specific Variables
+$bch-select-width: $select-width;
+$bch-select-height: $select-height;
+$bch-select-border-radius: $border-radius-lg;
+$bch-select-item-height: $select-item-height;
+$bch-select-content-height: $select-content-height;
+$bch-select-font-size: $font-size-sm;
+$bch-select-line-height: $line-height-normal * $font-size-sm;
+
+// Component Specific Mixins
+@mixin hover-effect {
+  background: $color-primary-10a;
+  border-left: 2px solid $color-primary;
+  padding-left: $spacing-md - 2px;
+}
+
+@mixin select-scrollbar {
+  @include scrollbar-styles(6px, #f1f1f1, $color-primary);
+}
+
+// SCSS Functions
+@function calculate-width($base-width, $offset) {
+  @return calc(#{$base-width} - #{$offset});
+}
+
+// =============================================================================
+// Main Container Styles
+// =============================================================================
+.bch-select-container {
+  width: $bch-select-width;
+  @include flex-center;
+  position: relative;
+  will-change: filter;
+  background: $color-bg-surface;
+  @include drop-shadow();
+  border-radius: $bch-select-border-radius;
+  outline: none;
+  cursor: pointer;
+
+  // Disabled state
+  &.disabled {
+    @include disabled-state;
+    filter: none;
+
+    .bch-button {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .display-label {
+      color: $color-text-muted;
+      cursor: not-allowed;
+    }
+
+    .filter-input {
+      color: $color-text-muted;
+      caret-color: $color-text-muted;
+    }
+
+    .dropdown-arrow {
+      opacity: 0.5;
+    }
+  }
+
+  // Open state
+  &.show {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+
+    .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    &.bch-upper-side {
+      border-radius: 0 0 $bch-select-border-radius $bch-select-border-radius;
+    }
+
+    .filter-input::placeholder {
+      color: $color-text-muted;
+      caret-color: $color-text-muted;
+      opacity: 1.0;
+    }
+  }
+
+  // Upper side variant
+  &.bch-upper-side.show {
+    border-radius: 0 0 $bch-select-border-radius $bch-select-border-radius;
+  }
+
+  // Has selected items
+  &.has-selected {
+    .filter-input::placeholder {
+      color: $color-text-primary;
+      caret-color: $color-text-primary;
+      opacity: 1.0;
+    }
+  }
+}
+
+// =============================================================================
+// Button Styles
+// =============================================================================
+.bch-button {
+  width: 100%;
+  height: 100%;
+  @include flex-center;
+  padding: 0 $spacing-sm;
+  cursor: pointer;
+
+  &.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// =============================================================================
+// Search Icon
+// =============================================================================
+.search-icon {
+  transition: min-width $transition-fast;
+  min-width: 0;
+  height: 24px;
+  width: 24px;
+  background-color: $icon-primary;
+  mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat center;
+  -webkit-mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat center;
+
+  &.opened {
+    min-width: $spacing-lg;
+  }
+}
+
+// =============================================================================
+// Input Field
+// =============================================================================
+.filter-input {
+  width: calculate-width(100%, 54px);
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin-left: $spacing-xs;
+  font-family: $font-family-primary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: $bch-select-font-size;
+  line-height: $bch-select-line-height;
+  color: $color-text-primary;
+  caret-color: $color-text-primary;
+  cursor: pointer;
+
+  &::placeholder {
+    color: $color-text-muted;
+    caret-color: $color-text-muted;
+    opacity: 1.0;
+  }
+
+  &.removed {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    height: 0;
+    width: 0;
+    margin: 0;
+  }
+}
+
+// =============================================================================
+// Display Label
+// =============================================================================
+.display-label {
+  padding: 0;
+  margin-left: $spacing-xs;
+  font-family: $font-family-primary;
+  font-style: normal;
+  font-weight: 400;
+  font-size: $bch-select-font-size;
+  line-height: $bch-select-line-height;
+  color: $color-text-primary;
+  cursor: pointer;
+  @include text-ellipsis;
+  flex: 1;
+}
+
+// =============================================================================
+// Dropdown Arrow
+// =============================================================================
+.dropdown-arrow {
+  transition: all $transition-normal;
+  width: 14px;
+  height: 7px;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>') center no-repeat;
+  background-size: contain;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+// =============================================================================
+// Modal Overlay
+// =============================================================================
+.bch-select-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: $z-index-dropdown;
+  pointer-events: none;
+}
+
+// =============================================================================
+// Dropdown Content
+// =============================================================================
+.bch-content {
+  position: absolute;
+  z-index: $z-index-dropdown + 1;
+  background: $color-bg-surface;
+  border-top: 1px solid $color-primary;
+  border-radius: 0 0 $bch-select-border-radius $bch-select-border-radius;
+  @include flex-column;
+  overflow: hidden;
+  visibility: visible;
+  @include drop-shadow();
+  will-change: filter;
+  pointer-events: auto;
+
+  &.bch-upper-side {
+    border-top: none;
+    border-bottom: 1px solid $color-primary;
+    border-radius: $bch-select-border-radius $bch-select-border-radius 0 0;
+  }
+}
+
+// =============================================================================
+// Scroller
+// =============================================================================
+.bch-scroller {
+  width: 100%;
+  flex: 1 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  @include select-scrollbar;
+}
+
+// =============================================================================
+// Options Container
+// =============================================================================
+.bch-group {
+  position: relative;
+
+  &::before {
+    content: ' ';
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: $color-border;
+  }
+
+  &:last-child::before {
+    content: '';
+    display: none;
+  }
+}
+
+// =============================================================================
+// Options
+// =============================================================================
+.bch-option {
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: left;
+  padding-left: $spacing-md;
+  @include flex-center;
+  font-family: $font-family-primary;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  color: $color-text-secondary;
+
+  // Hover and active states
+  &:not(.selected):not(.empty):hover,
+  &.hovered:not(.selected):not(.empty) {
+    @include hover-effect;
+  }
+
+  // Selected state
+  &.selected {
+    background: $color-primary-80a;
+    color: $color-white-alt;
+    border-top: 1px solid #FEFEFE;
+  }
+
+  // Empty state
+  &.empty {
+    cursor: default;
+    color: $color-text-muted;
+  }
+}
+
+// =============================================================================
+// Responsive Styles
+// =============================================================================
+@include respond-below('md') {
+  .bch-select-container {
+    width: 100%;
+    min-width: 200px;
+  }
+
+  .bch-content {
+    max-width: 100vw;
+    left: 0 !important;
+    right: 0;
+    margin: 0 $spacing-sm;
+  }
+}
+
+// =============================================================================
+// Dark Theme Support
+// =============================================================================
+@include dark-theme {
+  .bch-select-container {
+    background: $dark-bg-surface;
+    @include drop-shadow(0.3);
+  }
+
+  .bch-content {
+    background: $dark-bg-surface;
+    @include drop-shadow(0.3);
+  }
+
+  .filter-input,
+  .display-label,
+  .group-name {
+    color: $dark-text-primary;
+  }
+
+  .bch-option {
+    color: $dark-text-secondary;
+  }
+
+  .bch-group::before {
+    background: $dark-border;
+  }
+}

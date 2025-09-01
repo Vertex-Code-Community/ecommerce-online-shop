@@ -13,7 +13,7 @@ import { AppState } from '../../../../store/app.state';
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login-page.html',
   standalone: true,
-  styleUrls: ['./login-page.css']
+  styleUrls: ['./login-page.component.scss']
 })
 export class LoginPage {
   loginForm: FormGroup;

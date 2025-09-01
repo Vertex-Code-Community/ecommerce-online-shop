@@ -1,0 +1,186 @@
+@import './shared/variables';
+@import './shared/mixins';
+
+:root {
+  --color-bg-surface: #{$color-bg-surface};
+  --color-bg-secondary: #{$color-bg-secondary};
+  --color-text-primary: #{$color-text-primary};
+  --color-text-secondary: #{$color-text-secondary};
+  --color-text-muted: #{$color-text-muted};
+  --color-primary: #{$color-primary};
+  --color-primary-10a: #{$color-primary-10a};
+  --color-primary-80a: #{$color-primary-80a};
+  --color-success: #{$color-success};
+  --color-warning: #{$color-warning};
+  --color-danger: #{$color-danger};
+  --color-white-alt: #{$color-white-alt};
+  --color-border: #{$color-border};
+  --icon-primary: #{$icon-primary};
+
+  --bg: var(--color-bg-surface);
+  --fg: var(--color-text-primary);
+  --surface: var(--color-bg-secondary);
+  --primary: var(--color-primary);
+  --muted: var(--color-text-muted);
+  --border: var(--color-border);
+
+  --font-satoshi-regular: 'Satoshi Regular', #{$font-family-primary};
+  --font-satoshi-medium: 'Satoshi Medium', #{$font-family-primary};
+  --font-satoshi-bold: 'Satoshi Bold', #{$font-family-primary};
+  --font-integral-bold: 'Integral CF Bold', #{$font-family-secondary};
+
+  --sidebar: var(--surface);
+  --sidebar-contrast: var(--fg);
+  --sidebar-border: var(--border);
+  --sidebar-button: color-mix(in oklab, var(--fg) 7%, transparent);
+  --sidebar-button-hover: color-mix(in oklab, var(--fg) 12%, transparent);
+  --sidebar-dropdown: color-mix(in oklab, var(--fg) 10%, transparent);
+
+  --icon-filter: none;
+}
+
+:root[data-theme="dark"] {
+  --color-bg-surface: #{$dark-bg-surface};
+  --color-bg-secondary: #{$dark-bg-secondary};
+  --color-text-primary: #{$dark-text-primary};
+  --color-text-secondary: #{$dark-text-secondary};
+  --color-text-muted: #{$dark-text-muted};
+  --color-border: #{$dark-border};
+
+  --bg: var(--color-bg-surface);
+  --fg: var(--color-text-primary);
+  --surface: var(--color-bg-secondary);
+  --muted: var(--color-text-muted);
+  --border: var(--color-border);
+
+  --sidebar: #0e131a;
+  --sidebar-contrast: var(--fg);
+  --sidebar-border: var(--border);
+  --sidebar-button: color-mix(in oklab, var(--fg) 8%, transparent);
+  --sidebar-button-hover: color-mix(in oklab, var(--fg) 16%, transparent);
+  --sidebar-dropdown: color-mix(in oklab, var(--fg) 12%, transparent);
+
+  --icon-filter: invert(1) brightness(1.1);
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: $font-family-primary;
+  font-size: $font-size-md;
+  line-height: $line-height-normal;
+  color: var(--color-text-primary);
+  background: var(--color-bg-surface);
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.app-wrapper {
+  height: 100%;
+  @include flex-column;
+}
+
+app-navbar {
+  height: 60px;
+  flex-shrink: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-index-fixed;
+}
+
+.layout {
+  @include flex-center;
+  flex: 1;
+  margin-top: 60px;
+  min-height: 0;
+}
+
+.main-content {
+  flex: 1;
+  overflow: auto;
+  padding: $spacing-md;
+  margin-left: 60px;
+  transition: margin-left $transition-normal;
+
+  &.shifted {
+    margin-left: 200px;
+  }
+}
+
+.sr-only {
+  @include sr-only;
+}
+
+.clearfix {
+  @include clearfix;
+}
+
+.flex-center {
+  @include flex-center;
+}
+
+.flex-between {
+  @include flex-between;
+}
+
+.flex-column {
+  @include flex-column;
+}
+
+.flex-column-center {
+  @include flex-column-center;
+}
+
+.text-ellipsis {
+  @include text-ellipsis;
+}
+
+.text-ellipsis-2 {
+  @include text-ellipsis-multiline(2);
+}
+
+.text-ellipsis-3 {
+  @include text-ellipsis-multiline(3);
+}
+
+.shadow-sm {
+  @include shadow('sm');
+}
+
+.shadow-md {
+  @include shadow('md');
+}
+
+.shadow-lg {
+  @include shadow('lg');
+}
+
+.shadow-xl {
+  @include shadow('xl');
+}
+
+@include respond-below('md') {
+  .main-content {
+    margin-left: 0;
+    padding: $spacing-sm;
+
+    &.shifted {
+      margin-left: 0;
+    }
+  }
+}
+
+@include print-only {
+  .no-print {
+    display: none !important;
+  }
+}
+
+@include dark-theme {
+}

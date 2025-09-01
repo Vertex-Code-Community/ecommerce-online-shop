@@ -1,0 +1,105 @@
+@import 'shared/variables';
+@import 'shared/mixins';
+
+$login-form-width: 350px;
+$login-form-padding: $spacing-lg;
+$login-input-height: 56px;
+$title-margin-bottom: 40px;
+$email-margin-bottom: 15px;
+$password-margin-bottom: 30px;
+$toggle-btn-size: 14px;
+$toggle-btn-padding: 4px 8px;
+
+.login-form-container {
+  margin-top: 100px;
+  color: var(--fg);
+}
+
+.center {
+  @include flex-column-center;
+}
+
+.title {
+  align-self: flex-start;
+  margin-bottom: $title-margin-bottom;
+}
+
+.login-form {
+  width: $login-form-width;
+  border-radius: $border-radius-md;
+  padding: $login-form-padding;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  @include shadow('md');
+}
+
+.login-input {
+  height: $login-input-height;
+  border-radius: $border-radius-md;
+  @include input-base;
+}
+
+.login-button {
+  width: 100%;
+  @include button-base;
+  @include button-variant($color-primary, $color-white-alt, darken($color-primary, 10%));
+}
+
+.email-container {
+  margin-bottom: $email-margin-bottom;
+}
+
+.password-container {
+  margin-bottom: $password-margin-bottom;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: $toggle-btn-size;
+  padding: $toggle-btn-padding;
+  right: $spacing-sm;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--fg);
+  }
+}
+
+@include respond-below('sm') {
+  .login-form {
+    width: 100%;
+    max-width: $login-form-width;
+    margin: 0 $spacing-sm;
+  }
+  
+  .login-form-container {
+    margin-top: 60px;
+  }
+}
+
+@include dark-theme {
+  .login-form {
+    background-color: $dark-bg-surface;
+    border-color: $dark-border;
+    color: $dark-text-primary;
+  }
+  
+  .toggle-password-btn {
+    color: $dark-text-muted;
+    
+    &:hover {
+      color: $dark-text-primary;
+    }
+  }
+}
