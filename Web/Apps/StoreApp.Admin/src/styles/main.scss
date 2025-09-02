@@ -7,25 +7,25 @@
   --color-bg-subtle: #{$color-bg-subtle};
   --color-bg-muted: #{$color-bg-muted};
   --color-bg-secondary: #{$color-bg-subtle};
-  
+
   --color-text-primary: #{$color-text-primary};
   --color-text-secondary: #{$color-text-secondary};
   --color-text-muted: #{$color-text-muted};
   --color-text-subtle: #{$color-text-subtle};
   --color-text-inverse: #{$color-text-inverse};
-  
+
   --color-primary: #{$color-primary};
   --color-primary-hover: #{$color-primary-hover};
   --color-primary-10a: #{$color-primary-10a};
   --color-primary-20a: #{$color-primary-20a};
   --color-primary-80a: #{$color-primary-80a};
-  
+
   --color-success: #{$color-success};
   --color-warning: #{$color-warning};
   --color-danger: #{$color-danger};
   --color-error-alt: #{$color-error-alt};
   --color-error-alt2: #{$color-error-alt2};
-  
+
   --neutral-50: #{$scss-neutral-50};
   --neutral-75: #{$scss-neutral-75};
   --neutral-100: #{$scss-neutral-100};
@@ -47,16 +47,16 @@
   --neutral-825: #{$scss-neutral-825};
   --neutral-850: #{$scss-neutral-850};
   --neutral-900: #{$scss-neutral-900};
-  
+
   --color-white: #{$scss-white};
   --color-white-soft: #{$color-bg-page};
   --color-white-alt: #{$color-white-alt};
   --color-border: #{$color-border};
-  
+
   --icon-primary: #{$icon-primary};
   --icon-muted: #{$icon-muted};
   --icon-inverse: #{$icon-inverse};
-  
+
   --shadow-gray-200: rgba(190, 190, 190, 0.2);
   --shadow-gray-250: rgba(183, 183, 183, 0.25);
   --shadow-gray-200b: rgba(183, 183, 183, 0.2);
@@ -92,25 +92,35 @@
   --color-bg-subtle: #{$dark-bg-subtle};
   --color-bg-muted: #{$dark-bg-muted};
   --color-bg-secondary: #{$dark-bg-secondary};
-  
+
   --color-text-primary: #{$dark-text-primary};
   --color-text-secondary: #{$dark-text-secondary};
   --color-text-muted: #{$dark-text-muted};
   --color-text-subtle: #{$dark-text-subtle};
   --color-text-inverse: #{$dark-text-inverse};
-  
+
   --color-primary: #{$color-primary};
   --color-primary-hover: #{$color-primary-hover};
   --color-primary-10a: #{$color-primary-10a};
   --color-primary-20a: #{$color-primary-20a};
   --color-primary-80a: #{$color-primary-80a};
-  
+
   --color-success: #{$color-success};
   --color-warning: #{$color-warning};
   --color-danger: #{$color-danger};
   --color-error-alt: #{$color-error-alt};
   --color-error-alt2: #{$color-error-alt2};
-  
+
+  --color-blue: #3170ea;
+  --color-azure: #40abe4;
+  --color-azure-07a: rgba(64, 171, 228, 0.07);
+  --color-indigo: #5028e5;
+  --color-green: #5db276;
+  --color-orange: #ea9532;
+  --color-pink: #c02d76;
+  --color-blue-strong: #1b6ec2;
+  --color-outline-green: #26b050;
+
   --neutral-50: #181c23;
   --neutral-75: #191f27;
   --neutral-100: #1b222c;
@@ -131,12 +141,12 @@
   --neutral-825: #d9dbe0;
   --neutral-850: #e6e7ea;
   --neutral-900: #{$scss-neutral-900};
-  
+
   --color-white: #{$scss-white};
   --color-white-soft: #{$dark-bg-page};
   --color-white-alt: #{$color-white-alt};
   --color-border: #{$dark-border};
-  
+
   --icon-primary: var(--color-text-secondary);
   --icon-muted: var(--color-text-muted);
   --icon-inverse: var(--color-text-inverse);

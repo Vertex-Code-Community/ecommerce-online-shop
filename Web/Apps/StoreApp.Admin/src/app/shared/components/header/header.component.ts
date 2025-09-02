@@ -17,7 +17,7 @@ import { Theme } from '../../../store/theme/theme.actions';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   @Output() sidebarToggle = new EventEmitter<void>();
-  
+
   private store = inject(Store<AppState>);
   private destroy$ = new Subject<void>();
 
@@ -55,8 +55,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onSidebarToggle() {
     this.sidebarToggle.emit();
   }
-
-
 
   optionLabel(theme: Theme): string {
     return theme.charAt(0).toUpperCase() + theme.slice(1).toLowerCase();

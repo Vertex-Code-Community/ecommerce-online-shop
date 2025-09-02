@@ -10,14 +10,5 @@ import { SidebarComponent } from '../components/sidebar/sidebar.component';
   styleUrls: ['./admin-layout.component.scss']
 })
 export class AdminLayoutComponent {
-  sidebarIsOpen = false;
-  sidebarExpanded = true;
 
-  onSidebarToggle() {
-    this.sidebarIsOpen = !this.sidebarIsOpen;
-  }
-
-  onSidebarExpandedChange(expanded: boolean) {
-    this.sidebarExpanded = expanded;
-  }
 }

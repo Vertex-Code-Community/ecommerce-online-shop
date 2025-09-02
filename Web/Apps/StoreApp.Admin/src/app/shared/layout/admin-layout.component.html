@@ -1,13 +1,13 @@
 <div class="main-layout-container">
-  <div class="content-left"
-       [class.mobile-hidden]="!sidebarIsOpen"
-       [class.sidebar-collapsed]="!sidebarExpanded">
-    <app-sidebar (expandedChange)="onSidebarExpandedChange($event)"/>
+  <div class="content-left">
+    <app-sidebar/>
   </div>
+
   <div class="main-content">
     <div class="header-container">
-      <app-header (sidebarToggle)="onSidebarToggle()"></app-header>
+      <app-header></app-header>
     </div>
+
     <div class="page-container">
       <router-outlet></router-outlet>
     </div>
