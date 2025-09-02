@@ -21,4 +21,15 @@
     (pageChange)="onPageChange($event)"
     (pageSizeChange)="onPageSizeChange($event)">
   </app-pagination>
+
+  <app-confirmation-modal
+    [isVisible]="showDeleteModal"
+    [title]="'Delete Product'"
+    [message]="deleteModalMessage"
+    [confirmText]="'Delete'"
+    [cancelText]="'Cancel'"
+    (confirm)="onConfirmDelete()"
+    (cancel)="onCancelDelete()"
+    (close)="closeDeleteModal()">
+  </app-confirmation-modal>
 </div>
