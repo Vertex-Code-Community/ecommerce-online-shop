@@ -13,4 +13,11 @@
         [discount]="product.discount"
         [textSize]="'1em'">
     </app-product-price>
+
+    @if (showAdminActions) {
+      <div class="admin-actions">
+        <button class="btn btn-edit" (click)="onEditClick($event)">Edit</button>
+        <button class="btn btn-delete" (click)="onDeleteClick($event)">Delete</button>
+      </div>
+    }
 </div>

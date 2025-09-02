@@ -1,0 +1,25 @@
+@use './shared/variables' as *;
+
+.products-page {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md $spacing-xl;
+}
+
+.title {
+  margin: 0;
+}
+
+.create-btn {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius-sm;
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}

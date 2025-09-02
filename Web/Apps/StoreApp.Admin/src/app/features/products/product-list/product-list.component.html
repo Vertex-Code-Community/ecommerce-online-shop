@@ -1,13 +1,21 @@
 <div class="wrapper">
     <div class="list">
         @if (headerText) {
-            <div class="header">{{ headerText }}</div>
+            <div class="header">
+                <div class="header__title">{{ headerText }}</div>
+                @if (showCreateButton) {
+                    <button class="header__create-btn" (click)="onCreateClick()">Create</button>
+                }
+            </div>
         }
         <div class="content" [class.content--scrollable]="isScrollable">
             @for (product of products; track product.id) {
                 <app-product
                     [product]="product"
-                    (cardClick)="onProductClick($event)">
+                    [showAdminActions]="showAdminActions"
+                    (cardClick)="onProductClick($event)"
+                    (edit)="onEdit($event)"
+                    (delete)="onDelete($event)">
                 </app-product>
             }
         </div>
