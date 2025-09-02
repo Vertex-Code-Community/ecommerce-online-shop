@@ -1,100 +1,96 @@
-@use 'shared/variables' as *;
-@use 'shared/mixins' as *;
+@use './shared/variables' as *;
 
-$product-card-width: 294px;
-$product-card-width-mobile: 172px;
-$image-size: 294px;
-$image-size-mobile: 172px;
-$title-margin-top: $spacing-md;
-$title-font-size: 20px;
-$title-font-size-mobile: 16px;
-$image-bg-color: #F0EEED;
-$image-border-radius: $border-radius-xl;
+.app-card {
+  padding: $spacing-md * 2;
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius-md;
+  background: var(--color-bg-surface);
+  width: 100%;
+  max-width: 400px;
+}
 
-.product-card {
-  cursor: pointer;
-  width: $product-card-width;
-  font-size: $font-size-xxl;
-  transition: transform $transition-fast;
-  
-  &:hover {
-    @include hover-scale(1.02);
-  }
+.app-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.app-card-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.app-card-id {
+  font-size: 0.9rem;
+  color: var(--color-text-subtle);
+}
+
+.app-card-body {
+  margin-bottom: $spacing-md;
+}
+
+.app-card-row {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: $spacing-md;
 }
 
 .image-container {
-  width: $image-size;
-  height: $image-size;
-  background-color: $image-bg-color;
-  border-radius: $image-border-radius;
+  width: 96px;
+  height: 96px;
+  border-radius: $border-radius-sm;
   overflow: hidden;
-  @include shadow('sm');
+  background: var(--neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  transition: transform $transition-normal;
-  
-  .product-card:hover & {
-    transform: scale(1.05);
-  }
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
 }
 
-.title {
-  font-family: $font-family-primary;
-  font-size: $title-font-size;
-  font-weight: 700;
-  line-height: 100%;
-  letter-spacing: 0;
-  margin-top: $title-margin-top;
-  @include text-ellipsis;
-  color: $color-text-primary;
+.fields p {
+  margin: 0 0 6px 0;
+  line-height: 1.4;
 }
 
-.admin-actions {
-  margin-top: 8px;
+.fields p:first-child {
+  max-height: 60px;
+  overflow-y: auto;
+  word-wrap: break-word;
+}
+
+.app-card-actions {
   display: flex;
+  justify-content: flex-end;
   gap: 8px;
 }
 
 .btn {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg-surface);
-  color: var(--color-text-primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.btn-edit {}
-
-.btn-delete {}
-
-@include respond-below('sm') {
-  .product-card {
-    width: $product-card-width-mobile;
-    font-size: $font-size-md;
-  }
-
-  .image-container {
-    width: $image-size-mobile;
-    height: $image-size-mobile;
-  }
-
-  .title {
-    font-size: $title-font-size-mobile;
-  }
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-@include dark-theme {
-  .image-container {
-    background-color: $dark-bg-secondary;
-  }
-  
-  .title {
-    color: $dark-text-primary;
-  }
+.btn-success {
+  background: var(--color-primary);
+  color: white;
+}
+
+.btn-danger {
+  background: var(--color-error-alt);
+  color: white;
 }

@@ -1,23 +1,32 @@
-<div (click)="onCardClick()" class="product-card">
-    <div class="image-container">
-        <img class="image" [src]="product.imageUrl" [alt]="product.name" />
-    </div>
-    <div class="title">{{ product.name }}</div>
-    <app-product-rating
-        [rating]="product.rating"
-        [textSize]="'1em'">
-    </app-product-rating>
-    <app-product-price
-        [currentPrice]="product.price"
-        [oldPrice]="getOldPrice()"
-        [discount]="product.discount"
-        [textSize]="'1em'">
-    </app-product-price>
+<div class="app-card" (click)="onCardClick()">
+  <div class="app-card-header">
+    <h3 class="app-card-title">{{ product.name }}</h3>
+    <span class="app-card-id">ID: {{ product.id }}</span>
+  </div>
 
-    @if (showAdminActions) {
-      <div class="admin-actions">
-        <button class="btn btn-edit" (click)="onEditClick($event)">Edit</button>
-        <button class="btn btn-delete" (click)="onDeleteClick($event)">Delete</button>
+  <div class="app-card-body">
+    <div class="app-card-row">
+      <div class="image-container">
+        <img class="image" [src]="product.imageUrl" [alt]="product.name" />
       </div>
-    }
+      <div class="fields">
+        @if (product.description) {
+          <p>Description: {{ product.description }}</p>
+        }
+        <p>Price: {{ product.price | number:'1.2-2' }}</p>
+        @if (product.discount) {
+          <p>Discount: {{ product.discount }}%</p>
+        }
+        <p>Rating: {{ product.rating }}</p>
+        <p>Units In Stock: {{ product.unitsInStock }}</p>
+      </div>
+    </div>
+  </div>
+
+  @if (showAdminActions) {
+    <div class="app-card-actions">
+      <button class="btn btn-success" (click)="onEditClick($event)">Edit</button>
+      <button class="btn btn-danger" (click)="onDeleteClick($event)">Delete</button>
+    </div>
+  }
 </div>
