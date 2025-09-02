@@ -25,6 +25,7 @@
   .main-content {
     @include flex-column;
     height: 100%;
+    padding: $spacing-md;
 
     .logo {
       @include flex-between;

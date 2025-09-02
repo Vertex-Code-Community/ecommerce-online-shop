@@ -227,18 +227,6 @@ body {
   min-height: 0;
 }
 
-.main-content {
-  flex: 1;
-  overflow: auto;
-  padding: $spacing-md;
-  margin-left: 0;
-  transition: margin-left $transition-normal;
-
-  &.shifted {
-    margin-left: 250px;
-  }
-}
-
 .sr-only {
   @include sr-only;
 }
@@ -289,17 +277,6 @@ body {
 
 .shadow-xl {
   @include shadow('xl');
-}
-
-@include respond-below('md') {
-  .main-content {
-    margin-left: 0 !important;
-    padding: $spacing-sm;
-
-    &.shifted {
-      margin-left: 0 !important;
-    }
-  }
 }
 
 @include print-only {

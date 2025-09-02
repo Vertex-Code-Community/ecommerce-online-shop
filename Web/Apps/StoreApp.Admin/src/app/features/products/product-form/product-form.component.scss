@@ -48,6 +48,7 @@
   gap: $spacing-lg;
   margin-bottom: $spacing-xl;
   overflow-y: auto;
+  padding-right: $spacing-md;
   @include scrollbar-styles();
 }
 
