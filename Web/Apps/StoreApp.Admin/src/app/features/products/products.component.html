@@ -12,4 +12,13 @@
     (edit)="onEdit($event)"
     (delete)="onDelete($event)">
   </app-product-list>
+
+  <app-pagination
+    [currentPage]="(currentPage$ | async)!"
+    [totalPages]="(totalPages$ | async)!"
+    [totalItems]="(totalCount$ | async)!"
+    [pageSize]="(pageSize$ | async)!"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)">
+  </app-pagination>
 </div>

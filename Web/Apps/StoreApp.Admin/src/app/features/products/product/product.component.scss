@@ -78,6 +78,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  color: var(--color-text-inverse);
 }
 
 .btn:hover {
@@ -86,7 +87,6 @@
 
 .btn-success {
   background: var(--color-primary);
-  color: var(--color-text-inverse);
 }
 
 .btn-success:hover {
