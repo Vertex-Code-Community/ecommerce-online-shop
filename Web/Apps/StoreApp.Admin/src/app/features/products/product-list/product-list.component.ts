@@ -17,16 +17,11 @@ export class ProductListComponent {
   @Input() showAdminActions: boolean = false;
 
   @Output() productClick = new EventEmitter<Product>();
-  @Output() createClick = new EventEmitter<void>();
   @Output() edit = new EventEmitter<Product>();
   @Output() delete = new EventEmitter<Product>();
 
   onProductClick(product: Product): void {
     this.productClick.emit(product);
-  }
-
-  onCreateClick(): void {
-    this.createClick.emit();
   }
 
   onEdit(product: Product): void {

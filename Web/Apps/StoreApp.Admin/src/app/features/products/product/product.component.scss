@@ -81,16 +81,22 @@
 }
 
 .btn:hover {
-  transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .btn-success {
   background: var(--color-primary);
-  color: white;
+  color: var(--color-text-inverse);
+}
+
+.btn-success:hover {
+  background: var(--color-primary-hover);
 }
 
 .btn-danger {
   background: var(--color-error-alt);
-  color: white;
+}
+
+.btn-danger:hover {
+  background: var(--color-danger);
 }

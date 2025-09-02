@@ -17,11 +17,7 @@
 
 .page-container {
   display: flex;
-  flex-direction: column;
-  align-items: start;
   width: 100%;
   box-sizing: border-box;
-  justify-content: space-between;
-  gap: 50px;
   flex-shrink: 0;
 }

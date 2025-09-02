@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Product } from '../../shared/models/product/product';
@@ -16,6 +17,7 @@ import * as ProductActions from '../../store/products/product.actions';
 })
 export class ProductsComponent {
   private store = inject(Store);
+  private router = inject(Router);
 
   products$: Observable<Product[]> = this.store.select(ProductSelectors.selectProducts);
 
@@ -23,8 +25,18 @@ export class ProductsComponent {
     this.store.dispatch(ProductActions.loadProducts());
   }
 
-  onCreate(): void {}
-  onProductClick(_: Product): void {}
-  onEdit(product: Product): void {}
-  onDelete(product: Product): void {}
+  onCreate(): void {
+    this.router.navigate(['/products/create']);
+  }
+
+  onEdit(product: Product): void {
+    this.router.navigate(['/products/edit', product.id]);
+  }
+
+  onDelete(product: Product): void {
+    // TODO: Add confirmation dialog
+    if (confirm(`Are you sure you want to delete "${product.name}"?`)) {
+      this.store.dispatch(ProductActions.deleteProduct({ id: product.id }));
+    }
+  }
 }
