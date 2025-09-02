@@ -1,0 +1,103 @@
+@use './shared/variables' as *;
+
+.product-form-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+}
+
+.form-header {
+  margin-bottom: $spacing-xl;
+  text-align: center;
+}
+
+.form-title {
+  margin: 0;
+  font-size: $font-size-xxl;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.product-form {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+}
+
+.form-row {
+  margin-bottom: $spacing-md;
+}
+
+.form-actions {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: flex-end;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-lg;
+  border-top: 1px solid var(--color-border);
+}
+
+.btn {
+  padding: $spacing-sm $spacing-xl;
+  border-radius: $border-radius-md;
+  font-weight: 500;
+  font-size: $font-size-md;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  min-width: 120px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+}
+
+.btn-secondary {
+  background: var(--neutral-250);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+
+  &:hover:not(:disabled) {
+    background: var(--neutral-400);
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-form-page {
+    padding: $spacing-md;
+  }
+
+  .product-form {
+    padding: $spacing-lg;
+  }
+
+  .form-actions {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+}
