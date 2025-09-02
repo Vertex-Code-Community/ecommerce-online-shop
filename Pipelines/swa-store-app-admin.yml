@@ -1,0 +1,45 @@
+trigger: none
+pr: none
+
+pool:
+  name: 'Azure Pipelines'
+
+variables:
+  node_version: '20.x'
+  angular_project_path: 'Web/Apps/StoreApp.Admin'
+
+steps:
+  - task: NodeTool@0
+    displayName: 'Install Node.js 20.x'
+    inputs:
+      versionSpec: '$(node_version)'
+
+  - script: |
+      node -v
+      npm -v
+    displayName: 'Check Node & npm versions'
+
+  - script: |
+      cd $(angular_project_path)
+      echo "Cleaning npm cache..."
+      npm cache clean --force
+      echo "Removing node_modules if exist..."
+      rm -rf node_modules
+      echo "Installing npm packages..."
+      npm install
+    displayName: 'Clean install npm packages'
+
+  - script: |
+      cd $(angular_project_path)
+      npm run build -- --configuration production
+    displayName: 'Build Angular app'
+
+  - task: AzureStaticWebApp@0
+    displayName: 'Deploy to Azure Static Web App'
+    inputs:
+      cwd: '$(angular_project_path)'
+      app_location: 'dist/admin-client/browser'
+      skip_app_build: true
+      skip_api_build: true
+    env:
+      azure_static_web_apps_api_token: '$(AZURE_STATIC_WEB_APPS_API_TOKEN)'
