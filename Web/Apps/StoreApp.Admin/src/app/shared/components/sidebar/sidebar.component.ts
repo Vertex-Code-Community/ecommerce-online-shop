@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { SidebarItem, SidebarGroup } from '../../models/sidebar-item.interface';
+import { SidebarItem } from '../../models/sidebar-item.interface';
+import { SidebarItems } from '../../../constants/sidebar-items';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,40 +12,11 @@ import { SidebarItem, SidebarGroup } from '../../models/sidebar-item.interface';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit {
-  @Output() expandedChange = new EventEmitter<boolean>();
-
   isExpanded = true;
   activeItemId = '';
+  sidebarItems = SidebarItems;
 
-  readonly sidebarGroups: SidebarGroup[] = [
-    {
-      items: [
-        {
-          id: 'products',
-          label: 'Products',
-          icon: '/assets/icons/sidebar/products.svg',
-          route: '/products',
-          type: 'dashboard'
-        },
-        {
-          id: 'orders',
-          label: 'Orders',
-          icon: '/assets/icons/sidebar/orders.svg',
-          route: '/orders',
-          type: 'components'
-        },
-        {
-          id: 'categories',
-          label: 'Categories',
-          icon: '/assets/icons/sidebar/categories.svg',
-          route: '/categories',
-          type: 'subscriptions'
-        }
-      ]
-    }
-  ];
-
-  constructor(private router: Router) {}
+  router: Router = inject(Router);
 
   ngOnInit(): void {
     this.setActiveItemFromRoute();
@@ -52,7 +24,6 @@ export class SidebarComponent implements OnInit {
 
   toggleSidebar(): void {
     this.isExpanded = !this.isExpanded;
-    this.expandedChange.emit(this.isExpanded);
   }
 
   onItemClick(item: SidebarItem): void {
@@ -64,15 +35,10 @@ export class SidebarComponent implements OnInit {
     return this.activeItemId === item.id;
   }
 
-  getActiveClass(item: SidebarItem): string {
-    return this.isItemActive(item) ? 'active-tab' : '';
-  }
-
   private setActiveItemFromRoute(): void {
     const currentRoute = this.router.url;
-    const allItems = this.sidebarGroups.flatMap(group => group.items);
-    const activeItem = allItems.find(item => item.route === currentRoute);
-    
+    const activeItem = this.sidebarItems.find(item => item.route === currentRoute);
+
     if (activeItem) {
       this.activeItemId = activeItem.id;
     }

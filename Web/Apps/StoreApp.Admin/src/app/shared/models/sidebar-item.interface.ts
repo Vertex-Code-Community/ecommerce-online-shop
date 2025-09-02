@@ -3,11 +3,6 @@ export interface SidebarItem {
   label: string;
   icon: string;
   route: string;
-  type: 'dashboard' | 'components' | 'subscriptions' | 'documentation';
+  type: 'violet' | 'blue' | 'orange' | 'sky-blue';
   isActive?: boolean;
-}
-
-export interface SidebarGroup {
-  items: SidebarItem[];
-  hasSeparator?: boolean;
 }
