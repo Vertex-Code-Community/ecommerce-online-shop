@@ -1,20 +1,17 @@
 <div class="pagination-container">
   <div class="pagination-info">
-    <span class="items-info">
-      Showing {{ (currentPage - 1) * pageSize + 1 }} -
-      {{ Math.min(currentPage * pageSize, totalItems) }}
-      of {{ totalItems }} items
-    </span>
-
     <div class="page-size-selector">
-      <label for="pageSize">Items per page:</label>
-      <select id="pageSize" [value]="pageSize" (change)="onPageSizeChange($event)">
-        <option value="10">5</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-      </select>
+      <bch-select
+        [options]="pageSizeOptions"
+        [defaultValue]="pageSize"
+        [width]="'80px'"
+        [height]="32"
+        [itemHeight]="32"
+        [contentHeight]="160"
+        [fontSize]="'14px'"
+        [placeholder]="'Size'"
+        (selectionChange)="onPageSizeChange($event!)">
+      </bch-select>
     </div>
   </div>
 

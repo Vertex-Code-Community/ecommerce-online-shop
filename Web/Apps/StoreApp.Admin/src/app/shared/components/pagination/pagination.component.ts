@@ -1,29 +1,53 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BchSelectComponent } from '../bch-select/bch-select.component';
 
 @Component({
   selector: 'app-pagination',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BchSelectComponent],
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PaginationComponent {
+export class PaginationComponent implements OnInit, OnDestroy {
   @Input() currentPage!: number;
   @Input() totalPages!: number;
   @Input() totalItems!: number;
   @Input() pageSize!: number;
   @Input() maxVisiblePages: number = 5;
-  
+  @Input() maxVisiblePagesMobile: number = 3;
+
   @Output() pageChange = new EventEmitter<number>();
   @Output() pageSizeChange = new EventEmitter<number>();
 
-  protected readonly Math = Math;
+  pageSizeOptions = [5, 10, 20, 50, 100];
+
+  private resizeListener = () => {
+    this.cdr.markForCheck();
+  };
+
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngOnInit(): void {
+    window.addEventListener('resize', this.resizeListener);
+  }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('resize', this.resizeListener);
+  }
+
+  get isMobile(): boolean {
+    return window.innerWidth <= 768;
+  }
+
+  get effectiveMaxVisiblePages(): number {
+    return this.isMobile ? this.maxVisiblePagesMobile : this.maxVisiblePages;
+  }
 
   get visiblePages(): number[] {
-    const maxVisible = this.maxVisiblePages;
-    
+    const maxVisible = this.effectiveMaxVisiblePages;
+
     if (this.totalPages <= maxVisible) {
       return Array.from({ length: this.totalPages }, (_, i) => i + 1);
     }
@@ -76,9 +100,11 @@ export class PaginationComponent {
     }
   }
 
-  onPageSizeChange(event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    const newPageSize = parseInt(select.value, 10);
+  onPageSizeChange(newPageSize: number | number[]): void {
+    if (Array.isArray(newPageSize)) {
+      newPageSize = newPageSize[0];
+    }
+
     this.pageSizeChange.emit(newPageSize);
   }
 }
