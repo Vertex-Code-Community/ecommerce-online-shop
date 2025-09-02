@@ -1,6 +1,5 @@
-@use 'shared/variables' as *;
-@use 'shared/mixins' as *;
-@use "sass:color" as c;
+@use '../../../../styles/shared/variables' as *;
+@use '../../../../styles/shared/mixins' as *;
 
 $header-height: 50px;
 $header-padding: 10px;
@@ -29,7 +28,7 @@ $login-btn-height: 30px;
   max-width: var(--content-max-width, 1200px);
   height: 100%;
   gap: 0 $header-gap;
-  padding: 0 $spacing-md;
+  padding: 0 $spacing-lg;
 }
 
 .sidebar-toggle-wrapper {
@@ -37,12 +36,6 @@ $login-btn-height: 30px;
   flex-shrink: 0;
   display: none;
   gap: $spacing-sm;
-
-  &.mobile-only {
-    @media (max-width: 700px) {
-      display: flex;
-    }
-  }
 }
 
 .mobile-logo {
@@ -96,12 +89,6 @@ $login-btn-height: 30px;
 .user-actions-wrapper {
   @include flex-center;
   margin-left: auto;
-}
-
-.user-actions {
-  @include flex-center;
-  gap: $user-actions-gap;
-  padding-right: 20px;
 }
 
 .login-btn {
@@ -159,48 +146,24 @@ $login-btn-height: 30px;
   color: var(--color-text-inverse);
 }
 
-@include respond-below('md') {
-  .header-block-container {
-    gap: 0 ($header-gap * 0.6);
-    padding: 0 $spacing-sm;
-  }
-
-  .logo {
-    font-size: ($logo-font-size * 0.8);
-  }
-}
-
-@include respond-below('sm') {
+@media (max-width: 860px) {
   .header-section-wrapper {
     height: $header-height;
   }
 
   .header-block-container {
+    padding: 0 $spacing-md;
+    gap: 0 ($header-gap * 0.7);
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: $spacing-sm;
-    padding: 0 $spacing-sm;
     height: auto;
-    margin: 0;
   }
 
-  .theme-selector-wrapper {
-    order: 1;
+  .sidebar-toggle-wrapper {
+    display: flex;
   }
 
-  .user-actions-wrapper {
-    order: 2;
-    margin-left: auto;
-  }
-
-  .user-actions {
-    padding-right: 0;
-  }
-}
-
-@include dark-theme {
-  .header-section-wrapper {
-    background: var(--color-bg-page);
-    border-bottom-color: var(--neutral-350);
+  .mobile-logo {
+    font-size: 18px;
   }
 }

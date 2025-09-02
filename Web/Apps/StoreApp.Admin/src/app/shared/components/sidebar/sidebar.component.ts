@@ -1,8 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { SidebarItem } from '../../models/sidebar-item.interface';
 import { SidebarItems } from '../../../constants/sidebar-items';
+import { AppState } from '../../../store/app.state';
+import * as SidebarActions from '../../../store/sidebar/sidebar.actions';
+import * as SidebarSelectors from '../../../store/sidebar/sidebar.selectors';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,18 +17,20 @@ import { SidebarItems } from '../../../constants/sidebar-items';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit {
-  isExpanded = true;
   activeItemId = '';
   sidebarItems = SidebarItems;
 
-  router: Router = inject(Router);
+  private store = inject(Store<AppState>);
+  private router: Router = inject(Router);
+  
+  isExpanded$: Observable<boolean> = this.store.select(SidebarSelectors.selectSidebarIsExpanded);
 
   ngOnInit(): void {
     this.setActiveItemFromRoute();
   }
 
   toggleSidebar(): void {
-    this.isExpanded = !this.isExpanded;
+    this.store.dispatch(SidebarActions.toggleSidebar());
   }
 
   onItemClick(item: SidebarItem): void {

@@ -1,10 +1,7 @@
 <div class="header-section-wrapper">
   <div class="header-block-container">
-    <div class="sidebar-toggle-wrapper mobile-only">
-      <button class="sidebar-toggle-btn" (click)="onSidebarToggle()">
-        <img src="/assets/icons/sidebar/toggle.svg" alt="Menu" class="sidebar-toggle-icon"/>
-      </button>
-      <div class="mobile-logo">SC</div>
+    <div class="sidebar-toggle-wrapper">
+      <div class="mobile-logo" (click)="onSidebarToggle()">SC</div>
     </div>
 
     <div class="theme-selector-wrapper">
@@ -21,12 +18,10 @@
     </div>
 
     <div class="user-actions-wrapper">
-      <div class="user-actions">
-        <button class="login-btn" (click)="onLoginClick()">
-          <span class="login-icon"></span>
-          <span class="login-text">Login</span>
-        </button>
-      </div>
+      <button class="login-btn" (click)="onLoginClick()">
+        <span class="login-icon"></span>
+        <span class="login-text">Login</span>
+      </button>
     </div>
   </div>
 </div>

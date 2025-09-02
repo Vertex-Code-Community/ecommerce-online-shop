@@ -1,11 +1,11 @@
-<div class='left-menu-container {{isExpanded ? "opened-menu" : "closed-menu"}}'>
+<div class='left-menu-container {{(isExpanded$ | async) ? "opened-menu" : "closed-menu"}}'>
 
   <div class="main-content">
     <div class="logo">
-        <div class="logo-img" (click)="toggleSidebar()">
-          <img [src]="'/svg/sidebar/products.svg'"/>
+        <div class="logo-text" (click)="toggleSidebar()">
+          <span>{{!(isExpanded$ | async) ? 'SC' : 'SHOP.CO'}}</span>
         </div>
-        <div class='close-button {{!isExpanded ? "hidden-display-none" : ""}}' (click)="toggleSidebar()"></div>
+        <div class='close-button {{!(isExpanded$ | async) ? "hidden-display-none" : ""}}' (click)="toggleSidebar()"></div>
     </div>
 
     <div class='logo-tabs-separator line'></div>
@@ -21,7 +21,7 @@
               <img [src]="item.icon"/>
             </div>
             <div class="tab-name">
-              <label class='{{!isExpanded ? "hide-text" : "show-text"}}'>{{ item.label }}</label>
+              <label class='{{!(isExpanded$ | async) ? "hide-text" : "show-text"}}'>{{ item.label }}</label>
             </div>
           </li>
         }
@@ -29,5 +29,5 @@
     </div>
   </div>
 
-  <div class='open-button {{isExpanded ? "hidden-display-none" : ""}}' (click)="toggleSidebar()"></div>
+  <div class='open-button {{(isExpanded$ | async) ? "hidden-display-none" : ""}}' (click)="toggleSidebar()"></div>
 </div>

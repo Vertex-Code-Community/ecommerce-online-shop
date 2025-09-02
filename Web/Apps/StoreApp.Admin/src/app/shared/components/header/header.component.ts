@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { AppState } from '../../../store/app.state';
 import * as ThemeActions from '../../../store/theme/theme.actions';
 import { selectCurrentTheme } from '../../../store/theme/theme.selectors';
 import { Theme } from '../../../store/theme/theme.actions';
+import * as SidebarActions from '../../../store/sidebar/sidebar.actions';
 
 @Component({
   selector: 'app-header',
@@ -16,8 +17,6 @@ import { Theme } from '../../../store/theme/theme.actions';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  @Output() sidebarToggle = new EventEmitter<void>();
-
   private store = inject(Store<AppState>);
   private destroy$ = new Subject<void>();
 
@@ -53,7 +52,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onSidebarToggle() {
-    this.sidebarToggle.emit();
+    this.store.dispatch(SidebarActions.toggleSidebar());
   }
 
   optionLabel(theme: Theme): string {
