@@ -10,13 +10,9 @@
         <img class="image" [src]="product.imageUrl" [alt]="product.name" />
       </div>
       <div class="fields">
-        @if (product.description) {
-          <p>Description: {{ product.description }}</p>
-        }
+        <p>Description: {{ product.description ?? "N/A" }}</p>
         <p>Price: {{ product.price | number:'1.2-2' }}</p>
-        @if (product.discount) {
-          <p>Discount: {{ product.discount }}%</p>
-        }
+        <p>Discount: @if (product.discount) { {{ product.discount }}% } @else { N/A }</p>
         <p>Rating: {{ product.rating }}</p>
         <p>Units In Stock: {{ product.unitsInStock }}</p>
       </div>

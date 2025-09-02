@@ -2,10 +2,7 @@
     <div class="list">
         @if (headerText) {
             <div class="header">
-                <div class="header__title">{{ headerText }}</div>
-                @if (showCreateButton) {
-                    <button class="header__create-btn" (click)="onCreateClick()">Create</button>
-                }
+                <div class="header-title">{{ headerText }}</div>
             </div>
         }
         <div class="content" [class.content--scrollable]="isScrollable">
@@ -19,10 +16,5 @@
                 </app-product>
             }
         </div>
-        @if (showViewAllButton) {
-            <div class="view-all">
-                <button class="view-all-btn" (click)="onViewAllClick()">View All</button>
-            </div>
-        }
     </div>
 </div>

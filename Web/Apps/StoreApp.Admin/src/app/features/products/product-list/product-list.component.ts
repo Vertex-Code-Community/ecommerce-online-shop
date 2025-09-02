@@ -12,23 +12,17 @@ import { Product } from '../../../shared/models/product/product';
 export class ProductListComponent {
   @Input() products: Product[] = [];
   @Input() headerText: string = '';
-  @Input() showViewAllButton: boolean = true;
   @Input() isScrollable: boolean = false;
   @Input() showCreateButton: boolean = false;
   @Input() showAdminActions: boolean = false;
 
   @Output() productClick = new EventEmitter<Product>();
-  @Output() viewAllClick = new EventEmitter<void>();
   @Output() createClick = new EventEmitter<void>();
   @Output() edit = new EventEmitter<Product>();
   @Output() delete = new EventEmitter<Product>();
 
   onProductClick(product: Product): void {
     this.productClick.emit(product);
-  }
-
-  onViewAllClick(): void {
-    this.viewAllClick.emit();
   }
 
   onCreateClick(): void {

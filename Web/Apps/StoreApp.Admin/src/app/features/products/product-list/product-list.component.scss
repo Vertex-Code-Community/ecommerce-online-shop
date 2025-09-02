@@ -6,8 +6,6 @@ $header-margin-bottom: 56px;
 $header-margin-bottom-mobile: 32px;
 $content-gap: 20px;
 $content-gap-mobile: 16px;
-$view-all-margin-top: 36px;
-$view-all-margin-top-mobile: 24px;
 $button-padding: $spacing-md $spacing-xl;
 $button-min-width: 120px;
 
@@ -40,51 +38,16 @@ $button-min-width: 120px;
   justify-content: center;
 
   &--scrollable {
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 0 $spacing-md;
-    gap: $content-gap-mobile;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
-    app-product {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-    }
-
-    app-product:last-child {
-      margin-right: $spacing-md;
-    }
-  }
-}
-
-.view-all {
-  @include flex-center;
-  margin-top: $view-all-margin-top;
-}
-
-.view-all-btn {
-  @include button-base;
-  background-color: $color-bg-surface;
-  color: $color-text-primary;
-  border: 1px solid $color-border;
-  border-radius: $border-radius-full;
-  padding: $button-padding;
-  font-family: $font-family-primary;
-  font-size: $font-size-md;
-  font-weight: 500;
-  min-width: $button-min-width;
-  @include shadow('sm');
-
-  &:hover:not(:disabled) {
-    background-color: $color-text-secondary;
-    border-color: $color-text-muted;
-    @include shadow('md');
+    gap: $content-gap;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--neutral-300);
+    @include scrollbar-styles(8px, $scss-neutral-300, $color-primary);
   }
 }
 
@@ -100,48 +63,10 @@ $button-min-width: 120px;
     text-align: center;
     padding: 0 $spacing-md;
   }
-
-  .content {
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    padding: 0 $spacing-md;
-    gap: $content-gap-mobile;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
-    app-product {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-    }
-
-    app-product:last-child {
-      margin-right: $spacing-md;
-    }
-  }
-
-  .view-all {
-    margin-top: $view-all-margin-top-mobile;
-  }
 }
 
 @include dark-theme {
   .header {
     color: $dark-text-primary;
-  }
-
-  .view-all-btn {
-    background-color: $dark-bg-surface;
-    color: $dark-text-primary;
-    border-color: $dark-border;
-
-    &:hover:not(:disabled) {
-      background-color: $dark-text-secondary;
-      border-color: $dark-text-muted;
-    }
   }
 }

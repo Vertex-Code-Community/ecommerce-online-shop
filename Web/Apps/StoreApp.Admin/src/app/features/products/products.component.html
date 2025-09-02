@@ -1,14 +1,14 @@
 <div class="products-page">
   <div class="header">
     <h2 class="title">Products</h2>
+    <button class="create-btn">Create</button>
   </div>
 
   <app-product-list
     [products]="(products$ | async) ?? []"
-    [headerText]="'All Products'"
-    [showViewAllButton]="false"
-    [showCreateButton]="true"
+    [showCreateButton]="false"
     [showAdminActions]="true"
+    [isScrollable]="true"
     (createClick)="onCreate()"
     (productClick)="onProductClick($event)"
     (edit)="onEdit($event)"
