@@ -54,7 +54,7 @@
 
 .form-row {
   display: flex;
-  gap: $spacing-lg;
+  gap: $spacing-md;
   align-items: flex-start;
 
   &.full-width {
@@ -63,6 +63,10 @@
     app-form-textarea {
       width: 100%;
     }
+  }
+
+  &.file-upload {
+    @include flex-column-center();
   }
 
   app-form-input,
@@ -141,7 +145,8 @@
     gap: $spacing-md;
 
     app-form-input,
-    app-form-textarea {
+    app-form-textarea,
+    app-form-file-upload {
       min-width: 100%;
     }
   }

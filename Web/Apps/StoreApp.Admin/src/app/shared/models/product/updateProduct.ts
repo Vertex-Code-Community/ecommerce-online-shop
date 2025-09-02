@@ -1,4 +1,4 @@
-import {CreateProduct} from './createProduct';
+import { CreateProduct } from './createProduct';
 
 export interface UpdateProduct extends CreateProduct {
   id: number;
