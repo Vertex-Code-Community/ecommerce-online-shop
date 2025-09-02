@@ -1,0 +1,26 @@
+<div class="form-textarea">
+  <label class="form-textarea__label" [for]="'textarea-' + label">
+    {{ label }}
+    @if (required) {
+      <span class="required">*</span>
+    }
+  </label>
+  
+  <textarea
+    [id]="'textarea-' + label"
+    [rows]="rows"
+    [placeholder]="placeholder"
+    [required]="required"
+    [disabled]="disabled"
+    [value]="value"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    class="form-textarea__field"
+    [class.form-textarea__field--error]="error"
+    [class.form-textarea__field--disabled]="disabled">
+  </textarea>
+  
+  @if (error) {
+    <div class="form-textarea__error">{{ error }}</div>
+  }
+</div>

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FormInputComponent } from '../../../shared/components/form-input/form-input.component';
+import { FormTextareaComponent } from '../../../shared/components/form-textarea/form-textarea.component';
 import { UpdateProduct } from '../../../shared/models/product/updateProduct';
 import * as ProductActions from '../../../store/products/product.actions';
 import * as ProductSelectors from '../../../store/products/product.selectors';
@@ -11,7 +12,7 @@ import * as ProductSelectors from '../../../store/products/product.selectors';
 @Component({
   selector: 'app-product-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormInputComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormInputComponent, FormTextareaComponent],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
 })

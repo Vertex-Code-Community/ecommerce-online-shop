@@ -4,54 +4,53 @@
   </div>
 
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
-    <div class="form-row">
-      <app-form-input
-        label="Name"
-        formControlName="name"
-        placeholder="Enter product name"
-        [required]="true"
-        [error]="getFieldError('name')">
-      </app-form-input>
-    </div>
+    <div class="form-content">
+      <div class="form-row">
+        <app-form-input
+          label="Name"
+          formControlName="name"
+          placeholder="Enter product name"
+          [required]="true"
+          [error]="getFieldError('name')">
+        </app-form-input>
 
-    <div class="form-row">
-      <app-form-input
-        label="Description"
-        formControlName="description"
-        placeholder="Enter product description">
-      </app-form-input>
-    </div>
+        <app-form-input
+          label="Price"
+          type="number"
+          formControlName="price"
+          placeholder="0.00"
+          [required]="true"
+          [error]="getFieldError('price')">
+        </app-form-input>
+      </div>
 
-    <div class="form-row">
-      <app-form-input
-        label="Price"
-        type="number"
-        formControlName="price"
-        placeholder="0.00"
-        [required]="true"
-        [error]="getFieldError('price')">
-      </app-form-input>
-    </div>
+      <div class="form-row">
+        <app-form-input
+          label="Discount"
+          type="number"
+          formControlName="discount"
+          placeholder="0.00"
+          [error]="getFieldError('discount')">
+        </app-form-input>
 
-    <div class="form-row">
-      <app-form-input
-        label="Discount"
-        type="number"
-        formControlName="discount"
-        placeholder="0.00"
-        [error]="getFieldError('discount')">
-      </app-form-input>
-    </div>
+        <app-form-input
+          label="Units In Stock"
+          type="number"
+          formControlName="unitsInStock"
+          placeholder="0"
+          [required]="true"
+          [error]="getFieldError('unitsInStock')">
+        </app-form-input>
+      </div>
 
-    <div class="form-row">
-      <app-form-input
-        label="Units In Stock"
-        type="number"
-        formControlName="unitsInStock"
-        placeholder="0"
-        [required]="true"
-        [error]="getFieldError('unitsInStock')">
-      </app-form-input>
+      <div class="form-row full-width">
+        <app-form-textarea
+          label="Description"
+          formControlName="description"
+          placeholder="Enter product description"
+          [rows]="4">
+        </app-form-textarea>
+      </div>
     </div>
 
     <div class="form-actions">
