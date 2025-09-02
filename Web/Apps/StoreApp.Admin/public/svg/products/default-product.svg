@@ -1,0 +1,22 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#F8F9FA" rx="12"/>
+
+  <rect x="60" y="80" width="180" height="140" fill="#E9ECEF" rx="8" stroke="#DEE2E6" stroke-width="2"/>
+
+  <rect x="80" y="100" width="140" height="20" fill="#6C757D" rx="4"/>
+
+  <rect x="80" y="130" width="100" height="8" fill="#ADB5BD" rx="4"/>
+  <rect x="80" y="145" width="80" height="8" fill="#ADB5BD" rx="4"/>
+  <rect x="80" y="160" width="120" height="8" fill="#ADB5BD" rx="4"/>
+
+  <rect x="200" y="130" width="60" height="30" fill="#33B469" rx="4"/>
+  <text x="230" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">$99</text>
+
+  <circle cx="230" cy="200" r="20" fill="#33B469"/>
+  <path d="M220 200h20M230 190v20" stroke="white" stroke-width="2" stroke-linecap="round"/>
+
+  <circle cx="150" cy="120" r="15" fill="#6C757D" opacity="0.3"/>
+  <path d="M140 120h20M150 110v20" stroke="#6C757D" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+
+  <text x="150" y="260" text-anchor="middle" fill="#6C757D" font-family="Arial, sans-serif" font-size="14" font-weight="500">No Image Available</text>
+</svg>

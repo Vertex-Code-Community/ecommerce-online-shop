@@ -60,7 +60,7 @@ export class ProductFormComponent implements OnInit {
 
       const allowedFormats = ['image/png', 'image/jpg', 'image/jpeg'];
       const format = value.split(';')[0].split(':')[1];
-      
+
       if (!allowedFormats.includes(format)) {
         return { 'invalidFormat': { value: format } };
       }
@@ -90,7 +90,7 @@ export class ProductFormComponent implements OnInit {
             price: product.price,
             discount: product.discount || 0,
             unitsInStock: product.unitsInStock,
-            imageData: product.imageUrl || ''
+            imageData: product.imageUrl || null
           });
         }
       });
@@ -99,7 +99,7 @@ export class ProductFormComponent implements OnInit {
 
   private prepareImageData(): string | null {
     const imageData = this.productForm.get('imageData')?.value;
-    
+
     if (!imageData) {
       return null;
     }
@@ -119,12 +119,12 @@ export class ProductFormComponent implements OnInit {
     if (this.productForm.valid) {
       const formValue = this.productForm.value;
       const imageData = this.prepareImageData();
-      
+
       const submitData = {
         ...formValue,
         imageData: imageData
       };
-      
+
       if (this.isEditMode && this.productId) {
         const updateProduct: UpdateProduct = {
           id: this.productId,
@@ -134,7 +134,7 @@ export class ProductFormComponent implements OnInit {
       } else {
         this.store.dispatch(ProductActions.addProduct(submitData));
       }
-      
+
       this.router.navigate(['/products']);
     }
   }

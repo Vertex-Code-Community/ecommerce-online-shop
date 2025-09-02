@@ -12,7 +12,7 @@
        (dragleave)="onDragLeave($event)"
        (drop)="onDrop($event)">
 
-    <div class="upload-content" *ngIf="!value">
+    <div class="upload-content" *ngIf="!hasValidImage">
       <div class="upload-icon">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 16L12 8M12 8L15 11M12 8L9 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -26,7 +26,7 @@
       <p class="upload-hint">PNG, JPG, JPEG up to 4MB</p>
     </div>
 
-    <div class="file-preview" *ngIf="value">
+    <div class="file-preview" *ngIf="hasValidImage">
       <div class="preview-image">
         <img [src]="value" [alt]="fileName" />
       </div>

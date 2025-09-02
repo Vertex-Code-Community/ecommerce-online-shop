@@ -33,8 +33,12 @@ export class FormFileUploadComponent implements ControlValueAccessor {
   onChange = (value: string) => {};
   onTouched = () => {};
 
-  writeValue(value: string): void {
-    this.value = value || '';
+  writeValue(value: string | null | undefined): void {
+    this.value = this.isValidImageValue(value) ? (value || '') : '';
+    if (!this.isValidImageValue(value)) {
+      this.fileName = '';
+      this.fileError = '';
+    }
   }
 
   registerOnChange(fn: any): void {
@@ -137,5 +141,21 @@ export class FormFileUploadComponent implements ControlValueAccessor {
 
   get errorMessage(): string {
     return this.fileError || this.error;
+  }
+
+  get hasValidImage(): boolean {
+    return this.isValidImageValue(this.value);
+  }
+
+  private isValidImageValue(value: string | null | undefined): boolean {
+    if (!value || value.trim() === '') {
+      return false;
+    }
+    
+    // Check if it's a valid base64 image or URL
+    return value.startsWith('data:image/') || 
+           value.startsWith('http://') || 
+           value.startsWith('https://') ||
+           value.startsWith('/assets/');
   }
 }
