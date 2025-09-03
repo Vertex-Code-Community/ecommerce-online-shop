@@ -1,1 +1,81 @@
-<p>image-gallery works!</p>
+<div class="image-gallery" [attr.data-display-mode]="displayMode">
+
+  @if (displayMode === 'single') {
+    <div class="single-image-wrapper">
+      <img [src]="selectedImage"
+           class="single-image"
+           alt="Product image"
+           loading="lazy" />
+    </div>
+  }
+  @else if (displayMode === 'simple') {
+    <div class="simple-gallery">
+      <div class="thumbnails simple">
+        @for (item of visibleThumbnailsWithIndex; track item.originalIndex) {
+          <div class="thumbnail-wrapper"
+               [class.selected]="isSelected(item.originalIndex)"
+               (click)="selectImage(item.originalIndex)">
+            <img [src]="item.image"
+                 class="thumbnail"
+                 [alt]="'Product image ' + (item.originalIndex + 1)"
+                 loading="lazy" />
+          </div>
+        }
+      </div>
+
+      <div class="main-image-wrapper">
+        <img [src]="selectedImage"
+             class="main-image"
+             alt="Selected product image"
+             loading="lazy" />
+      </div>
+    </div>
+  }
+  @else {
+    <div class="full-gallery">
+      <div class="thumbnails-section">
+        <div class="thumbnails gallery">
+          @for (item of visibleThumbnailsWithIndex; track item.originalIndex) {
+            <div class="thumbnail-wrapper"
+                 [class.selected]="isSelected(item.originalIndex)"
+                 (click)="selectImage(item.originalIndex)">
+              <img [src]="item.image"
+                   class="thumbnail"
+                   [alt]="'Product image ' + (item.originalIndex + 1)"
+                   loading="lazy" />
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="main-image-wrapper">
+        <img [src]="selectedImage"
+             class="main-image"
+             alt="Selected product image"
+             loading="lazy" />
+
+        <button class="nav-arrow prev"
+                (click)="navigatePrev()"
+                [attr.aria-label]="'Show previous image'">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <button class="nav-arrow next"
+                (click)="navigateNext()"
+                [attr.aria-label]="'Show next image'">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  }
+
+  @if (displayMode === 'gallery' && images.length > 0) {
+    <div class="image-counter">
+      {{ selectedIndex + 1 }} / {{ images.length }}
+    </div>
+  }
+</div>
