@@ -39,28 +39,34 @@
     </div>
   </div>
 
-  <div class="review-list">
-    @for (review of displayedReviews; track review.id) {
-      <app-review [review]="review" width="100%" height="250px"></app-review>
-    }
-  </div>
-
-  @if (shouldShowToggleButton) {
-    <div class="load-more-wrapper">
-      <button class="load-more-button" (click)="toggleShowAll()">
-        {{ toggleButtonText }}
-      </button>
+  @if (isLoading) {
+    <div class="loading-state">
+      <p>Loading reviews...</p>
     </div>
-  }
-
-  @if (reviews.length === 0) {
-    <div class="empty-state">
-      <p class="empty-message">No reviews yet</p>
-      @if (!isReadOnly) {
-        <button class="write-first-review-button" (click)="onWriteReview()">
-          Write the first review
-        </button>
+  } @else {
+    <div class="review-list">
+      @for (review of displayedReviews; track review.id) {
+        <app-review [review]="review" width="100%" height="250px"></app-review>
       }
     </div>
+
+    @if (shouldShowToggleButton) {
+      <div class="load-more-wrapper">
+        <button class="load-more-button" (click)="toggleShowAll()">
+          {{ toggleButtonText }}
+        </button>
+      </div>
+    }
+
+    @if (reviews.length === 0) {
+      <div class="empty-state">
+        <p class="empty-message">No reviews yet</p>
+        @if (!isReadOnly) {
+          <button class="write-first-review-button" (click)="onWriteReview()">
+            Write the first review
+          </button>
+        }
+      </div>
+    }
   }
 </div>

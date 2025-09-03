@@ -171,6 +171,19 @@ $load-button-width: 216px;
   }
 }
 
+.loading-state {
+  @include flex-center;
+  padding: $spacing-xxl;
+  text-align: center;
+
+  p {
+    font-family: var(--font-satoshi-regular);
+    font-size: $font-size-md;
+    color: $color-text-secondary;
+    margin: 0;
+  }
+}
+
 .empty-state {
   @include flex-column;
   align-items: center;

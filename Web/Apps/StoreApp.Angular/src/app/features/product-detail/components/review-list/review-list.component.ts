@@ -19,6 +19,7 @@ export enum ReviewSortOptions {
 export class ReviewListComponent {
   @Input() reviews: Review[] = [];
   @Input() isReadOnly: boolean = false;
+  @Input() isLoading: boolean = false;
   @Output() writeReviewClicked = new EventEmitter<void>();
 
   selectedSortOption: ReviewSortOptions = ReviewSortOptions.Latest;

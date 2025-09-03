@@ -1,5 +1,5 @@
 <div class="product-detail-page-wrapper">
-  @if (isLoading) {
+  @if (isLoading$ | async) {
     <div class="loading-indicator">
       <app-loading-indicator
         text="Loading product details..."
@@ -7,15 +7,26 @@
         color="#33b469">
       </app-loading-indicator>
     </div>
-  } @else {
+  }
+  @else if (error$ | async)
+  {
+    <div class="error-section">
+      <h2>Error Loading Product</h2>
+      <p>{{ (error$ | async).message }}</p>
+      <button (click)="loadProduct()" class="retry-button">Try Again</button>
+    </div>
+  }
+  @else if (currentProduct$ | async)
+  {
     <div class="product-detail-page">
       <app-product-info
-        [fullProduct]="demoFullProduct"
+        [fullProduct]="(currentProduct$ | async)!"
         (addToCartClicked)="onProductAddToCart($event)">
       </app-product-info>
 
       <app-review-list
-        [reviews]="demoReviews"
+        [reviews]="(reviews$ | async) || []"
+        [isLoading]="(reviewsLoading$ | async) || false"
         [isReadOnly]="false"
         (writeReviewClicked)="onWriteReview()">
       </app-review-list>

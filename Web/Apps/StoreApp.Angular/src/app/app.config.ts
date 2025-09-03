@@ -17,6 +17,7 @@ import { appReducers } from './store/app.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
 import { ProductEffects } from './store/products/product.effects';
 import { ThemeEffects } from './store/theme/theme.effects';
+import { ReviewEffects } from './store/reviews/review.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,7 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideStore(appReducers),
-    provideEffects([AuthEffects, ProductEffects, ThemeEffects]),
+    provideEffects([AuthEffects, ProductEffects, ThemeEffects, ReviewEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideRouterStore()
   ]
