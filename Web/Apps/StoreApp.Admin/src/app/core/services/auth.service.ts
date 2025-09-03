@@ -26,10 +26,8 @@ export class AuthService {
   }
 
   login(request: LoginRequest): Observable<Tokens> {
-    // return this.http.post<Tokens>(`${this.apiUrl}/login`, request)
-    //   .pipe(
-    //     catchError(this.handleError.bind(this))
-    //   );
+    return this.http.post<Tokens>(`${this.apiUrl}/login`, request)
+      .pipe(catchError(this.handleError.bind(this)));
 
     // Mocked response for UI testing without backend
     const mockTokens: Tokens = {
@@ -40,20 +38,16 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    // return this.http.post<void>(`${this.apiUrl}/logout`, {})
-    //   .pipe(
-    //     catchError(this.handleError.bind(this))
-    //   );
+    return this.http.post<void>(`${this.apiUrl}/logout`, {})
+      .pipe(catchError(this.handleError.bind(this)));
 
     // Mocked response for UI testing without backend
     return of(void 0).pipe(delay(200));
   }
 
   refreshToken(request: Tokens): Observable<Tokens> {
-    // return this.http.post<Tokens>(`${this.apiUrl}/refresh-tokens`, request)
-    //   .pipe(
-    //     catchError(this.handleError.bind(this))
-    //   );
+    return this.http.post<Tokens>(`${this.apiUrl}/refresh-tokens`, request)
+      .pipe(catchError(this.handleError.bind(this)));
 
     // Mocked response for UI testing without backend
     const mockTokens: Tokens = {

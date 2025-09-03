@@ -36,15 +36,15 @@ export class ProductService {
   getPagedProducts(page: number, pageSize: number): Observable<PagedResult<Product>> {
     const safePage = Math.max(1, page || 1);
     const safePageSize = Math.max(1, pageSize || 10);
-    //
-    // const params = new HttpParams()
-    //   .set('pageNumber', String(safePage))
-    //   .set('pageSize', String(safePageSize));
-    //
-    // return this.http.get<PagedResult<Product>>(`${this.apiUrl}`, { params })
-    //   .pipe(
-    //     catchError(this.handleError.bind(this))
-    //   );
+
+    const params = new HttpParams()
+      .set('pageNumber', String(safePage))
+      .set('pageSize', String(safePageSize));
+
+    return this.http.get<PagedResult<Product>>(`${this.apiUrl}`, { params })
+      .pipe(
+        catchError(this.handleError.bind(this))
+      );
 
     // Mocked response for UI testing without backend
     const allItems: Product[] = createMockProducts(57);
@@ -58,14 +58,14 @@ export class ProductService {
   }
 
   getProductById(id: number): Observable<FullProduct> {
-    // if (!id || id <= 0) {
-    //   return throwError(() => ({ message: 'Invalid product ID', statusCode: 400 }));
-    // }
-    //
-    // return this.http.get<FullProduct>(`${this.apiUrl}/${id}`)
-    //   .pipe(
-    //     catchError(this.handleError.bind(this))
-    //   );
+    if (!id || id <= 0) {
+      return throwError(() => ({ message: 'Invalid product ID', statusCode: 400 }));
+    }
+
+    return this.http.get<FullProduct>(`${this.apiUrl}/${id}`)
+      .pipe(
+        catchError(this.handleError.bind(this))
+      );
 
     const product: FullProduct = {
       id,
@@ -101,40 +101,40 @@ export class ProductService {
   }
 
   addProduct(product: CreateProduct): Observable<void> {
-    // if (!product) {
-    //   return throwError(() => ({ message: 'Product data is required', statusCode: 400 }));
-    // }
-    //
-    // return this.http.post<void>(`${this.apiUrl}`, product)
-    //   .pipe(
-    //     catchError(this.handleError.bind(this))
-    //   );
+    if (!product) {
+      return throwError(() => ({ message: 'Product data is required', statusCode: 400 }));
+    }
+
+    return this.http.post<void>(`${this.apiUrl}`, product)
+      .pipe(
+        catchError(this.handleError.bind(this))
+      );
 
     return of(void 0).pipe(delay(100));
   }
 
   updateProduct(product: UpdateProduct): Observable<void> {
-    // if (!product || !product.id) {
-    //   return throwError(() => ({ message: 'Product ID is required for update', statusCode: 400 }));
-    // }
-    //
-    // return this.http.put<void>(`${this.apiUrl}`, product)
-    //   .pipe(
-    //     catchError(this.handleError.bind(this))
-    //   );
+    if (!product || !product.id) {
+      return throwError(() => ({ message: 'Product ID is required for update', statusCode: 400 }));
+    }
+
+    return this.http.put<void>(`${this.apiUrl}`, product)
+      .pipe(
+        catchError(this.handleError.bind(this))
+      );
 
     return of(void 0).pipe(delay(100));
   }
 
   deleteProductById(id: number): Observable<void> {
-    // if (!id || id <= 0) {
-    //   return throwError(() => ({ message: 'Invalid product ID', statusCode: 400 }));
-    // }
-    //
-    // return this.http.delete<void>(`${this.apiUrl}/${id}`)
-    //   .pipe(
-    //     catchError(this.handleError.bind(this))
-    //   );
+    if (!id || id <= 0) {
+      return throwError(() => ({ message: 'Invalid product ID', statusCode: 400 }));
+    }
+
+    return this.http.delete<void>(`${this.apiUrl}/${id}`)
+      .pipe(
+        catchError(this.handleError.bind(this))
+      );
 
     return of(void 0).pipe(delay(100));
   }
@@ -148,7 +148,6 @@ function createMockProducts(total: number): Product[] {
       name: `Mock Product ${i}`,
       description: `This is a mocked product used for UI testing. Item ${i}.`,
       price: Number((10 + (i % 10) * 3.5).toFixed(2)),
-      imageUrl: '/mock.png',
       discount: (i % 4 === 0) ? 0.15 : undefined,
       rating: 3 + (i % 3),
       unitsInStock: 10 + (i % 25)
