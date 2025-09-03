@@ -1,0 +1,93 @@
+@use '../../../../styles/shared/variables' as *;
+@use '../../../../styles/shared/mixins' as *;
+@use 'sass:color' as c;
+
+$size-option-gap: 10px;
+$size-option-padding-x: 24px;
+$size-option-padding-y: 12px;
+$size-option-bg: rgba(240, 240, 240, 1);
+$size-option-border-radius: 62px;
+
+.size-selector {
+  @include flex-column;
+  gap: $size-option-gap;
+}
+
+.selector-label {
+  font-family: var(--font-satoshi-regular);
+  font-weight: 400;
+  font-size: $font-size-md;
+  line-height: 22px;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.size-options {
+  display: flex;
+  flex-direction: row;
+  gap: $size-option-gap;
+  flex-wrap: wrap;
+}
+
+.size-option {
+  border: none;
+  padding: $size-option-padding-y $size-option-padding-x;
+  background-color: $size-option-bg;
+  border-radius: $size-option-border-radius;
+  cursor: pointer;
+  font-family: var(--font-satoshi-regular);
+  font-weight: 400;
+  font-size: $font-size-md;
+  line-height: 22px;
+  color: $color-text-secondary;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: c.adjust($size-option-bg, $lightness: -5%);
+    transform: translateY(-1px);
+    box-shadow: $shadow-sm;
+  }
+
+  &:focus {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.selected {
+    background-color: $scss-black;
+    color: $scss-white;
+
+    &:hover {
+      background-color: c.adjust($scss-black, $lightness: 10%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .size-option {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+
+    &:active {
+      transform: none;
+    }
+  }
+}
+
+@include respond-below('sm') {
+  .size-options {
+    gap: calc($size-option-gap / 2);
+  }
+
+  .size-option {
+    padding: calc($size-option-padding-y - 2px) calc($size-option-padding-x - 4px);
+    font-size: $font-size-sm;
+  }
+}
