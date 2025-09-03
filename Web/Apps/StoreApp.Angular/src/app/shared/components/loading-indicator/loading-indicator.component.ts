@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-loading-indicator',
@@ -8,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './loading-indicator.component.scss'
 })
 export class LoadingIndicatorComponent {
-
+  @Input() text: string = 'Loading...';
+  @Input() size: 'small' | 'medium' | 'large' = 'medium';
+  @Input() color: string = '#000000';
 }
