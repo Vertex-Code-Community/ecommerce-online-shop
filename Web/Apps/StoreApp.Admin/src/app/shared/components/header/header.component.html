@@ -1,0 +1,29 @@
+<div class="header-section-wrapper">
+  <div class="header-block-container">
+    <div class="sidebar-toggle-wrapper">
+      <div class="mobile-logo" (click)="onSidebarToggle()">SC</div>
+    </div>
+
+    <div class="theme-selector-wrapper">
+      <bch-select
+        [options]="themeOptions"
+        [optionLabelFn]="optionLabel"
+        [optionValueFn]="optionValue"
+        [defaultValue]="selectedTheme"
+        [defaultText]="'Theme...'"
+        [width]="'100px'"
+        [height]="40"
+        (selectItem)="onThemeChange($event)">
+      </bch-select>
+    </div>
+
+    <div class="user-actions-wrapper">
+      @if (isAuthenticated$ | async) {
+        <button class="logout-btn" (click)="onLogoutClick()">
+          <span class="logout-icon"></span>
+          <span class="logout-text">Logout</span>
+        </button>
+      }
+    </div>
+  </div>
+</div>

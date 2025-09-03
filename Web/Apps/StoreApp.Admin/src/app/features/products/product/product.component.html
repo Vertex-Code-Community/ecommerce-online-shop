@@ -1,0 +1,28 @@
+<div class="app-card" (click)="onCardClick()">
+  <div class="app-card-header">
+    <h3 class="app-card-title">{{ product.name }}</h3>
+    <span class="app-card-id">ID: {{ product.id }}</span>
+  </div>
+
+  <div class="app-card-body">
+    <div class="app-card-row">
+      <div class="image-container">
+        <img class="image" [src]="product.imageUrl ?? '/assets/svg/products/default-product.svg'" alt="{{ product.name }}" />
+      </div>
+      <div class="fields">
+        <p>Description: {{ product.description ?? "N/A" }}</p>
+        <p>Price: {{ product.price | number:'1.2-2' }}</p>
+        <p>Discount: @if (product.discount) { {{ product.discount }}% } @else { N/A }</p>
+        <p>Rating: {{ product.rating }}</p>
+        <p>Units In Stock: {{ product.unitsInStock }}</p>
+      </div>
+    </div>
+  </div>
+
+  @if (showAdminActions) {
+    <div class="app-card-actions">
+      <button class="btn btn-success" (click)="onEditClick($event)">Edit</button>
+      <button class="btn btn-danger" (click)="onDeleteClick($event)">Delete</button>
+    </div>
+  }
+</div>

@@ -1,0 +1,54 @@
+<div class="login-form-container">
+  <div class="form-header">
+    <h2 class="form-title">Log in</h2>
+  </div>
+
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-content">
+      <div class="form-row">
+        <app-form-input
+          label="Email address"
+          type="email"
+          formControlName="email"
+          placeholder="example@gmail.com"
+          [required]="true"
+          [error]="getFieldError('email')">
+        </app-form-input>
+      </div>
+
+      <div class="form-row">
+        <div class="password-input-wrapper">
+          <app-form-input
+            label="Password"
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="Enter your password"
+            [required]="true"
+            [error]="getFieldError('password')">
+          </app-form-input>
+          <button
+            type="button"
+            class="toggle-password-btn"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+            @if (showPassword) {
+              <span class="eye-icon eye-hidden"></span>
+            } @else {
+              <span class="eye-icon eye-visible"></span>
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid || (loading$ | async)">
+        @if (loading$ | async) {
+          Logging in...
+        } @else {
+          Login
+        }
+      </button>
+    </div>
+  </form>
+</div>

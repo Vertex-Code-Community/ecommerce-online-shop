@@ -1,0 +1,352 @@
+@use '../../../../styles/shared/variables' as *;
+@use '../../../../styles/shared/mixins' as *;
+
+* {
+  box-sizing: border-box;
+}
+
+.left-menu-container {
+  height: 100%;
+  background: var(--color-bg-page);
+  box-shadow: $shadow-md;
+  border-right: 1px solid var(--neutral-350);
+  @include flex-column;
+  justify-content: space-between;
+  transition: width $transition-normal ease;
+
+  &.opened-menu {
+    width: 273px;
+  }
+
+  &.closed-menu {
+    width: 120px;
+  }
+
+  .main-content {
+    @include flex-column;
+    height: 100%;
+    padding: $spacing-md;
+
+    .logo {
+      @include flex-between;
+      padding-top: $spacing-sm;
+      align-items: center;
+
+      .logo-img {
+        cursor: pointer;
+        @include flex-center;
+        margin-right: $spacing-sm;
+
+        img {
+          filter: brightness(1);
+          transition: filter $transition-fast ease;
+        }
+
+        &:hover img {
+          filter: brightness(1.1);
+        }
+      }
+
+      .logo-text {
+        flex: 1;
+        margin-left: $spacing-sm;
+        cursor: pointer;
+
+        span {
+          font-family: 'Product Sans', serif;
+          font-weight: 600;
+          font-size: 20px;
+          color: var(--color-text-primary);
+          letter-spacing: 0.5px;
+        }
+      }
+
+      .close-button {
+        width: 24px;
+        height: 24px;
+        @include flex-center;
+        cursor: pointer;
+        -webkit-mask: url(/assets/svg/sidebar/close-button.svg) center no-repeat;
+        mask: url(/assets/svg/sidebar/close-button.svg) center no-repeat;
+        background-color: var(--icon-primary);
+      }
+    }
+
+    .logo-tabs-separator {
+      margin-top: $spacing-md;
+      margin-bottom: $spacing-md;
+      height: 1px;
+      width: 100%;
+      background: var(--neutral-600);
+      border-radius: $border-radius-sm;
+    }
+
+    .tabs {
+      @include flex-column;
+      height: 100%;
+      overflow-x: hidden;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          display: flex;
+          flex-direction: row;
+          justify-content: start;
+          align-items: center;
+          padding-left: $spacing-xl;
+        }
+
+        .tab-item {
+          display: flex;
+          position: relative;
+          height: 67px;
+          cursor: pointer;
+          transition: $transition-fast;
+
+          &:hover {
+            cursor: pointer;
+          }
+
+          &.active-tab {
+            background: var(--neutral-100);
+            width: 100%;
+
+            .tab-name label {
+              white-space: nowrap;
+            }
+          }
+
+          &.violet {
+            &:hover {
+              background: var(--neutral-75);
+              max-height: 67px;
+            }
+
+            &.active-tab {
+              background: var(--neutral-75);
+
+              .active-check {
+                background: var(--color-indigo);
+              }
+
+              .tab-name label {
+                color: var(--color-indigo);
+              }
+            }
+          }
+
+          &.orange {
+            &:hover {
+              background: var(--neutral-100);
+            }
+
+            &.active-tab {
+              background: var(--neutral-100);
+
+              .active-check {
+                background: var(--color-green);
+              }
+
+              .tab-name label {
+                color: var(--color-green);
+              }
+            }
+          }
+
+          &.blue {
+            &:hover {
+              background: var(--neutral-200);
+            }
+
+            &.active-tab {
+              background: var(--neutral-200);
+
+              .active-check {
+                background: var(--color-blue);
+              }
+
+              .tab-name label {
+                color: var(--color-blue);
+              }
+            }
+          }
+
+          &.sky-blue {
+            &:hover {
+              background: var(--color-azure-07a);
+            }
+
+            &.active-tab {
+              background: var(--color-azure-07a);
+
+              .active-check {
+                background: var(--color-azure);
+              }
+
+              .tab-name label {
+                color: var(--color-azure);
+              }
+            }
+          }
+
+          &.tenant-admins {
+            &:hover {
+              background: var(--neutral-75);
+            }
+
+            &.active-tab {
+              background: var(--neutral-75);
+
+              .active-check {
+                background: var(--color-indigo);
+              }
+
+              .tab-name label {
+                color: var(--color-indigo);
+              }
+            }
+          }
+
+          &.databases {
+            &:hover {
+              background: var(--neutral-200);
+            }
+
+            &.active-tab {
+              background: var(--neutral-200);
+
+              .active-check {
+                background: var(--color-blue);
+              }
+
+              .tab-name label {
+                color: var(--color-blue);
+              }
+            }
+          }
+
+          &.help {
+            &:hover {
+              background: var(--neutral-150);
+            }
+
+            &.active-tab {
+              background: var(--neutral-150);
+
+              .active-check {
+                background: var(--color-orange);
+              }
+
+              .tab-name label {
+                color: var(--color-orange);
+              }
+            }
+          }
+
+          .active-check {
+            position: absolute;
+            left: 0;
+            top: 13px;
+            width: 6px;
+            height: $spacing-xl + 16px;
+            box-shadow: 0 8px 12px rgba(135, 145, 233, 0.3);
+            border-radius: 0 8px 8px 0;
+          }
+
+          .tab-name {
+            padding-left: $spacing-md;
+
+            label {
+              font-family: 'Product Sans', serif;
+              font-style: normal;
+              font-weight: 400;
+              @include font-size($font-size-lg);
+              letter-spacing: 0.01em;
+              color: var(--neutral-825);
+              @include text-ellipsis;
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .open-button {
+    @include flex-center;
+    width: 100%;
+    height: 100%;
+    max-height: 100px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    -webkit-mask: url(/assets/svg/sidebar/open-button.svg) center no-repeat;
+    mask: url(/assets/svg/sidebar/open-button.svg) center no-repeat;
+    background-color: var(--icon-primary);
+  }
+}
+
+.hide-text {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  transition: $transition-fast;
+  visibility: collapse;
+}
+
+.show-text {
+  width: auto;
+  height: auto;
+  opacity: 1;
+  transition: $transition-normal;
+}
+
+.hidden-display-none {
+  display: none !important;
+}
+
+.logo-text {
+  transition: opacity $transition-fast ease;
+
+  &.hidden-display-none {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+  }
+}
+
+.left-menu-container.closed-menu .logo {
+  justify-content: center !important;
+
+  .logo-text {
+    flex: none !important;
+    margin: 0 !important;
+  }
+}
+
+.tab-icon {
+  @include flex-center;
+}
+
+@media (min-width: 150px) and (max-width: 860px) {
+  .left-menu-container {
+    position: absolute;
+    z-index: $z-index-fixed - 1;
+
+    &.closed-menu {
+      left: -300px;
+      transition: $transition-fast;
+    }
+
+    &.opened-menu {
+      transition: $transition-fast;
+      left: 0;
+    }
+  }
+}

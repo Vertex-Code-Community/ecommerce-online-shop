@@ -1,0 +1,157 @@
+@use './shared/variables' as *;
+@use './shared/mixins' as *;
+
+* {
+  box-sizing: border-box;
+}
+
+.login-form-container {
+  max-width: 450px;
+  min-width: 360px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-header {
+  margin-bottom: $spacing-xl;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.form-title {
+  margin: 0;
+  font-size: $font-size-xxl;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.login-form {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.password-input-wrapper {
+  position: relative;
+
+  .toggle-password-btn {
+    position: absolute;
+    top: 56%;
+    right: $spacing-md;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: all 0.2s ease;
+    padding: $spacing-xs;
+    border-radius: $border-radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    height: 32px;
+    width: 32px;
+
+    &:hover {
+      background: var(--neutral-200);
+      color: var(--color-text-primary);
+
+      .eye-icon {
+        background-color: var(--color-text-primary);
+      }
+    }
+
+    .eye-icon {
+      width: 18px;
+      height: 18px;
+      display: block;
+      background-color: var(--color-text-muted);
+      mask-size: contain;
+      -webkit-mask-size: contain;
+      transition: background-color 0.2s ease;
+    }
+
+    .eye-visible {
+      mask: url('/assets/icons/eye-visible.svg') center no-repeat;
+      -webkit-mask: url('/assets/icons/eye-visible.svg') center no-repeat;
+    }
+
+    .eye-hidden {
+      mask: url('/assets/icons/eye-hidden.svg') center no-repeat;
+      -webkit-mask: url('/assets/icons/eye-hidden.svg') center no-repeat;
+    }
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  padding-top: $spacing-lg;
+  border-top: 1px solid var(--color-border);
+}
+
+.btn {
+  padding: $spacing-sm $spacing-xl;
+  border-radius: $border-radius-md;
+  font-weight: 500;
+  font-size: $font-size-md;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  min-width: 160px;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+
+  &:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-form-container {
+    min-width: 280px;
+  }
+
+  .login-form {
+    padding: $spacing-lg;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

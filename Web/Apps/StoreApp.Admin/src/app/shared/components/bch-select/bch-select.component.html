@@ -1,0 +1,105 @@
+<div
+  #container
+  class="bch-select-container"
+  [class.show]="isOpen"
+  [class.has-selected]="selectedValues.length > 0"
+  [class.bch-upper-side]="upperSide"
+  [class.disabled]="disabled"
+  [ngClass]="cssClass"
+  [style.width]="width"
+  [style.height.px]="height"
+  [attr.tabindex]="disabled ? -1 : 0"
+  (click)="toggleDropdown()"
+  (keydown)="onKeyDown($event)">
+
+  <div class="bch-button" [class.disabled]="disabled">
+
+    <!-- Search icon for filtering mode -->
+    @if (filtering) {
+      <div
+        class="search-icon"
+        [class.opened]="isOpen">
+      </div>
+    }
+
+    <!-- Input field for filtering -->
+    @if (filtering) {
+      <input
+        #input
+        type="text"
+        class="filter-input"
+        [class.removed]="!filtering"
+        [value]="filterValue"
+        [placeholder]="displayText"
+        autocomplete="off"
+        (input)="onFilterInput($event)"
+        (keydown)="onKeyDown($event)"
+        (click)="$event.stopPropagation()">
+    }
+
+    <!-- Label for non-filtering mode -->
+    @if (!filtering) {
+      <label
+        class="display-label">
+        {{ displayText }}
+      </label>
+    }
+
+    <!-- Dropdown arrow -->
+    <span class="dropdown-arrow"></span>
+  </div>
+</div>
+
+<!-- Dropdown modal overlay -->
+@if (isOpen) {
+  <div
+    class="bch-select-modal-overlay"
+    [class.bch-upper-side]="upperSide">
+
+    <!-- Dropdown content -->
+    <div
+      #dropdown
+      class="bch-content"
+      [class.bch-upper-side]="upperSide"
+      [ngClass]="cssClass"
+      [style.max-height.px]="contentHeight"
+      [style.width]="width"
+      [style.left.px]="dropdownPosition.x"
+      [style.top.px]="dropdownPosition.y">
+
+      <div #scroller class="bch-scroller">
+
+        <!-- Options -->
+        @for (option of filteredOptions; track trackByOption(option)) {
+          <div
+            class="bch-option"
+            [class.selected]="isOptionSelected(option)"
+            [class.hovered]="isOptionActive(option)"
+            [ngClass]="cssClassFn(option)"
+            [style.height.px]="itemHeight"
+            [style.font-size]="fontSize"
+            (click)="selectOption(option)">
+
+            @if (optionTemplate) {
+              <ng-container *ngTemplateOutlet="optionTemplate; context: { $implicit: option }"></ng-container>
+            } @else {
+              {{ optionLabelFn(option) }}
+            }
+          </div>
+        }
+
+        <!-- No items message -->
+        @if (filteredOptions.length === 0) {
+          <div class="bch-group expanded">
+            <div
+              class="bch-option empty"
+              [style.height.px]="itemHeight">
+              {{ noItemsText }}
+            </div>
+          </div>
+        }
+
+      </div>
+    </div>
+  </div>
+}

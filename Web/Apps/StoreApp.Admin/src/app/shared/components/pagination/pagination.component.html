@@ -1,0 +1,74 @@
+<div class="pagination-container">
+  <div class="pagination-info">
+    <div class="page-size-selector">
+      <bch-select
+        [options]="pageSizeOptions"
+        [defaultValue]="pageSize"
+        [width]="'80px'"
+        [height]="32"
+        [itemHeight]="32"
+        [contentHeight]="160"
+        [fontSize]="'14px'"
+        [placeholder]="'Size'"
+        (selectionChange)="onPageSizeChange($event!)">
+      </bch-select>
+    </div>
+  </div>
+
+  <div class="pagination-controls">
+    <button
+      class="pagination-btn nav-btn"
+      [class.disabled]="!hasPreviousPage"
+      (click)="onFirstPage()"
+      [disabled]="!hasPreviousPage"
+      title="First page">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 17l-5-5 5-5M6 17l-5-5 5-5"/>
+      </svg>
+    </button>
+
+    <button
+      class="pagination-btn nav-btn"
+      [class.disabled]="!hasPreviousPage"
+      (click)="onPreviousPage()"
+      [disabled]="!hasPreviousPage"
+      title="Previous page">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+
+    <div class="page-numbers">
+      @for (page of visiblePages; track page) {
+        <button
+          class="pagination-btn page-btn"
+          [class.active]="page === currentPage"
+          (click)="onPageClick(page)">
+          {{ page }}
+        </button>
+      }
+    </div>
+
+    <button
+      class="pagination-btn nav-btn"
+      [class.disabled]="!hasNextPage"
+      (click)="onNextPage()"
+      [disabled]="!hasNextPage"
+      title="Next page">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6"/>
+      </svg>
+    </button>
+
+    <button
+      class="pagination-btn nav-btn"
+      [class.disabled]="!hasNextPage"
+      (click)="onLastPage()"
+      [disabled]="!hasNextPage"
+      title="Last page">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 7l5 5-5 5M18 7l5 5-5 5"/>
+      </svg>
+    </button>
+  </div>
+</div>

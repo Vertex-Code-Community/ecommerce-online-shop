@@ -1,0 +1,70 @@
+@use 'shared/variables' as *;
+@use 'shared/mixins' as *;
+
+$content-max-width: 1200px;
+$header-margin-bottom: 56px;
+$header-margin-bottom-mobile: 32px;
+$content-gap: 20px;
+$content-gap-mobile: 16px;
+$button-padding: $spacing-md $spacing-xl;
+$button-min-width: 120px;
+
+.wrapper {
+  @include flex-center;
+  width: 100%;
+}
+
+.list {
+  max-width: var(--content-max-width, $content-max-width);
+  width: 100%;
+}
+
+.header {
+  @include flex-center;
+  margin: 0 0 $header-margin-bottom 0;
+  font-family: $font-family-secondary;
+  line-height: 1;
+  font-size: $font-size-xxl;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  color: $color-text-primary;
+}
+
+.content {
+  @include flex-center;
+  flex-wrap: wrap;
+  gap: $content-gap;
+  justify-content: center;
+
+  &--scrollable {
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 $spacing-md;
+    gap: $content-gap;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary) var(--neutral-300);
+    @include scrollbar-styles(8px, $scss-neutral-300, $color-primary);
+  }
+}
+
+@include respond-below('sm') {
+  .wrapper {
+    justify-content: flex-start;
+    overflow-y: hidden;
+  }
+
+  .header {
+    font-size: $font-size-xl;
+    margin-bottom: $header-margin-bottom-mobile;
+    text-align: center;
+    padding: 0 $spacing-md;
+  }
+}
+
+@include dark-theme {
+  .header {
+    color: $dark-text-primary;
+  }
+}

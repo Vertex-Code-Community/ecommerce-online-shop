@@ -1,0 +1,35 @@
+<div class="products-page">
+  <div class="header">
+    <h2 class="title">Products</h2>
+    <button class="create-btn" (click)="onCreate()">Create</button>
+  </div>
+
+  <app-product-list
+    [products]="(products$ | async) ?? []"
+    [showCreateButton]="false"
+    [showAdminActions]="true"
+    [isScrollable]="true"
+    (edit)="onEdit($event)"
+    (delete)="onDelete($event)">
+  </app-product-list>
+
+  <app-pagination
+    [currentPage]="(currentPage$ | async)!"
+    [totalPages]="(totalPages$ | async)!"
+    [totalItems]="(totalCount$ | async)!"
+    [pageSize]="(pageSize$ | async)!"
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)">
+  </app-pagination>
+
+  <app-confirmation-modal
+    [isVisible]="showDeleteModal"
+    [title]="'Delete Product'"
+    [message]="deleteModalMessage"
+    [confirmText]="'Delete'"
+    [cancelText]="'Cancel'"
+    (confirm)="onConfirmDelete()"
+    (cancel)="onCancelDelete()"
+    (close)="closeDeleteModal()">
+  </app-confirmation-modal>
+</div>

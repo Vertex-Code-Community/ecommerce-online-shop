@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  // No logic for now, just markup and styles
+  @Output() sidebarToggle = new EventEmitter<void>();
 }

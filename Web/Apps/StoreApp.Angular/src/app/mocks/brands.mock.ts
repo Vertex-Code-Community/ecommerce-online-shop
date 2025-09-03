@@ -1,4 +1,4 @@
-import {BrandItem} from '../features/client/pages/home/brands/brands.component';
+import { BrandItem } from '../features/home/components/brands/brands.component';
 
 export const MOCK_BRANDS: BrandItem[] = [
   { name: 'Versace', svgPath: '/svg/versace.svg', maxWidth: '167px', maxHeight: '34px' },

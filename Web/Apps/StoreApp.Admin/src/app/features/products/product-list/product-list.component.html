@@ -1,0 +1,20 @@
+<div class="wrapper">
+    <div class="list">
+        @if (headerText) {
+            <div class="header">
+                <div class="header-title">{{ headerText }}</div>
+            </div>
+        }
+        <div class="content" [class.content--scrollable]="isScrollable">
+            @for (product of products; track product.id) {
+                <app-product
+                    [product]="product"
+                    [showAdminActions]="showAdminActions"
+                    (cardClick)="onProductClick($event)"
+                    (edit)="onEdit($event)"
+                    (delete)="onDelete($event)">
+                </app-product>
+            }
+        </div>
+    </div>
+</div>

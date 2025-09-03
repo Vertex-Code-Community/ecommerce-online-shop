@@ -1,0 +1,71 @@
+@use './shared/variables' as *;
+
+.form-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $spacing-md;
+}
+
+.form-input__label {
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: $spacing-xs;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+
+  .required {
+    color: var(--color-error-alt);
+    font-weight: 600;
+  }
+}
+
+.form-input__field {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid var(--color-border);
+  border-radius: $border-radius-sm;
+  font-size: $font-size-md;
+  font-family: $font-family-primary;
+  background: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  transition: all 0.2s ease;
+  outline: none;
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  &:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-20a);
+  }
+
+  &:disabled {
+    background: var(--neutral-200);
+    color: var(--neutral-600);
+    cursor: not-allowed;
+  }
+
+  &--error {
+    border-color: var(--color-error-alt);
+
+    &:focus {
+      border-color: var(--color-error-alt);
+      box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
+    }
+  }
+
+  &--disabled {
+    background: var(--neutral-200);
+    color: var(--neutral-600);
+    cursor: not-allowed;
+  }
+}
+
+.form-input__error {
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: var(--color-error-alt);
+  font-weight: 500;
+}

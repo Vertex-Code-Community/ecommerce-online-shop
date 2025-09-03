@@ -1,0 +1,25 @@
+@use 'shared/variables' as *;
+
+.main-layout-container {
+  display: flex;
+  height: 100vh;
+  background: var(--color-bg-page);
+}
+
+.main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+  height: 100%;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+}
+
+.page-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
