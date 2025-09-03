@@ -1,0 +1,53 @@
+@use '../../../../styles/shared/variables' as *;
+@use '../../../../styles/shared/mixins' as *;
+
+// Component specific variables
+$product-card-width: 294px;
+$product-card-mobile-width: 172px;
+
+.product-card {
+  cursor: pointer;
+  width: $product-card-width;
+  font-size: $font-size-xxl;
+}
+
+.image-container {
+  width: $product-card-width;
+  height: $product-card-width;
+  background-color: $color-product-card-bg;
+  border-radius: $spacing-lg;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.title {
+  font-family: var(--font-satoshi-bold);
+  font-size: $font-size-product-title;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: 0;
+  margin-top: $spacing-md;
+  @include text-ellipsis;
+}
+
+@include respond-below('sm') {
+  .product-card {
+    width: $product-card-mobile-width;
+    font-size: $font-size-md;
+  }
+
+  .image-container {
+    width: $product-card-mobile-width;
+    height: $product-card-mobile-width;
+  }
+
+  .title {
+    font-size: $font-size-md;
+  }
+}

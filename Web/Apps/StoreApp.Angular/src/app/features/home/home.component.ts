@@ -18,7 +18,7 @@ import { MOCK_REVIEWS } from '../../mocks/reviews.mock';
   standalone: true,
   imports: [CommonModule, ProductListComponent, StartComponent, BrandsComponent, StylesComponent, CustomerReviewsComponent],
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   private store = inject(Store<AppState>);

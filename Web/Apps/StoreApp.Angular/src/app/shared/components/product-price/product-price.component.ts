@@ -4,7 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'app-product-price',
   templateUrl: './product-price.component.html',
-  styleUrls: ['./product-price.component.css'],
+  styleUrls: ['./product-price.component.scss'],
   standalone: true,
   imports: [CurrencyPipe]
 })

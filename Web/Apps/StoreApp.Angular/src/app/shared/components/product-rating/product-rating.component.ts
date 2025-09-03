@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-product-rating',
   templateUrl: './product-rating.component.html',
-  styleUrls: ['./product-rating.component.css'],
+  styleUrls: ['./product-rating.component.scss'],
   standalone: true
 })
 export class ProductRatingComponent {

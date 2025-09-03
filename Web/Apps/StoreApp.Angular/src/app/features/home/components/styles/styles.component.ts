@@ -12,7 +12,7 @@ export interface StyleItem {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './styles.component.html',
-  styleUrls: ['./styles.component.css']
+  styleUrls: ['./styles.component.scss']
 })
 export class StylesComponent {
   @Input() styles: StyleItem[] = [];

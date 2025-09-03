@@ -8,7 +8,7 @@ import { Review } from '../../models/review/review';
   standalone: true,
   imports: [CommonModule, ProductRatingComponent],
   templateUrl: './review.component.html',
-  styleUrls: ['./review.component.css']
+  styleUrls: ['./review.component.scss']
 })
 export class ReviewComponent {
   @Input() review!: Review;

@@ -1,0 +1,36 @@
+@use '../../../../styles/shared/variables' as *;
+@use '../../../../styles/shared/mixins' as *;
+
+.price {
+  @include flex-center;
+  font-family: var(--font-satoshi-bold);
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 100%;
+  letter-spacing: 0;
+  margin-top: $spacing-sm;
+  gap: 0 10px;
+}
+
+.current {
+  color: $color-text-primary;
+}
+
+.old {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.discount {
+  border-radius: $border-radius-full;
+  background-color: $color-discount-bg;
+}
+
+.discount-text {
+  font-family: var(--font-satoshi-medium);
+  font-weight: 500;
+  font-size: calc(1em * 0.5);
+  opacity: 1;
+  color: $color-discount-text;
+  padding: 2px 12px;
+}

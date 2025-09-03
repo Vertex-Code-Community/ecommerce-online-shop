@@ -8,7 +8,7 @@ import { Review } from '../../../../shared/models/review/review';
   standalone: true,
   imports: [CommonModule, ReviewComponent],
   templateUrl: './customer-reviews.component.html',
-  styleUrls: ['./customer-reviews.component.css']
+  styleUrls: ['./customer-reviews.component.scss']
 })
 export class CustomerReviewsComponent {
   @Input() reviews: Review[] = [];

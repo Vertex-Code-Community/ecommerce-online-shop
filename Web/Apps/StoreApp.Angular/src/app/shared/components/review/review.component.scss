@@ -1,0 +1,80 @@
+@use '../../../../styles/shared/variables' as *;
+@use '../../../../styles/shared/mixins' as *;
+
+.review-wrapper {
+  @include flex-center;
+  border-radius: $spacing-lg;
+  border: 1px solid $color-border-light;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.review {
+  width: 100%;
+  margin: 28px;
+}
+
+.review-rating {
+  @include flex-between;
+  gap: 4px;
+  margin-bottom: $spacing-md;
+  font-size: 28px;
+}
+
+.rating-display {
+  @include flex-center;
+}
+
+.rating-text {
+  font-family: var(--font-satoshi-bold);
+  font-weight: 700;
+  font-size: $font-size-lg;
+  color: $color-text-secondary;
+}
+
+.review-author {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.author-text {
+  font-family: var(--font-satoshi-bold);
+  font-weight: 700;
+  font-size: $font-size-review-author;
+}
+
+.verified-customer {
+  @include flex-center;
+  color: $color-verified;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.review-text {
+  font-family: var(--font-satoshi-regular);
+  font-weight: 400;
+  font-size: $font-size-md;
+  line-height: 22px;
+  letter-spacing: 0;
+  opacity: 0.6;
+}
+
+@include respond-below('sm') {
+  .review {
+    margin: $spacing-lg;
+  }
+
+  .author-text {
+    font-size: $font-size-lg;
+  }
+
+  .review-text {
+    font-size: $font-size-sm;
+    line-height: 20px;
+  }
+}

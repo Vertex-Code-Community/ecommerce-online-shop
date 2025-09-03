@@ -13,7 +13,7 @@ export interface BrandItem {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './brands.component.html',
-  styleUrls: ['./brands.component.css']
+  styleUrls: ['./brands.component.scss']
 })
 export class BrandsComponent {
   @Input() brands: BrandItem[] = [];
