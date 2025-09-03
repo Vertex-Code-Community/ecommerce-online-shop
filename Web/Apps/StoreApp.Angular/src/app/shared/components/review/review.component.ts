@@ -13,4 +13,5 @@ import { Review } from '../../models/review/review';
 export class ReviewComponent {
   @Input() review!: Review;
   @Input() width: string = '600px';
+  @Input() height: string = '200px';
 }

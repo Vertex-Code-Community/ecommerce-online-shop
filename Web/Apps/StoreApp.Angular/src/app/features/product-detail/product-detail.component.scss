@@ -1,0 +1,56 @@
+@use '../../../styles/shared/variables' as *;
+@use '../../../styles/shared/mixins' as *;
+
+* {
+  box-sizing: border-box;
+}
+
+.product-detail-page-wrapper {
+  @include flex-center;
+  width: 100%;
+  padding: 0 40px;
+}
+
+.product-detail-page {
+  @include flex-column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  gap: $spacing-xxl;
+}
+
+.loading-indicator {
+  @include flex-center;
+  min-height: 400px;
+}
+
+.also-see-wrapper {
+  width: 100%;
+  margin: 64px 0;
+}
+
+// Responsive design
+@media (max-width: 1024px) and (min-width: 641px) {
+  .product-detail-page-wrapper {
+    padding: 0 24px;
+  }
+
+  .also-see-wrapper {
+    margin: 40px 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .product-detail-page-wrapper {
+    padding: 0 16px;
+  }
+
+  .product-detail-page {
+    width: 100%;
+    gap: $spacing-xl;
+  }
+
+  .also-see-wrapper {
+    margin: 32px 0;
+  }
+}

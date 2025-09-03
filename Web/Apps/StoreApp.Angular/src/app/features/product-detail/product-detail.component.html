@@ -1,1 +1,33 @@
-<p>product-detail works!</p>
+<div class="product-detail-page-wrapper">
+  @if (isLoading) {
+    <div class="loading-indicator">
+      <app-loading-indicator
+        text="Loading product details..."
+        size="large"
+        color="#33b469">
+      </app-loading-indicator>
+    </div>
+  } @else {
+    <div class="product-detail-page">
+      <app-product-info
+        [fullProduct]="demoFullProduct"
+        (addToCartClicked)="onProductAddToCart($event)">
+      </app-product-info>
+
+      <app-review-list
+        [reviews]="demoReviews"
+        [isReadOnly]="false"
+        (writeReviewClicked)="onWriteReview()">
+      </app-review-list>
+
+      <div class="also-see-wrapper">
+        <app-product-list
+          [headerText]="'YOU MIGHT ALSO LIKE'"
+          [products]="alsoLikeProducts"
+          [isScrollable]="true"
+          [showViewAllButton]="false"
+          (productClick)="onAlsoLikeProductClick($event)"/>
+      </div>
+    </div>
+  }
+</div>
