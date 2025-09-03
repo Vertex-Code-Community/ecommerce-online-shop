@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -8,10 +9,12 @@ import * as ThemeActions from '../../../store/theme/theme.actions';
 import { selectCurrentTheme } from '../../../store/theme/theme.selectors';
 import { Theme } from '../../../store/theme/theme.actions';
 import * as SidebarActions from '../../../store/sidebar/sidebar.actions';
+import * as AuthActions from '../../../store/auth/auth.actions';
+import * as AuthSelectors from '../../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-header',
-  imports: [BchSelectComponent],
+  imports: [CommonModule, BchSelectComponent],
   templateUrl: './header.component.html',
   standalone: true,
   styleUrl: './header.component.scss'
@@ -22,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme$: Observable<Theme> = this.store.select(selectCurrentTheme);
   selectedTheme: Theme = Theme.System;
+  isAuthenticated$: Observable<boolean> = this.store.select(AuthSelectors.selectIsAuthenticated);
 
   themeOptions: Theme[] = [Theme.System, Theme.Light, Theme.Dark];
 
@@ -46,9 +50,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  onLoginClick() {
-    console.log('Login button clicked');
-    // TODO: Implement login navigation
+  onLogoutClick() {
+    this.store.dispatch(AuthActions.logout());
   }
 
   onSidebarToggle() {

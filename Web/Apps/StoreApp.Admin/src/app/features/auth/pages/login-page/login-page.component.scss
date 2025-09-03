@@ -74,13 +74,30 @@
     &:hover {
       background: var(--neutral-200);
       color: var(--color-text-primary);
+
+      .eye-icon {
+        background-color: var(--color-text-primary);
+      }
     }
 
     .eye-icon {
       width: 18px;
       height: 18px;
       display: block;
-      color: inherit;
+      background-color: var(--color-text-muted);
+      mask-size: contain;
+      -webkit-mask-size: contain;
+      transition: background-color 0.2s ease;
+    }
+
+    .eye-visible {
+      mask: url('/assets/icons/eye-visible.svg') center no-repeat;
+      -webkit-mask: url('/assets/icons/eye-visible.svg') center no-repeat;
+    }
+
+    .eye-hidden {
+      mask: url('/assets/icons/eye-hidden.svg') center no-repeat;
+      -webkit-mask: url('/assets/icons/eye-hidden.svg') center no-repeat;
     }
   }
 }

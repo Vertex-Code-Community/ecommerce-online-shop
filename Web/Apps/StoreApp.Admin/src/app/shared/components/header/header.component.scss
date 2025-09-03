@@ -91,7 +91,7 @@ $login-btn-height: 30px;
   margin-left: auto;
 }
 
-.login-btn {
+.logout-btn {
   @include button-base;
   background-color: var(--color-primary);
   color: var(--color-text-inverse);
@@ -128,22 +128,22 @@ $login-btn-height: 30px;
   }
 }
 
-.login-icon {
-  width: 18px;
-  height: 18px;
-  background-color: var(--color-text-inverse);
-  mask: url('/assets/icons/user.svg') center no-repeat;
-  -webkit-mask: url('/assets/icons/user.svg') center no-repeat;
-  mask-size: contain;
-  -webkit-mask-size: contain;
-}
-
-.login-text {
+.logout-text {
   font-family: 'DM Sans', $font-family-primary;
   font-size: 16px;
   font-weight: 500;
   line-height: 15px;
   color: var(--color-text-inverse);
+}
+
+.logout-icon {
+  width: 18px;
+  height: 18px;
+  background-color: var(--color-text-inverse);
+  mask: url('/assets/icons/logout.svg') center no-repeat;
+  -webkit-mask: url('/assets/icons/logout.svg') center no-repeat;
+  mask-size: contain;
+  -webkit-mask-size: contain;
 }
 
 @media (max-width: 860px) {

@@ -18,10 +18,12 @@
     </div>
 
     <div class="user-actions-wrapper">
-      <button class="login-btn" (click)="onLoginClick()">
-        <span class="login-icon"></span>
-        <span class="login-text">Login</span>
-      </button>
+      @if (isAuthenticated$ | async) {
+        <button class="logout-btn" (click)="onLogoutClick()">
+          <span class="logout-icon"></span>
+          <span class="logout-text">Logout</span>
+        </button>
+      }
     </div>
   </div>
 </div>
