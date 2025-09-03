@@ -19,6 +19,10 @@
   gap: $spacing-xxl;
 }
 
+app-product-info {
+  width: 100%;
+}
+
 .loading-indicator {
   @include flex-center;
   min-height: 400px;
@@ -71,30 +75,4 @@
 .also-see-wrapper {
   width: 100%;
   margin: 64px 0;
-}
-
-// Responsive design
-@media (max-width: 1024px) and (min-width: 641px) {
-  .product-detail-page-wrapper {
-    padding: 0 24px;
-  }
-
-  .also-see-wrapper {
-    margin: 40px 0;
-  }
-}
-
-@media (max-width: 640px) {
-  .product-detail-page-wrapper {
-    padding: 0 16px;
-  }
-
-  .product-detail-page {
-    width: 100%;
-    gap: $spacing-xl;
-  }
-
-  .also-see-wrapper {
-    margin: 32px 0;
-  }
 }

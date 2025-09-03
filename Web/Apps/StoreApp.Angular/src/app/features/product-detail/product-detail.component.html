@@ -34,7 +34,8 @@
       <div class="also-see-wrapper">
         <app-product-list
           [headerText]="'YOU MIGHT ALSO LIKE'"
-          [products]="alsoLikeProducts"
+          [products]="(alsoLikeProducts$ | async) || []"
+          [isLoading]="(alsoLikeLoading$ | async) || false"
           [isScrollable]="true"
           [showViewAllButton]="false"
           (productClick)="onAlsoLikeProductClick($event)"/>

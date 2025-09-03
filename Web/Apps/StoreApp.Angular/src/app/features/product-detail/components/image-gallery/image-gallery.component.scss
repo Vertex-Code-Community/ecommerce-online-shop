@@ -6,13 +6,12 @@ $gallery-border-radius: 20px;
 $gallery-gap: 1rem;
 $thumbnail-gap: 0.5rem;
 // Use relative units for proportional scaling
-$thumbnail-ratio: 0.31; // thumbnails are ~31% of main image width
 $main-image-size-desktop: 478px;
 $main-image-size-tablet: 420px;
 $main-image-size-mobile: 328px;
-$thumbnail-size-desktop: calc($main-image-size-desktop * $thumbnail-ratio);
-$thumbnail-size-tablet: calc($main-image-size-tablet * $thumbnail-ratio);
-$thumbnail-size-mobile: calc($main-image-size-mobile * $thumbnail-ratio);
+$thumbnail-size-desktop: calc(($main-image-size-desktop - 2 * $thumbnail-gap) / 3);
+$thumbnail-size-tablet: calc(($main-image-size-tablet - 2 * $thumbnail-gap) / 3);
+$thumbnail-size-mobile: calc(($main-image-size-mobile - 2 * $thumbnail-gap) / 3);
 $selected-border-color: $scss-black;
 $arrow-size: 40px;
 
@@ -76,9 +75,9 @@ $arrow-size: 40px;
   .thumbnails-section {
     @include flex-column;
     flex-shrink: 0;
-    width: var(--thumbnail-size);
-    height: 100%;
-    max-height: 100vh;
+    width: var(--main-image-size);
+    height: var(--main-image-size);
+    max-height: var(--main-image-size);
   }
 
   .thumbnails.gallery {
@@ -179,18 +178,17 @@ $arrow-size: 40px;
   font-weight: 500;
 }
 
-// Проміжний breakpoint для екранів 1350px і менше
 @media (max-width: 1350px) {
   .image-gallery {
     --main-image-size: 380px;
-    --thumbnail-size: calc(380px * #{$thumbnail-ratio});
+    --thumbnail-size: calc((380px - 2 * #{$thumbnail-gap}) / 3);
   }
 }
 
 @include respond-below('xl') {
   .image-gallery {
     --main-image-size: 350px;
-    --thumbnail-size: calc(350px * #{$thumbnail-ratio});
+    --thumbnail-size: calc((350px - 2 * #{$thumbnail-gap}) / 3);
   }
 }
 
