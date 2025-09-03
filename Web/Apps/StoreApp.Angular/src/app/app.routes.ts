@@ -5,7 +5,7 @@ import { ClientLayoutComponent } from './shared/layout/client-layout.component';
 import { HomeComponent } from './features/home/home.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginPage, canActivate: [guestGuard] },
+  { path: 'auth/login', component: LoginPage, canActivate: [guestGuard] },
 
   {
     path: '',
