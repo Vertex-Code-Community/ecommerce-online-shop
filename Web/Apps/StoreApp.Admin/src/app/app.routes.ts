@@ -1,13 +1,23 @@
 import { Routes } from '@angular/router';
-import { LoginPage } from './features/auth/pages/login-page/login-page';
+import { LoginPageComponent } from './features/auth/pages/login-page/login-page.component';
 import { guestGuard } from './core/guards/guest-guard';
 import { authGuard } from './core/guards/auth-guard';
 import { AdminLayoutComponent } from './shared/layout/admin-layout.component';
+import { AuthLayoutComponent } from './shared/layout/auth-layout.component';
 import { ProductsComponent } from './features/products/products.component';
 import { ProductFormComponent } from './features/products/product-form/product-form.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginPage, canActivate: [guestGuard] },
+  {
+    path: 'auth',
+    component: AuthLayoutComponent,
+    canActivate: [guestGuard],
+    children: [
+      { path: 'login', component: LoginPageComponent },
+      { path: '', redirectTo: 'login', pathMatch: 'full' }
+    ]
+  },
+  { path: 'login', redirectTo: 'auth/login', pathMatch: 'full' },
 
   {
     path: '',

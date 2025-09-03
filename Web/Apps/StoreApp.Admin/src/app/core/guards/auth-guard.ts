@@ -1,10 +1,9 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 import { map, take } from 'rxjs';
-import {selectIsAuthenticated} from '../../store/auth/auth.selectors';
-import {AppState} from '../../store/app.state';
-import {Store} from '@ngrx/store';
+import { selectIsAuthenticated } from '../../store/auth/auth.selectors';
+import { AppState } from '../../store/app.state';
+import { Store } from '@ngrx/store';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const store = inject(Store<AppState>);
@@ -16,7 +15,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       if (isAuthenticated) {
         return true;
       } else {
-        return router.createUrlTree(['/login']);
+        return router.createUrlTree(['/auth/login']);
       }
     })
   );

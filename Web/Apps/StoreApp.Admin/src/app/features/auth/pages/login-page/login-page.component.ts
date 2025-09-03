@@ -7,15 +7,16 @@ import * as AuthActions from '../../../../store/auth/auth.actions';
 import * as AuthSelectors from '../../../../store/auth/auth.selectors';
 import { Observable } from 'rxjs';
 import { AppState } from '../../../../store/app.state';
+import { FormInputComponent } from '../../../../shared/components/form-input/form-input.component';
 
 @Component({
   selector: 'app-login-page',
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login-page.html',
+  imports: [CommonModule, ReactiveFormsModule, FormInputComponent],
+  templateUrl: './login-page.component.html',
   standalone: true,
   styleUrls: ['./login-page.component.scss']
 })
-export class LoginPage {
+export class LoginPageComponent {
   loginForm: FormGroup;
   showPassword = false;
 
@@ -55,5 +56,15 @@ export class LoginPage {
       this.loginForm.markAllAsTouched();
       console.warn('Form is invalid');
     }
+  }
+
+  getFieldError(fieldName: string): string {
+    const field = this.loginForm.get(fieldName);
+    if (field?.errors && field.touched) {
+      if (field.errors['required']) return 'This field is required';
+      if (field.errors['email']) return 'Please enter a valid email address';
+      if (field.errors['minlength']) return `Minimum length is ${field.errors['minlength'].requiredLength} characters`;
+    }
+    return '';
   }
 }
