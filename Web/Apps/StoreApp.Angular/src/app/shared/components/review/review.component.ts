@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ProductRatingComponent } from '../product-rating/product-rating.component';
 import { Review } from '../../models/review/review';
 
 @Component({
   selector: 'app-review',
   standalone: true,
-  imports: [CommonModule, ProductRatingComponent],
+  imports: [CommonModule, ProductRatingComponent, DatePipe],
   templateUrl: './review.component.html',
   styleUrls: ['./review.component.scss']
 })

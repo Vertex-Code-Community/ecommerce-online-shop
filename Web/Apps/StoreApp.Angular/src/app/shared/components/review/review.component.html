@@ -12,5 +12,8 @@
     <div class="review-text">
       "{{ review.comment }}"
     </div>
+    <div class="review-date">
+      Posted on {{ review.createdAt | date:'MMM d, y' }}
+    </div>
   </div>
 </div>

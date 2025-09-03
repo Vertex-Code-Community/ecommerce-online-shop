@@ -1,0 +1,268 @@
+@use '../../../../../styles/shared/variables' as *;
+@use '../../../../../styles/shared/mixins' as *;
+@use "sass:color" as c;
+
+$filter-button-size: 48px;
+$filter-button-bg: rgba(240, 240, 240, 1);
+$review-gap: 20px;
+$load-button-width: 216px;
+
+.review-list-wrapper {
+  @include flex-column;
+  align-items: center;
+  width: 100%;
+  gap: $spacing-xl;
+}
+
+.review-list-header {
+  width: 100%;
+  @include flex-row;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacing-lg;
+}
+
+.review-list-title {
+  @include flex-row;
+  align-items: center;
+  gap: $spacing-xs;
+
+  .title {
+    font-family: var(--font-satoshi-bold);
+    font-weight: 700;
+    font-size: $font-size-xl;
+    margin: 0;
+    color: $color-text-primary;
+  }
+
+  .count {
+    font-family: var(--font-satoshi-regular);
+    font-weight: 400;
+    font-size: $font-size-md;
+    color: $color-text-secondary;
+  }
+}
+
+.review-actions {
+  @include flex-row;
+  align-items: center;
+  gap: $spacing-md;
+  flex-shrink: 0;
+}
+
+.filter-button {
+  @include button-base;
+  @include flex-center;
+  width: $filter-button-size;
+  height: $filter-button-size;
+  border-radius: $border-radius-full;
+  background-color: $filter-button-bg;
+  color: $color-text-primary;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: c.adjust($filter-button-bg, $lightness: -5%);
+    transform: scale(1.05);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.custom-select {
+  position: relative;
+  min-width: 120px;
+
+  .sort-select {
+    appearance: none;
+    width: 100%;
+    padding: $spacing-md calc($spacing-lg + 20px) $spacing-md $spacing-lg;
+    border: none;
+    border-radius: $border-radius-full;
+    background-color: $filter-button-bg;
+    font-family: var(--font-satoshi-regular);
+    font-size: $font-size-md;
+    color: $color-text-primary;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover {
+      background-color: c.adjust($filter-button-bg, $lightness: -5%);
+    }
+
+    &:focus {
+      outline: 2px solid $color-primary;
+      outline-offset: 2px;
+    }
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: $spacing-md;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 8px;
+    pointer-events: none;
+    color: $color-text-secondary;
+  }
+}
+
+.create-review-button {
+  @include button-base;
+  font-family: var(--font-satoshi-medium);
+  font-weight: 500;
+  font-size: $font-size-md;
+  color: $color-text-inverse;
+  background-color: $scss-black;
+  border-radius: $border-radius-full;
+  padding: $spacing-md $spacing-xl;
+  white-space: nowrap;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: c.adjust($scss-black, $lightness: -10%);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.review-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: $review-gap;
+  justify-content: center;
+}
+
+.load-more-wrapper {
+  @include flex-center;
+  width: 100%;
+  margin-top: $spacing-lg;
+}
+
+.load-more-button {
+  @include button-base;
+  width: $load-button-width;
+  padding: $spacing-md $spacing-xl;
+  border: 1px solid $color-border-light;
+  border-radius: $border-radius-full;
+  background-color: $color-bg-surface;
+  font-family: var(--font-satoshi-medium);
+  font-weight: 500;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: $scss-black;
+    color: $color-text-inverse;
+    border-color: $scss-black;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.empty-state {
+  @include flex-column;
+  align-items: center;
+  gap: $spacing-lg;
+  padding: $spacing-xxl;
+  text-align: center;
+
+  .empty-message {
+    font-family: var(--font-satoshi-regular);
+    font-size: $font-size-lg;
+    color: $color-text-secondary;
+    margin: 0;
+  }
+
+  .write-first-review-button {
+    @include button-base;
+    font-family: var(--font-satoshi-medium);
+    font-weight: 500;
+    font-size: $font-size-md;
+    color: $color-text-inverse;
+    background-color: $color-primary;
+    border-radius: $border-radius-full;
+    padding: $spacing-md $spacing-xl;
+    transition: all $transition-fast;
+
+    &:hover {
+      background-color: $color-primary-hover;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+@include respond-below('lg') {
+  .review-list {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+}
+
+@include respond-below('md') {
+  .review-list-wrapper {
+    gap: $spacing-lg;
+  }
+
+  .create-review-button {
+    min-width: 110px;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-sm;
+  }
+
+  .review-actions {
+    gap: $spacing-sm;
+  }
+
+  .load-more-button {
+    width: 100%;
+    max-width: $load-button-width;
+  }
+}
+
+@include respond-below('sm') {
+  .custom-select {
+    display: none;
+  }
+}
+
+@include respond-below('sm') {
+  .review-list-header {
+    gap: $spacing-sm;
+  }
+
+  .review-list-title {
+    .title {
+      font-size: $font-size-lg;
+    }
+  }
+
+  .filter-button {
+    width: calc($filter-button-size - 8px);
+    height: calc($filter-button-size - 8px);
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .empty-state {
+    padding: $spacing-xl $spacing-md;
+  }
+}
