@@ -1,0 +1,168 @@
+@use '../../../../../styles/shared/variables' as *;
+@use '../../../../../styles/shared/mixins' as *;
+@use 'sass:color' as c;
+
+* {
+  box-sizing: border-box;
+}
+
+$product-detail-gap-desktop: 30px;
+$product-detail-gap-tablet: 24px;
+$product-detail-gap-mobile: 20px;
+$product-info-gap: 14px;
+$selection-block-gap: 10px;
+$button-gap: 10px;
+
+.product-detail {
+  @include flex-row;
+  gap: $product-detail-gap-desktop;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.product-detail app-image-gallery {
+  flex-shrink: 0;
+  width: 50%;
+  max-width: 650px;
+  min-width: 300px; // Мінімальна ширина для стабільності
+}
+
+.product-info {
+  @include flex-column;
+  gap: $product-info-gap;
+  flex: 1;
+}
+
+.product-title {
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-family: var(--font-integral-bold);
+  font-weight: 700;
+  font-size: $font-size-product-title-desktop;
+  line-height: 100%;
+  letter-spacing: 0;
+  vertical-align: middle;
+  color: $color-text-primary;
+}
+
+.product-rating {
+  @include flex-row;
+  font-size: $font-size-xxl;
+}
+
+.product-price {
+  @include flex-row;
+  font-size: 32px;
+}
+
+.secondary-text {
+  font-family: var(--font-satoshi-regular);
+  font-weight: 400;
+  font-size: $font-size-md;
+  line-height: 22px;
+  letter-spacing: 0;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.selection-block {
+  @include flex-column;
+  gap: $selection-block-gap;
+}
+
+.product-buttons {
+  @include flex-row;
+  gap: $button-gap;
+}
+
+.add-to-cart-button {
+  @include button-base;
+  font-family: var(--font-satoshi-medium);
+  font-weight: 500;
+  font-size: $font-size-md;
+  color: $scss-white;
+  border: none;
+  border-radius: $border-radius-full;
+  flex: 1;
+  padding: $spacing-sm 0;
+  background-color: $scss-black;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &:hover {
+    background-color: c.adjust($scss-black, $lightness: 10%);
+    transform: translateY(-1px);
+    box-shadow: $shadow-sm;
+  }
+
+  &:disabled {
+    background-color: $color-bg-disabled;
+    color: $color-text-disabled;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+
+    &:hover {
+      background-color: $color-bg-disabled;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+hr {
+  margin: 0;
+  border: none;
+  border-top: 1px solid $color-border-light;
+}
+
+// Проміжний breakpoint для кращої адаптивності
+@media (max-width: 1350px) {
+  .product-detail {
+    gap: $product-detail-gap-tablet;
+  }
+  
+  .product-detail app-image-gallery {
+    width: 45%;
+    max-width: 500px;
+  }
+}
+
+@include respond-below('xl') {
+  .product-detail {
+    gap: $product-detail-gap-tablet;
+  }
+  
+  .product-detail app-image-gallery {
+    width: 48%;
+    max-width: 450px;
+  }
+}
+
+@include respond-below('lg') {
+  .product-detail {
+    flex-direction: column;
+    align-items: center;
+    gap: $product-detail-gap-tablet;
+  }
+
+  .product-detail app-image-gallery,
+  .product-info {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+@include respond-below('md') {
+  .product-detail {
+    flex-direction: column;
+    align-items: center;
+    gap: $product-detail-gap-mobile;
+  }
+
+  .product-detail app-image-gallery,
+  .product-info {
+    width: 100%;
+    max-width: 100%;
+  }
+}

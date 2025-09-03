@@ -53,6 +53,8 @@ $color-error-alt: $scss-error-alt;
 $color-error-alt2: $scss-error-alt2;
 $color-white-alt: #fefefe;
 $color-border: $scss-neutral-400;
+$color-bg-disabled: $scss-neutral-400;
+$color-text-disabled: $scss-neutral-600;
 $icon-primary: $scss-neutral-900;
 $icon-muted: $scss-neutral-650;
 $icon-inverse: $scss-white;
@@ -139,3 +141,8 @@ $color-border-light: rgba(0, 0, 0, 0.1);
 $font-size-product-title: 20px;
 $font-size-logo: 32px;
 $font-size-review-author: 20px;
+
+// Product title sizes
+$font-size-product-title-desktop: 40px;
+$font-size-product-title-tablet: 32px;
+$font-size-product-title-mobile: 28px;

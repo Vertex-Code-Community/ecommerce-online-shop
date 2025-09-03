@@ -15,7 +15,7 @@ export interface SizeOption {
 })
 export class SizeSelectorComponent {
   @Input() sizes: SizeOption[] = [];
-  @Input() selectedSize: string | null = null; // name of selected size
+  @Input() selectedSize: string | null = null;
   @Input() label: string = 'Select Size';
   @Output() sizeSelected = new EventEmitter<SizeOption>();
 

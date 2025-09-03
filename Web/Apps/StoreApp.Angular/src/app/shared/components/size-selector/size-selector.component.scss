@@ -18,7 +18,7 @@ $size-option-border-radius: 62px;
   font-weight: 400;
   font-size: $font-size-md;
   line-height: 22px;
-  color: $color-text-secondary;
+  color: $color-text-muted;
   margin: 0;
 }
 
@@ -46,11 +46,6 @@ $size-option-border-radius: 62px;
     background-color: c.adjust($size-option-bg, $lightness: -5%);
     transform: translateY(-1px);
     box-shadow: $shadow-sm;
-  }
-
-  &:focus {
-    outline: 2px solid $color-primary;
-    outline-offset: 2px;
   }
 
   &:active {

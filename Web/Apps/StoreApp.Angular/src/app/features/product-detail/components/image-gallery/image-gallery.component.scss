@@ -5,24 +5,30 @@ $gallery-bg: #F0EEED;
 $gallery-border-radius: 20px;
 $gallery-gap: 1rem;
 $thumbnail-gap: 0.5rem;
-$thumbnail-size-desktop: 150px;
-$thumbnail-size-tablet: 120px;
-$thumbnail-size-mobile: 100px;
+// Use relative units for proportional scaling
+$thumbnail-ratio: 0.31; // thumbnails are ~31% of main image width
 $main-image-size-desktop: 478px;
 $main-image-size-tablet: 420px;
 $main-image-size-mobile: 328px;
+$thumbnail-size-desktop: calc($main-image-size-desktop * $thumbnail-ratio);
+$thumbnail-size-tablet: calc($main-image-size-tablet * $thumbnail-ratio);
+$thumbnail-size-mobile: calc($main-image-size-mobile * $thumbnail-ratio);
 $selected-border-color: $scss-black;
 $arrow-size: 40px;
 
 .image-gallery {
   width: 100%;
   position: relative;
+  
+  // CSS custom properties for responsive scaling
+  --main-image-size: #{$main-image-size-desktop};
+  --thumbnail-size: #{$thumbnail-size-desktop};
 }
 
 .single-image-wrapper {
   @include flex-center;
   width: 100%;
-  max-width: $main-image-size-desktop;
+  max-width: var(--main-image-size);
   aspect-ratio: 1;
   background-color: $gallery-bg;
   border-radius: $gallery-border-radius;
@@ -48,7 +54,7 @@ $arrow-size: 40px;
 
   .main-image-wrapper {
     width: 100%;
-    max-width: $main-image-size-desktop;
+    max-width: var(--main-image-size);
     aspect-ratio: 1;
     background-color: $gallery-bg;
     border-radius: $gallery-border-radius;
@@ -70,7 +76,7 @@ $arrow-size: 40px;
   .thumbnails-section {
     @include flex-column;
     flex-shrink: 0;
-    width: $thumbnail-size-desktop;
+    width: var(--thumbnail-size);
     height: 100%;
     max-height: 100vh;
   }
@@ -85,7 +91,7 @@ $arrow-size: 40px;
   .main-image-wrapper {
     position: relative;
     width: 100%;
-    max-width: $main-image-size-desktop;
+    max-width: var(--main-image-size);
     aspect-ratio: 1;
     background-color: $gallery-bg;
     border-radius: $gallery-border-radius;
@@ -103,8 +109,8 @@ $arrow-size: 40px;
   background-color: $gallery-bg;
   border-radius: $gallery-border-radius;
   overflow: hidden;
-  width: $thumbnail-size-desktop;
-  height: $thumbnail-size-desktop;
+  width: var(--thumbnail-size);
+  height: var(--thumbnail-size);
   border: 2px solid transparent;
   transition: all $transition-fast;
   cursor: pointer;
@@ -173,7 +179,27 @@ $arrow-size: 40px;
   font-weight: 500;
 }
 
+// Проміжний breakpoint для екранів 1350px і менше
+@media (max-width: 1350px) {
+  .image-gallery {
+    --main-image-size: 380px;
+    --thumbnail-size: calc(380px * #{$thumbnail-ratio});
+  }
+}
+
+@include respond-below('xl') {
+  .image-gallery {
+    --main-image-size: 350px;
+    --thumbnail-size: calc(350px * #{$thumbnail-ratio});
+  }
+}
+
 @include respond-below('lg') {
+  .image-gallery {
+    --main-image-size: #{$main-image-size-tablet};
+    --thumbnail-size: #{$thumbnail-size-tablet};
+  }
+
   .simple-gallery,
   .full-gallery {
     flex-direction: column-reverse;
@@ -200,16 +226,6 @@ $arrow-size: 40px;
     }
   }
 
-  .thumbnail-wrapper {
-    width: $thumbnail-size-tablet;
-    height: $thumbnail-size-tablet;
-  }
-
-  .single-image-wrapper,
-  .main-image-wrapper {
-    max-width: $main-image-size-tablet;
-  }
-
   .main-image-wrapper .nav-arrow {
     width: calc($arrow-size + 4px);
     height: calc($arrow-size + 4px);
@@ -230,14 +246,9 @@ $arrow-size: 40px;
 }
 
 @include respond-below('md') {
-  .thumbnail-wrapper {
-    width: $thumbnail-size-mobile;
-    height: $thumbnail-size-mobile;
-  }
-
-  .single-image-wrapper,
-  .main-image-wrapper {
-    max-width: $main-image-size-mobile;
+  .image-gallery {
+    --main-image-size: #{$main-image-size-mobile};
+    --thumbnail-size: #{$thumbnail-size-mobile};
   }
 
   .thumbnails-section {

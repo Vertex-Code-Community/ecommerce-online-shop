@@ -14,7 +14,7 @@ $color-option-gap: 10px;
   font-weight: 400;
   font-size: $font-size-md;
   line-height: 22px;
-  color: $color-text-secondary;
+  color: $color-text-muted;
   margin: 0;
 }
 
@@ -38,11 +38,6 @@ $color-option-gap: 10px;
   &:hover {
     transform: scale(1.1);
     box-shadow: $shadow-md;
-  }
-
-  &:focus {
-    outline: 2px solid $color-primary;
-    outline-offset: 2px;
   }
 
   &:active {
