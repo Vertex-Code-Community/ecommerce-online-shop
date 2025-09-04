@@ -20,10 +20,10 @@
       <app-product-info [fullProduct]="(currentProduct$ | async)!"/>
 
       <app-review-list
-        [reviews]="(reviews$ | async) || []"
-        [isLoading]="(reviewsLoading$ | async) || false"
-        [isReadOnly]="false"
-        (writeReviewClicked)="onWriteReview()"/>
+          [reviews]="(reviews$ | async) || []"
+          [isLoading]="(reviewsLoading$ | async) || false"
+          [isReadOnly]="!(isAuthenticated$ | async) || false"
+          (writeReviewClicked)="onWriteReview()"/>
 
       <div class="also-see-wrapper">
         <app-product-list

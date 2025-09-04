@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
@@ -22,6 +22,7 @@ import {
 import * as ReviewActions from '../../store/reviews/review.actions';
 import { selectReviews, selectReviewsLoading, selectReviewsError } from '../../store/reviews/review.selectors';
 import { selectTopSellingError, selectTopSellingProducts } from '../../store/home/home.selectors';
+import { selectIsAuthenticated } from '../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-product-detail',
@@ -31,41 +32,29 @@ import { selectTopSellingError, selectTopSellingProducts } from '../../store/hom
   styleUrl: './product-detail.component.scss'
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private store = inject(Store<AppState>);
   private destroy$ = new Subject<void>();
 
   productId: number = 0;
 
-  currentProduct$: Observable<FullProduct | null>;
-  isLoading$: Observable<boolean>;
-  error$: Observable<any>;
+  currentProduct$: Observable<FullProduct | null> = this.store.select(selectCurrentProduct);
+  isLoading$: Observable<boolean> = this.store.select(selectProductLoading);
+  error$: Observable<any> = this.store.select(selectProductError);
 
-  reviews$: Observable<Review[]>;
-  reviewsLoading$: Observable<boolean>;
-  reviewsError$: Observable<any>;
+  reviews$: Observable<Review[]> = this.store.select(selectReviews);
+  reviewsLoading$: Observable<boolean> = this.store.select(selectReviewsLoading);
+  reviewsError$: Observable<any> = this.store.select(selectReviewsError);
 
-  alsoLikeProducts$: Observable<Product[]>;
-  alsoLikeLoading$: Observable<boolean>;
-  alsoLikeError$: Observable<any>;
+  alsoLikeProducts$: Observable<Product[]> = this.store.select(selectTopSellingProducts);
+  alsoLikeLoading$: Observable<boolean> = this.store.select(selectProductLoading);
+  alsoLikeError$: Observable<any> = this.store.select(selectTopSellingError);
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store<AppState>
-  ) {
-    this.currentProduct$ = this.store.select(selectCurrentProduct);
-    this.isLoading$ = this.store.select(selectProductLoading);
-    this.error$ = this.store.select(selectProductError);
-
-    this.reviews$ = this.store.select(selectReviews);
-    this.reviewsLoading$ = this.store.select(selectReviewsLoading);
-    this.reviewsError$ = this.store.select(selectReviewsError);
-
-    this.store.dispatch(HomeActions.loadTopSellingProducts());
-    this.alsoLikeProducts$ = this.store.select(selectTopSellingProducts);
-    this.alsoLikeLoading$ = this.store.select(selectProductLoading);
-    this.alsoLikeError$ = this.store.select(selectTopSellingError);
-  }
+  isAuthenticated$: Observable<boolean> = this.store.select(selectIsAuthenticated);
 
   ngOnInit(): void {
+    this.store.dispatch(HomeActions.loadTopSellingProducts());
+    
     this.route.params.pipe(takeUntil(this.destroy$)
     ).subscribe(params => {
       this.productId = +params['id'] || 1;

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Subject, takeUntil } from 'rxjs';
@@ -44,9 +44,8 @@ export class ProductInfoComponent implements OnInit, OnChanges, OnDestroy {
   displayImages: string[] = [];
   maxQuantity: number = 1;
 
+  private store = inject(Store<AppState>);
   private destroy$ = new Subject<void>();
-
-  constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.store.dispatch(CartActions.loadCart());
