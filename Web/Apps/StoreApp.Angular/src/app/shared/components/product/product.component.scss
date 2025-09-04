@@ -9,6 +9,9 @@ $product-card-mobile-width: 172px;
   cursor: pointer;
   width: $product-card-width;
   font-size: $font-size-xxl;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .image-container {

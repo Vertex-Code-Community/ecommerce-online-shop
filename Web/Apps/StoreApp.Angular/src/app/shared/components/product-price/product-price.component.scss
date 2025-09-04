@@ -1,6 +1,10 @@
 @use '../../../../styles/shared/variables' as *;
 @use '../../../../styles/shared/mixins' as *;
 
+* {
+  box-sizing: border-box;
+}
+
 .price {
   @include flex-center;
   font-family: var(--font-satoshi-bold);
@@ -22,6 +26,7 @@
 }
 
 .discount {
+  @include flex-center;
   border-radius: $border-radius-full;
   background-color: $color-discount-bg;
 }
