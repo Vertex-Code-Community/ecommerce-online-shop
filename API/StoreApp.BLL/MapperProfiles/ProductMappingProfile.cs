@@ -15,7 +15,8 @@ public class ProductMappingProfile : Profile
                         ? src.ProductImages.ImagesUrls : new List<string>()));
 
         CreateMap<ProductEntity, ProductModel>()
-            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.MainImageUrl));
+            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.MainImageUrl))
+            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.AverageRating));
 
         CreateMap<CreateProduct, ProductEntity>();
         CreateMap<UpdateProduct, ProductEntity>();

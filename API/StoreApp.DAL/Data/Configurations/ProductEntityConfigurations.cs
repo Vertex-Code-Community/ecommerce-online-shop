@@ -54,5 +54,9 @@ public class ProductEntityConfigurations : IEntityTypeConfiguration<ProductEntit
         builder.Property(x => x.CreatedAt)
             .HasDefaultValueSql("SYSUTCDATETIME()")
             .IsRequired();
+        
+        builder.Property(x => x.AverageRating)
+            .HasDefaultValue(0)
+            .IsRequired();
     }
 }

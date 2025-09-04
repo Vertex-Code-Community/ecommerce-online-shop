@@ -290,8 +290,7 @@ public class Seeder(RoleManager<IdentityRole> roleManager, UserManager<UserEntit
         var userIds = await dbContext.Users
             .Select(u => u.Id).ToListAsync();
 
-        var products = await dbContext.Products
-            .Select(p => new { p.Id, p.Name }).ToListAsync();
+        var products = await dbContext.Products.ToListAsync();
 
         if (!userIds.Any())
         {
@@ -394,6 +393,29 @@ public class Seeder(RoleManager<IdentityRole> roleManager, UserManager<UserEntit
         await dbContext.SaveChangesAsync();
         
         Console.WriteLine($"Added {reviews.Count} reviews to database.");
+        
+        Console.WriteLine("Updating AverageRating for products...");
+        
+        var productRatings = reviews
+            .GroupBy(r => r.ProductId)
+            .Select(g => new 
+            {
+                ProductId = g.Key,
+                AverageRating = g.Average(r => r.Rating)
+            })
+            .ToList();
+
+        foreach (var productRating in productRatings)
+        {
+            var product = products.FirstOrDefault(p => p.Id == productRating.ProductId);
+            if (product != null)
+            {
+                product.AverageRating = Math.Round(productRating.AverageRating, 2);
+                Console.WriteLine($"Updated AverageRating for product {product.Name}: {product.AverageRating:F2}");
+            }
+        }
+
+        await dbContext.SaveChangesAsync();
         Console.WriteLine("Reviews seeding completed successfully!");
     }
 }
