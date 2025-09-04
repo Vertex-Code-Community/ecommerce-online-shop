@@ -37,8 +37,7 @@
           [products]="(alsoLikeProducts$ | async) || []"
           [isLoading]="(alsoLikeLoading$ | async) || false"
           [isScrollable]="true"
-          [showViewAllButton]="false"
-          (productClick)="onAlsoLikeProductClick($event)"/>
+          [showViewAllButton]="false"/>
       </div>
     </div>
   }

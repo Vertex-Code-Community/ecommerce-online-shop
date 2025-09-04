@@ -48,7 +48,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private store: Store<AppState>
   ) {
     this.currentProduct$ = this.store.select(selectCurrentProduct);
@@ -93,10 +92,5 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   onWriteReview(): void {
     console.log('Write review clicked');
-  }
-
-  onAlsoLikeProductClick(product: Product): void {
-    console.log('Also like product clicked:', product);
-    this.router.navigate(['/products', product.id]);
   }
 }
