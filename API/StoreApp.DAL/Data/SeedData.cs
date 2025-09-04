@@ -9,33 +9,10 @@ public class Seeder(RoleManager<IdentityRole> roleManager, UserManager<UserEntit
 {
     public async Task Seed()
     {
-        await EnsureMigratedAsync();
         await SeedRoles();
         await SeedProducts();
         await SeedUsers();
         await SeedReviews();
-    }
-    
-    private async Task EnsureMigratedAsync()
-    {
-        try
-        {
-            var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
-            if (pendingMigrations.Any())
-            {
-                Console.WriteLine("Applying pending migrations...");
-                await dbContext.Database.MigrateAsync();
-                Console.WriteLine("Migrations applied successfully.");
-            }
-            else
-            {
-                Console.WriteLine("No pending migrations found.");
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
     }
     
     private async Task SeedRoles()
