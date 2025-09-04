@@ -3,7 +3,6 @@
   <app-brands [brands]="MOCK_BRANDS"/>
 
   <div class="products-wrapper">
-    <!-- New Arrivals Section -->
     @if (newArrivalsLoading$ | async) {
       <div class="loading-section">Loading new arrivals...</div>
     } @else if (newArrivalsError$ | async) {
@@ -20,7 +19,6 @@
       <div class="separator"></div>
     </div>
 
-    <!-- Top Selling Section -->
     @if (topSellingLoading$ | async) {
       <div class="loading-section">Loading top selling products...</div>
     } @else if (topSellingError$ | async) {
@@ -34,5 +32,12 @@
     }
   </div>
   <app-styles [styles]="MOCK_STYLES"/>
-  <app-customer-reviews [reviews]="MOCK_REVIEWS"/>
+  
+  @if (topRatingReviewsLoading$ | async) {
+    <div class="loading-section">Loading customer reviews...</div>
+  } @else if (topRatingReviewsError$ | async) {
+    <div class="error-section">Failed to load customer reviews</div>
+  } @else {
+    <app-customer-reviews [reviews]="(topRatingReviews$ | async)!"/>
+  }
 </div>

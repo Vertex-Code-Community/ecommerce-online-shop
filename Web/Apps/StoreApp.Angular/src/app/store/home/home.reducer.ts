@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Product } from '../../shared/models/product/product';
+import { Review } from '../../shared/models/review/review';
 import * as HomeActions from './home.actions';
 
 export interface HomeState {
@@ -10,6 +11,10 @@ export interface HomeState {
   newArrivals: Product[];
   newArrivalsLoading: boolean;
   newArrivalsError: any;
+  
+  topRatingReviews: Review[];
+  topRatingReviewsLoading: boolean;
+  topRatingReviewsError: any;
 }
 
 export const initialState: HomeState = {
@@ -19,7 +24,11 @@ export const initialState: HomeState = {
   
   newArrivals: [],
   newArrivalsLoading: false,
-  newArrivalsError: null
+  newArrivalsError: null,
+  
+  topRatingReviews: [],
+  topRatingReviewsLoading: false,
+  topRatingReviewsError: null
 };
 
 export const homeReducer = createReducer(
@@ -63,6 +72,26 @@ export const homeReducer = createReducer(
     newArrivals: [],
     newArrivalsLoading: false,
     newArrivalsError: error
+  })),
+
+  on(HomeActions.loadTopRatingReviews, (state) => ({
+    ...state,
+    topRatingReviewsLoading: true,
+    topRatingReviewsError: null
+  })),
+
+  on(HomeActions.loadTopRatingReviewsSuccess, (state, { reviews }) => ({
+    ...state,
+    topRatingReviews: reviews,
+    topRatingReviewsLoading: false,
+    topRatingReviewsError: null
+  })),
+
+  on(HomeActions.loadTopRatingReviewsFailure, (state, { error }) => ({
+    ...state,
+    topRatingReviews: [],
+    topRatingReviewsLoading: false,
+    topRatingReviewsError: error
   })),
 
   on(HomeActions.clearHomeData, () => initialState)

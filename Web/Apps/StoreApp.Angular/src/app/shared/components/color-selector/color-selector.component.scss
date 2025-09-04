@@ -26,7 +26,7 @@ $color-option-gap: 10px;
 }
 
 .color-option {
-  border: none;
+  border: 1px solid rgba($scss-black, 0.15);
   border-radius: $border-radius-full;
   width: $color-option-size;
   height: $color-option-size;

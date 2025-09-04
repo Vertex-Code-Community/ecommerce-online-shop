@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Product } from '../../shared/models/product/product';
+import { Review } from '../../shared/models/review/review';
 
 export const loadTopSellingProducts = createAction(
   '[Home] Load Top Selling Products'
@@ -26,6 +27,20 @@ export const loadNewArrivalsSuccess = createAction(
 
 export const loadNewArrivalsFailure = createAction(
   '[Home] Load New Arrivals Failure',
+  props<{ error: any }>()
+);
+
+export const loadTopRatingReviews = createAction(
+  '[Home] Load Top Rating Reviews'
+);
+
+export const loadTopRatingReviewsSuccess = createAction(
+  '[Home] Load Top Rating Reviews Success',
+  props<{ reviews: Review[] }>()
+);
+
+export const loadTopRatingReviewsFailure = createAction(
+  '[Home] Load Top Rating Reviews Failure',
   props<{ error: any }>()
 );
 

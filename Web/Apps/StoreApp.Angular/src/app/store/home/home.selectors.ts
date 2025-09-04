@@ -33,14 +33,33 @@ export const selectNewArrivalsError = createSelector(
   (state: HomeState) => state.newArrivalsError
 );
 
+export const selectTopRatingReviews = createSelector(
+  selectHomeState,
+  (state: HomeState) => state.topRatingReviews
+);
+
+export const selectTopRatingReviewsLoading = createSelector(
+  selectHomeState,
+  (state: HomeState) => state.topRatingReviewsLoading
+);
+
+export const selectTopRatingReviewsError = createSelector(
+  selectHomeState,
+  (state: HomeState) => state.topRatingReviewsError
+);
+
 export const selectHomeLoading = createSelector(
   selectTopSellingLoading,
   selectNewArrivalsLoading,
-  (topSellingLoading, newArrivalsLoading) => topSellingLoading || newArrivalsLoading
+  selectTopRatingReviewsLoading,
+  (topSellingLoading, newArrivalsLoading, topRatingReviewsLoading) => 
+    topSellingLoading || newArrivalsLoading || topRatingReviewsLoading
 );
 
 export const selectHomeError = createSelector(
   selectTopSellingError,
   selectNewArrivalsError,
-  (topSellingError, newArrivalsError) => topSellingError || newArrivalsError
+  selectTopRatingReviewsError,
+  (topSellingError, newArrivalsError, topRatingReviewsError) => 
+    topSellingError || newArrivalsError || topRatingReviewsError
 );

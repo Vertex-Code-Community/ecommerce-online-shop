@@ -39,6 +39,11 @@ export class ReviewService {
     const mockReviews: Review[] = createMockReviews(productId);
     return of(mockReviews).pipe(delay(300));
   }
+
+  getTopRatingReviews(): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.apiUrl}/review/top-rating`)
+      .pipe(catchError(this.handleError.bind(this)));
+  }
 }
 
 function createMockReviews(productId: number): Review[] {

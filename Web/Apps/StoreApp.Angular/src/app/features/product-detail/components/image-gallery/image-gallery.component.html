@@ -10,7 +10,7 @@
   }
   @else if (displayMode === 'simple') {
     <div class="simple-gallery">
-      <div class="thumbnails simple">
+      <div class="thumbnails simple" [class.few-images]="images.length < 3" [class.full-images]="images.length >= 3">
         @for (item of visibleThumbnailsWithIndex; track item.originalIndex) {
           <div class="thumbnail-wrapper"
                [class.selected]="isSelected(item.originalIndex)"
@@ -34,7 +34,7 @@
   @else {
     <div class="full-gallery">
       <div class="thumbnails-section">
-        <div class="thumbnails gallery">
+        <div class="thumbnails gallery" [class.few-images]="images.length < 3" [class.full-images]="images.length >= 3">
           @for (item of visibleThumbnailsWithIndex; track item.originalIndex) {
             <div class="thumbnail-wrapper"
                  [class.selected]="isSelected(item.originalIndex)"
