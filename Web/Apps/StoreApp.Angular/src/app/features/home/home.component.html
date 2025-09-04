@@ -3,11 +3,15 @@
   <app-brands [brands]="MOCK_BRANDS"/>
 
   <div class="products-wrapper">
-    @if (loading$ | async) {
+    <!-- New Arrivals Section -->
+    @if (newArrivalsLoading$ | async) {
+      <div class="loading-section">Loading new arrivals...</div>
+    } @else if (newArrivalsError$ | async) {
+      <div class="error-section">Failed to load new arrivals</div>
     } @else {
       <app-product-list
         [headerText]="'NEW ARRIVALS'"
-        [products]="(products$ | async)!"
+        [products]="(newArrivals$ | async)!"
         [isScrollable]="true"
       />
     }
@@ -16,11 +20,15 @@
       <div class="separator"></div>
     </div>
 
-    @if (loading$ | async) {
+    <!-- Top Selling Section -->
+    @if (topSellingLoading$ | async) {
+      <div class="loading-section">Loading top selling products...</div>
+    } @else if (topSellingError$ | async) {
+      <div class="error-section">Failed to load top selling products</div>
     } @else {
       <app-product-list
         [headerText]="'TOP SELLING'"
-        [products]="(products$ | async)!"
+        [products]="(topSellingProducts$ | async)!"
         [isScrollable]="true"
       />
     }

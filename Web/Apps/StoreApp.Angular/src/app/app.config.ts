@@ -18,6 +18,7 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { ProductEffects } from './store/products/product.effects';
 import { ThemeEffects } from './store/theme/theme.effects';
 import { ReviewEffects } from './store/reviews/review.effects';
+import { HomeEffects } from './store/home/home.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,7 +27,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideStore(appReducers),
-    provideEffects([AuthEffects, ProductEffects, ThemeEffects, ReviewEffects]),
+    provideEffects([AuthEffects, ProductEffects, ThemeEffects, ReviewEffects, HomeEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideRouterStore()
   ]
