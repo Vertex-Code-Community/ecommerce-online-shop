@@ -25,7 +25,6 @@ export class ReviewListComponent {
   selectedSortOption: ReviewSortOptions = ReviewSortOptions.Latest;
   showAllReviews: boolean = false;
 
-  readonly ReviewSortOptions = ReviewSortOptions;
   readonly sortOptions = [
     { value: ReviewSortOptions.Latest, label: 'Latest' },
     { value: ReviewSortOptions.HighestRating, label: 'Highest' },

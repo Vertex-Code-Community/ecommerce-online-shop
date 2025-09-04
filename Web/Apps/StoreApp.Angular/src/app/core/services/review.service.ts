@@ -9,7 +9,7 @@ import { Review } from '../../shared/models/review/review';
   providedIn: 'root'
 })
 export class ReviewService {
-  private apiUrl = `${environment.apiUrl}/review`;
+  private apiUrl = `${environment.apiUrl}`;
 
   http: HttpClient = inject(HttpClient);
 
@@ -18,10 +18,8 @@ export class ReviewService {
     let statusCode = 500;
 
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
       errorMessage = error.error.message;
     } else {
-      // Server-side error
       statusCode = error.status;
       errorMessage = error.message || 'Server error occurred';
     }
@@ -30,12 +28,12 @@ export class ReviewService {
   }
 
   getReviewsByProductId(productId: number): Observable<Review[]> {
-    // if (!productId || productId <= 0) {
-    //   return throwError(() => ({ message: 'Invalid product ID', statusCode: 400 }));
-    // }
-    //
-    // return this.http.get<Review[]>(`${this.apiUrl}/product/${productId}`)
-    //   .pipe(catchError(this.handleError.bind(this)));
+    if (!productId || productId <= 0) {
+      return throwError(() => ({ message: 'Invalid product ID', statusCode: 400 }));
+    }
+
+    return this.http.get<Review[]>(`${this.apiUrl}/products/${productId}/reviews`)
+      .pipe(catchError(this.handleError.bind(this)));
 
     // Mocked response for UI testing without backend
     const mockReviews: Review[] = createMockReviews(productId);

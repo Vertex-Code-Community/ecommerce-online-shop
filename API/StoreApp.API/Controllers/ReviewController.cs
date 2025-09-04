@@ -11,7 +11,7 @@ namespace StoreApp.API.Controllers;
 [Route("api/[controller]")]
 public class ReviewController(IReviewService service) : ControllerBase
 {
-    [HttpGet("api/products/{productId:int}/reviews")]
+    [HttpGet("/api/products/{productId:int}/reviews")]
     public async Task<IActionResult> GetByProductIdAsync(int productId)
     {
         var reviews = await service.GetReviewsByProductIdAsync(productId);
