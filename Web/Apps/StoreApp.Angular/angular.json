@@ -27,6 +27,8 @@
                 "glob": "**/*",
                 "input": "public"
               },
+              "src/favicon.ico",
+              "src/manifest.json",
               "src/staticwebapp.config.json"
             ],
             "styles": [

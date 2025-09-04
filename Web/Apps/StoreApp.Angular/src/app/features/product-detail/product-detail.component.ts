@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,14 +13,15 @@ import { Product } from '../../shared/models/product/product';
 import { Review } from '../../shared/models/review/review';
 import { AppState } from '../../store/app.state';
 import * as ProductActions from '../../store/products/product.actions';
+import * as HomeActions from '../../store/home/home.actions';
 import {
   selectCurrentProduct,
   selectProductLoading,
-  selectProductError,
-  selectProducts
+  selectProductError
 } from '../../store/products/product.selectors';
 import * as ReviewActions from '../../store/reviews/review.actions';
 import { selectReviews, selectReviewsLoading, selectReviewsError } from '../../store/reviews/review.selectors';
+import {selectTopSellingError, selectTopSellingProducts} from '../../store/home/home.selectors';
 
 @Component({
   selector: 'app-product-detail',
@@ -58,10 +59,10 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
     this.reviewsLoading$ = this.store.select(selectReviewsLoading);
     this.reviewsError$ = this.store.select(selectReviewsError);
 
-    this.store.dispatch(ProductActions.loadProducts());
-    this.alsoLikeProducts$ = this.store.select(selectProducts);
+    this.store.dispatch(HomeActions.loadTopSellingProducts());
+    this.alsoLikeProducts$ = this.store.select(selectTopSellingProducts);
     this.alsoLikeLoading$ = this.store.select(selectProductLoading);
-    this.alsoLikeError$ = this.store.select(selectProductError);
+    this.alsoLikeError$ = this.store.select(selectTopSellingError);
   }
 
   ngOnInit(): void {
