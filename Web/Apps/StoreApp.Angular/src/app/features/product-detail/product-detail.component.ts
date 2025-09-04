@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { CommonModule, AsyncPipe } from '@angular/common';
 import { LoadingIndicatorComponent } from '../../shared/components/loading-indicator/loading-indicator.component';
 import { ReviewListComponent } from './components/review-list/review-list.component';
-import { ProductInfoComponent, ProductSelection } from './components/product-info/product-info.component';
+import { ProductInfoComponent } from './components/product-info/product-info.component';
 import { ProductListComponent } from '../../shared/components/product-list/product-list.component';
 import { FullProduct } from '../../shared/models/product/fullProduct';
 import { Product } from '../../shared/models/product/product';
@@ -21,7 +21,7 @@ import {
 } from '../../store/products/product.selectors';
 import * as ReviewActions from '../../store/reviews/review.actions';
 import { selectReviews, selectReviewsLoading, selectReviewsError } from '../../store/reviews/review.selectors';
-import {selectTopSellingError, selectTopSellingProducts} from '../../store/home/home.selectors';
+import { selectTopSellingError, selectTopSellingProducts } from '../../store/home/home.selectors';
 
 @Component({
   selector: 'app-product-detail',
@@ -85,10 +85,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   loadReviews(): void {
     this.store.dispatch(ReviewActions.loadProductReviews({ productId: this.productId }));
-  }
-
-  onProductAddToCart(selection: ProductSelection): void {
-    console.log('Add to cart clicked with selection:', selection);
   }
 
   onWriteReview(): void {

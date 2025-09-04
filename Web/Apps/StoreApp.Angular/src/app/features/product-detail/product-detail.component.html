@@ -3,9 +3,7 @@
     <div class="loading-indicator">
       <app-loading-indicator
         text="Loading product details..."
-        size="large"
-        color="#33b469">
-      </app-loading-indicator>
+        size="large" color="#33b469"/>
     </div>
   }
   @else if (error$ | async)
@@ -19,17 +17,13 @@
   @else if (currentProduct$ | async)
   {
     <div class="product-detail-page">
-      <app-product-info
-        [fullProduct]="(currentProduct$ | async)!"
-        (addToCartClicked)="onProductAddToCart($event)">
-      </app-product-info>
+      <app-product-info [fullProduct]="(currentProduct$ | async)!"/>
 
       <app-review-list
         [reviews]="(reviews$ | async) || []"
         [isLoading]="(reviewsLoading$ | async) || false"
         [isReadOnly]="false"
-        (writeReviewClicked)="onWriteReview()">
-      </app-review-list>
+        (writeReviewClicked)="onWriteReview()"/>
 
       <div class="also-see-wrapper">
         <app-product-list

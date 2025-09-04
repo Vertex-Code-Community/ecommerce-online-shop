@@ -5,6 +5,7 @@ import { productReducer } from './products/product.reducer.t';
 import { themeReducer } from './theme/theme.reducer';
 import { reviewReducer } from './reviews/review.reducer';
 import { homeReducer } from './home/home.reducer';
+import { cartReducer } from './cart/cart.reducer';
 
 export const appReducers: ActionReducerMap<AppState> = {
   auth: authReducer,
@@ -12,4 +13,5 @@ export const appReducers: ActionReducerMap<AppState> = {
   theme: themeReducer,
   review: reviewReducer,
   home: homeReducer,
+  cart: cartReducer,
 };

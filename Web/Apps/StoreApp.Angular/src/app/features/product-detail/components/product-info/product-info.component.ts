@@ -1,5 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { Subject, takeUntil } from 'rxjs';
 import { ImageGalleryComponent } from '../image-gallery/image-gallery.component';
 import { ProductRatingComponent } from '../../../../shared/components/product-rating/product-rating.component';
 import { ProductPriceComponent } from '../../../../shared/components/product-price/product-price.component';
@@ -8,12 +10,11 @@ import { SizeSelectorComponent, SizeOption } from '../../../../shared/components
 import { CounterComponent } from '../../../../shared/components/counter/counter.component';
 import { FullProduct } from '../../../../shared/models/product/fullProduct';
 import { ProductDetail } from '../../../../shared/models/product/productDetail';
+import { AppState } from '../../../../store/app.state';
+import { selectProductQuantityInCart } from '../../../../store/cart/cart.selectors';
+import { CartItem } from '../../../../shared/models/cart/cartItem';
+import * as CartActions from '../../../../store/cart/cart.actions';
 
-export interface ProductSelection {
-  productId: number;
-  quantity: number;
-  selectedProductDetail: ProductDetail | null;
-}
 
 @Component({
   selector: 'app-product-info',
@@ -30,9 +31,8 @@ export interface ProductSelection {
   templateUrl: './product-info.component.html',
   styleUrl: './product-info.component.scss'
 })
-export class ProductInfoComponent implements OnInit, OnChanges {
+export class ProductInfoComponent implements OnInit, OnChanges, OnDestroy {
   @Input() fullProduct!: FullProduct;
-  @Output() addToCartClicked = new EventEmitter<ProductSelection>();
 
   selectedColor: ColorOption | null = null;
   selectedSize: SizeOption | null = null;
@@ -44,14 +44,31 @@ export class ProductInfoComponent implements OnInit, OnChanges {
   displayImages: string[] = [];
   maxQuantity: number = 1;
 
+  private destroy$ = new Subject<void>();
+
+  constructor(private store: Store<AppState>) {}
+
   ngOnInit(): void {
+    this.store.dispatch(CartActions.loadCart());
+
     this.initializeComponent();
+
+    this.store.select(state => state.cart.items)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.updateMaxQuantity();
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['fullProduct']) {
       this.initializeComponent();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private initializeComponent(): void {
@@ -70,7 +87,7 @@ export class ProductInfoComponent implements OnInit, OnChanges {
       this.selectedSize = null;
       this.selectedProductDetail = null;
       this.displayImages = this.fullProduct.imageUrl ? [this.fullProduct.imageUrl] : [];
-      this.maxQuantity = this.fullProduct.unitsInStock;
+      this.updateMaxQuantity();
     }
   }
 
@@ -132,8 +149,7 @@ export class ProductInfoComponent implements OnInit, OnChanges {
 
     this.selectedProductDetail = this.fullProduct.details.find(
       detail => detail.colorHex === this.selectedColor!.hexCode &&
-                detail.sizeName === this.selectedSize!.name
-    ) || null;
+                detail.sizeName === this.selectedSize!.name) || null;
 
     if (this.selectedProductDetail && this.selectedProductDetail.imageUrls.length > 0) {
       this.displayImages = this.selectedProductDetail.imageUrls;
@@ -141,10 +157,24 @@ export class ProductInfoComponent implements OnInit, OnChanges {
       this.displayImages = this.fullProduct.imageUrl ? [this.fullProduct.imageUrl] : [];
     }
 
-    this.maxQuantity = this.selectedProductDetail?.unitsInStock || this.fullProduct.unitsInStock;
+    this.updateMaxQuantity();
+  }
 
-    if (this.quantity > this.maxQuantity) {
-      this.quantity = Math.min(this.quantity, this.maxQuantity);
+  private updateMaxQuantity(): void {
+    if (this.selectedProductDetail) {
+      const availableStock = this.selectedProductDetail.unitsInStock;
+
+      this.store.select(selectProductQuantityInCart(this.selectedProductDetail.id))
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(quantityInCart => {
+          this.maxQuantity = Math.max(0, availableStock - quantityInCart);
+
+          if (this.quantity > this.maxQuantity) {
+            this.quantity = Math.max(1, this.maxQuantity);
+          }
+        });
+    } else {
+      this.maxQuantity = this.fullProduct.unitsInStock;
     }
   }
 
@@ -164,13 +194,16 @@ export class ProductInfoComponent implements OnInit, OnChanges {
   }
 
   onAddToCart(): void {
-    const selection: ProductSelection = {
-      productId: this.fullProduct.id,
-      quantity: this.quantity,
-      selectedProductDetail: this.selectedProductDetail
-    };
+    if (this.selectedProductDetail && this.maxQuantity > 0) {
+      const cartItem: CartItem = {
+        productId: this.fullProduct.id,
+        quantity: this.quantity,
+        productDetail: this.selectedProductDetail
+      };
 
-    this.addToCartClicked.emit(selection);
+      this.store.dispatch(CartActions.addToCart({ item: cartItem }));
+      this.quantity = 1;
+    }
   }
 
   get currentPrice(): number {
