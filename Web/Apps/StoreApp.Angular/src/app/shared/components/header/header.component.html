@@ -31,12 +31,20 @@
       <div class="user-actions">
         <div class="cart-icon-wrapper" style="cursor:pointer" [routerLink]="'/cart'">
           <img src="/svg/shopping-cart.svg" alt="Shopping Cart" class="cart-icon" />
-          @if((cartItemsCount$ | async)! > 0)
+          @if(((cartItemsCount$ | async))! > 0)
           {
-            <span class="cart-badge">{{ cartItemsCount$ | async }}</span>
+            <span class="cart-badge">{{ (cartItemsCount$ | async) }}</span>
           }
         </div>
-        <img src="/svg/user-profile.svg" alt="User Profile" class="user-profile" />
+        
+        @if ((isAuthenticated$ | async)) {
+          <div class="authenticated-actions">
+            <img src="/svg/user-profile.svg" alt="User Profile" class="user-profile" />
+            <button class="logout-button" (click)="onLogout()">Logout</button>
+          </div>
+        } @else {
+          <button class="login-button" (click)="onLogin()">Login</button>
+        }
       </div>
     </div>
   </div>

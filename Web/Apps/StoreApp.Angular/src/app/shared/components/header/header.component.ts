@@ -1,11 +1,13 @@
-import {Component, EventEmitter, Output, OnInit} from '@angular/core';
+import {Component, EventEmitter, Output, OnInit, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../../../store/app.state';
 import { selectCartTotalCount } from '../../../store/cart/cart.selectors';
+import { selectIsAuthenticated } from '../../../store/auth/auth.selectors';
 import * as CartActions from '../../../store/cart/cart.actions';
+import * as AuthActions from '../../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -17,13 +19,22 @@ import * as CartActions from '../../../store/cart/cart.actions';
 export class HeaderComponent implements OnInit {
   @Output() sidebarToggle = new EventEmitter<void>();
 
-  cartItemsCount$: Observable<number>;
+  private store: Store<AppState> = inject(Store);
+  private router: Router = inject(Router);
 
-  constructor(private store: Store<AppState>) {
-    this.cartItemsCount$ = this.store.select(selectCartTotalCount);
-  }
+  cartItemsCount$: Observable<number> = this.store.select(selectCartTotalCount);
+  isAuthenticated$: Observable<boolean> = this.store.select(selectIsAuthenticated);
 
   ngOnInit(): void {
     this.store.dispatch(CartActions.loadCart());
+  }
+
+  onLogout(): void {
+    this.store.dispatch(AuthActions.logout());
+    this.router.navigate(['/']);
+  }
+
+  onLogin(): void {
+    this.router.navigate(['/auth/login']);
   }
 }

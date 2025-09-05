@@ -7,12 +7,11 @@ import { ProductDetailComponent } from './features/product-detail/product-detail
 import { CartComponent } from './features/cart/cart.component';
 
 export const routes: Routes = [
-  { path: 'auth/login', component: LoginPage, canActivate: [guestGuard] },
-
   {
     path: '',
     component: ClientLayoutComponent,
     children: [
+      { path: 'auth/login', component: LoginPage, canActivate: [guestGuard] },
       { path: 'home', component: HomeComponent },
       { path: 'products/:id', component: ProductDetailComponent },
       { path: 'cart', component: CartComponent },
