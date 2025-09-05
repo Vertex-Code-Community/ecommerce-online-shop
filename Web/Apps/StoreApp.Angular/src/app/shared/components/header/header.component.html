@@ -29,7 +29,7 @@
 
     <div class="user-actions-wrapper">
       <div class="user-actions">
-        <div class="cart-icon-wrapper" style="cursor:pointer">
+        <div class="cart-icon-wrapper" style="cursor:pointer" [routerLink]="'/cart'">
           <img src="/svg/shopping-cart.svg" alt="Shopping Cart" class="cart-icon" />
           @if((cartItemsCount$ | async)! > 0)
           {

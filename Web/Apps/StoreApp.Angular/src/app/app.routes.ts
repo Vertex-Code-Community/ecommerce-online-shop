@@ -4,6 +4,7 @@ import { guestGuard } from './core/guards/guest-guard';
 import { ClientLayoutComponent } from './shared/layout/client-layout.component';
 import { HomeComponent } from './features/home/home.component';
 import { ProductDetailComponent } from './features/product-detail/product-detail.component';
+import { CartComponent } from './features/cart/cart.component';
 
 export const routes: Routes = [
   { path: 'auth/login', component: LoginPage, canActivate: [guestGuard] },
@@ -14,6 +15,7 @@ export const routes: Routes = [
     children: [
       { path: 'home', component: HomeComponent },
       { path: 'products/:id', component: ProductDetailComponent },
+      { path: 'cart', component: CartComponent },
       { path: '', redirectTo: '/home', pathMatch: 'full' },
     ]
   },
