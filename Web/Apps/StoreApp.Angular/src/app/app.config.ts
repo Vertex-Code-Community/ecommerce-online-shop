@@ -16,6 +16,10 @@ import { authInterceptor } from './core/interceptors/auth-interceptor';
 import { appReducers } from './store/app.reducer';
 import { AuthEffects } from './store/auth/auth.effects';
 import { ProductEffects } from './store/products/product.effects';
+import { ThemeEffects } from './store/theme/theme.effects';
+import { ReviewEffects } from './store/reviews/review.effects';
+import { HomeEffects } from './store/home/home.effects';
+import { CartEffects } from './store/cart/cart.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideStore(appReducers),
-    provideEffects([AuthEffects, ProductEffects]),
+    provideEffects([AuthEffects, ProductEffects, ThemeEffects, ReviewEffects, HomeEffects, CartEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideRouterStore()
   ]

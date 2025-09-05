@@ -1,0 +1,18 @@
+<div class="size-selector">
+  @if (label) {
+    <p class="selector-label">{{ label }}</p>
+  }
+  
+  <div class="size-options">
+    @for (size of sizes; track size.name) {
+      <button 
+        class="size-option"
+        [class.selected]="isSelected(size)"
+        [title]="size.description || size.name"
+        [attr.aria-label]="'Select size ' + size.name"
+        (click)="onSizeSelect(size)">
+        {{ size.name }}
+      </button>
+    }
+  </div>
+</div>

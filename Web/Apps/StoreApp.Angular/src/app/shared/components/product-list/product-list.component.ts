@@ -1,25 +1,29 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {Component, Input, Output, EventEmitter, inject} from '@angular/core';
 import { ProductComponent } from '../product/product.component';
 import { Product } from '../../models/product/product';
+import {LoadingIndicatorComponent} from '../loading-indicator/loading-indicator.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css'],
+  styleUrls: ['./product-list.component.scss'],
   standalone: true,
-  imports: [ProductComponent]
+  imports: [ProductComponent, LoadingIndicatorComponent]
 })
 export class ProductListComponent {
   @Input() products: Product[] = [];
   @Input() headerText: string = '';
   @Input() showViewAllButton: boolean = true;
   @Input() isScrollable: boolean = false;
+  @Input() isLoading: boolean = false;
 
-  @Output() productClick = new EventEmitter<Product>();
   @Output() viewAllClick = new EventEmitter<void>();
 
+  private router: Router = inject(Router);
+
   onProductClick(product: Product): void {
-    this.productClick.emit(product);
+    this.router.navigate(['/products', product.id]);
   }
 
   onViewAllClick(): void {

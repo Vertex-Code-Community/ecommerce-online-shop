@@ -1,4 +1,5 @@
 <div class="wrapper">
+  @if(!isLoading) {
     <div class="list">
         @if (headerText) {
             <div class="header">{{ headerText }}</div>
@@ -17,4 +18,10 @@
             </div>
         }
     </div>
+  }
+  @else {
+    <div class="loading-indicator">
+        <app-loading-indicator text="Loading products..." size="medium" color="#33b469"/>
+    </div>
+  }
 </div>

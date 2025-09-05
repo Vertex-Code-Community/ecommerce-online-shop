@@ -1,0 +1,72 @@
+<div class="review-list-wrapper">
+  <div class="review-list-header">
+    <div class="review-list-title">
+      <h3 class="title">All Reviews</h3>
+      <span class="count">({{ reviews.length }})</span>
+    </div>
+
+    <div class="review-actions">
+      <button class="filter-button" [attr.aria-label]="'Filter reviews'">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4.16667 6.66667H15.8333M6.66667 10H13.3333M8.33333 13.3333H11.6667" 
+                stroke="currentColor" 
+                stroke-width="1.5" 
+                stroke-linecap="round" 
+                stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <div class="custom-select">
+        <select 
+          class="sort-select"
+          [value]="selectedSortOption"
+          (change)="onSortChange($event)"
+          [attr.aria-label]="'Sort reviews'">
+          @for (option of sortOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+        <svg class="select-arrow" width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      @if (!isReadOnly) {
+        <button class="create-review-button" (click)="onWriteReview()">
+          Write a Review
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="loading-state">
+      <p>Loading reviews...</p>
+    </div>
+  } @else {
+    <div class="review-list">
+      @for (review of displayedReviews; track review.id) {
+        <app-review [review]="review" width="100%" height="250px"></app-review>
+      }
+    </div>
+
+    @if (shouldShowToggleButton) {
+      <div class="load-more-wrapper">
+        <button class="load-more-button" (click)="toggleShowAll()">
+          {{ toggleButtonText }}
+        </button>
+      </div>
+    }
+
+    @if (reviews.length === 0) {
+      <div class="empty-state">
+        <p class="empty-message">No reviews yet</p>
+        @if (!isReadOnly) {
+          <button class="write-first-review-button" (click)="onWriteReview()">
+            Write the first review
+          </button>
+        }
+      </div>
+    }
+  }
+</div>

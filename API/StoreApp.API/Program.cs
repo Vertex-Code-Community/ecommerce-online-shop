@@ -33,10 +33,16 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await context.Database.EnsureCreatedAsync();
-    var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
-    await seeder.Seed();
+    try
+    {
+        var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
+        await seeder.Seed();
+    }
+    catch (Exception e)
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(e, "An error occurred while seeding the database.");
+    }
 }
 
 app.Run();

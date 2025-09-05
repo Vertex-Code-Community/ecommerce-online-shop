@@ -33,13 +33,21 @@ export class ProductService {
     return throwError(() => ({ message: errorMessage, statusCode }));
   }
 
-  getPagedProducts(page: number, pageSize: number): Observable<PagedResult<Product>> {
+  getPagedProducts(page: number, pageSize: number, queryParams?: Record<string, string>): Observable<PagedResult<Product>> {
     const safePage = Math.max(1, page || 1);
     const safePageSize = Math.max(1, pageSize || 10);
 
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('pageNumber', String(safePage))
       .set('pageSize', String(safePageSize));
+
+    if (queryParams) {
+      Object.keys(queryParams).forEach(key => {
+        if (queryParams[key]) {
+          params = params.set(key, queryParams[key]);
+        }
+      });
+    }
     
     return this.http.get<PagedResult<Product>>(`${this.apiUrl}`, { params })
       .pipe(

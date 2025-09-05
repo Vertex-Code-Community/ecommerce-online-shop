@@ -1,0 +1,81 @@
+@use '../../../../styles/shared/variables' as *;
+@use '../../../../styles/shared/mixins' as *;
+
+$color-option-size: 37px;
+$color-option-gap: 10px;
+
+.color-selector {
+  @include flex-column;
+  gap: $color-option-gap;
+}
+
+.selector-label {
+  font-family: var(--font-satoshi-regular);
+  font-weight: 400;
+  font-size: $font-size-md;
+  line-height: 22px;
+  color: $color-text-muted;
+  margin: 0;
+}
+
+.color-options {
+  display: flex;
+  flex-direction: row;
+  gap: $color-option-gap;
+  flex-wrap: wrap;
+}
+
+.color-option {
+  border: 1px solid rgba($scss-black, 0.15);
+  border-radius: $border-radius-full;
+  width: $color-option-size;
+  height: $color-option-size;
+  cursor: pointer;
+  @include flex-center;
+  transition: all $transition-fast;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: $shadow-md;
+  }
+
+  &:active {
+    transform: scale(1.05);
+  }
+}
+
+.checkmark-icon {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+
+  path {
+    fill: white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .color-option {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+
+    &:active {
+      transform: none;
+    }
+  }
+}
+
+@include respond-below('sm') {
+  .color-options {
+    gap: calc($color-option-gap / 2);
+  }
+
+  .color-option {
+    width: calc($color-option-size - 5px);
+    height: calc($color-option-size - 5px);
+  }
+}

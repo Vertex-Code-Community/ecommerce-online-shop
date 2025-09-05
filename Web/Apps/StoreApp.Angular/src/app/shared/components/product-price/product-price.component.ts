@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import {CurrencyPipe, DecimalPipe} from '@angular/common';
 
 @Component({
   selector: 'app-product-price',
   templateUrl: './product-price.component.html',
-  styleUrls: ['./product-price.component.css'],
+  styleUrls: ['./product-price.component.scss'],
   standalone: true,
-  imports: [CurrencyPipe]
+  imports: [CurrencyPipe, DecimalPipe]
 })
 export class ProductPriceComponent {
   @Input() currentPrice: number = 0;

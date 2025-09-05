@@ -4,7 +4,7 @@
       <img src="/svg/menu.svg" alt="Menu" class="menu-icon" />
     </div>
 
-    <div class="logo-wrapper">
+    <div class="logo-wrapper" routerLink="/">
       <div class="logo">SHOP.CO</div>
     </div>
 
@@ -31,8 +31,10 @@
       <div class="user-actions">
         <div class="cart-icon-wrapper" style="cursor:pointer">
           <img src="/svg/shopping-cart.svg" alt="Shopping Cart" class="cart-icon" />
-          <!-- TODO: Add cart badge logic -->
-          <span class="cart-badge" *ngIf="false">0</span>
+          @if((cartItemsCount$ | async)! > 0)
+          {
+            <span class="cart-badge">{{ cartItemsCount$ | async }}</span>
+          }
         </div>
         <img src="/svg/user-profile.svg" alt="User Profile" class="user-profile" />
       </div>

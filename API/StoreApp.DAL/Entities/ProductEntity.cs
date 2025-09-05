@@ -11,6 +11,8 @@ public class ProductEntity : IBaseEntity<int>
     public decimal? Discount { get; set; }
     public int UnitsInStock { get; set; }
     
+    public double AverageRating { get; set; }
+    
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public ICollection<CartItemEntity> CartItems { get; set; } = [];

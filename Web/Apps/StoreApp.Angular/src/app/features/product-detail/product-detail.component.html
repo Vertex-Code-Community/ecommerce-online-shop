@@ -1,0 +1,38 @@
+<div class="product-detail-page-wrapper">
+  @if (isLoading$ | async) {
+    <div class="loading-indicator">
+      <app-loading-indicator
+        text="Loading product details..."
+        size="large" color="#33b469"/>
+    </div>
+  }
+  @else if (error$ | async)
+  {
+    <div class="error-section">
+      <h2>Error Loading Product</h2>
+      <p>{{ (error$ | async).message }}</p>
+      <button (click)="loadProduct()" class="retry-button">Try Again</button>
+    </div>
+  }
+  @else if (currentProduct$ | async)
+  {
+    <div class="product-detail-page">
+      <app-product-info [fullProduct]="(currentProduct$ | async)!"/>
+
+      <app-review-list
+          [reviews]="(reviews$ | async) || []"
+          [isLoading]="(reviewsLoading$ | async) || false"
+          [isReadOnly]="!(isAuthenticated$ | async) || false"
+          (writeReviewClicked)="onWriteReview()"/>
+
+      <div class="also-see-wrapper">
+        <app-product-list
+          [headerText]="'YOU MIGHT ALSO LIKE'"
+          [products]="(alsoLikeProducts$ | async) || []"
+          [isLoading]="(alsoLikeLoading$ | async) || false"
+          [isScrollable]="true"
+          [showViewAllButton]="false"/>
+      </div>
+    </div>
+  }
+</div>

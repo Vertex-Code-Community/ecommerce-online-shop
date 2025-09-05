@@ -1,0 +1,102 @@
+@use '../../../../styles/shared/variables' as *;
+@use '../../../../styles/shared/mixins' as *;
+
+$counter-bg: rgba(240, 240, 240, 1);
+$counter-text: #000000;
+$counter-padding: 10px 20px;
+
+* {
+  box-sizing: border-box;
+}
+
+.counter-controls {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+
+.minus-button {
+  @include flex-center;
+  background-color: $counter-bg;
+  color: $counter-text;
+  border: none;
+  padding: $counter-padding;
+  cursor: pointer;
+  border-bottom-left-radius: $border-radius-full;
+  border-top-left-radius: $border-radius-full;
+  font-size: 1.5rem;
+  transition: opacity $transition-fast;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background-color: rgba(230, 230, 230, 1);
+  }
+
+  svg {
+    width: 20px;
+    height: 4px;
+
+    path {
+      fill: currentColor;
+    }
+  }
+}
+
+.plus-button {
+  @include flex-center;
+  background-color: $counter-bg;
+  color: $counter-text;
+  border: none;
+  padding: $counter-padding;
+  cursor: pointer;
+  border-bottom-right-radius: $border-radius-full;
+  border-top-right-radius: $border-radius-full;
+  font-size: 1.5rem;
+  transition: opacity $transition-fast;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background-color: rgba(230, 230, 230, 1);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+
+    path {
+      fill: currentColor;
+    }
+  }
+}
+
+.counter-value {
+  @include flex-center;
+  background-color: $counter-bg;
+  color: $counter-text;
+  padding: $counter-padding;
+  flex-grow: 1;
+  font-weight: 500;
+  font-size: $font-size-md;
+  min-width: 60px;
+  text-align: center;
+}
+
+@include respond-below('sm') {
+  .plus-button {
+    padding-right: $spacing-lg;
+    padding-left: 0;
+  }
+
+  .minus-button {
+    padding-right: 0;
+    padding-left: $spacing-lg;
+  }
+}

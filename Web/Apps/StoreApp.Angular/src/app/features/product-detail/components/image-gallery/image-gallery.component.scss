@@ -1,0 +1,217 @@
+@use '../../../../../styles/shared/variables' as *;
+@use '../../../../../styles/shared/mixins' as *;
+
+$gallery-bg: #F0EEED;
+$gallery-border-radius: 20px;
+$gallery-gap: 4%;
+$thumbnail-gap: 3%;
+$selected-border-color: $scss-black;
+$arrow-size: 8%;
+
+.image-gallery {
+  width: 100%;
+  position: relative;
+  container-type: inline-size;
+}
+
+.single-image-wrapper {
+  @include flex-center;
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: $gallery-bg;
+  border-radius: $gallery-border-radius;
+  overflow: hidden;
+  margin: 0 auto;
+
+  .single-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.simple-gallery {
+  @include flex-row;
+  gap: $gallery-gap;
+  align-items: stretch;
+  width: 100%;
+
+  .thumbnails.simple {
+    @include flex-column;
+    gap: $thumbnail-gap;
+    width: 20%;
+    
+    &.few-images {
+      justify-content: flex-start;
+    }
+    
+    &.full-images {
+      justify-content: space-between;
+    }
+  }
+
+  .main-image-wrapper {
+    width: 76%;
+    aspect-ratio: 1;
+    background-color: $gallery-bg;
+    border-radius: $gallery-border-radius;
+    overflow: hidden;
+
+    .main-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.full-gallery {
+  @include flex-row;
+  gap: $gallery-gap;
+  align-items: stretch;
+  width: 100%;
+
+  .thumbnails-section {
+    @include flex-column;
+    width: 20%;
+    align-self: stretch;
+  }
+
+  .thumbnails.gallery {
+    @include flex-column;
+    gap: $thumbnail-gap;
+    width: 100%;
+    height: 100%;
+    
+    &.few-images {
+      justify-content: flex-start;
+    }
+    
+    &.full-images {
+      justify-content: flex-start;
+    }
+  }
+
+  .main-image-wrapper {
+    position: relative;
+    width: 76%;
+    aspect-ratio: 1;
+    background-color: $gallery-bg;
+    border-radius: $gallery-border-radius;
+    overflow: hidden;
+
+    .main-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}
+
+.thumbnail-wrapper {
+  background-color: $gallery-bg;
+  border-radius: $gallery-border-radius;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px solid transparent;
+  transition: all $transition-fast;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: $shadow-md;
+  }
+
+  &.selected {
+    border-color: $selected-border-color;
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+}
+
+.main-image-wrapper .nav-arrow {
+  @include flex-center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: $arrow-size;
+  height: $arrow-size;
+  border-radius: $border-radius-full;
+  background-color: rgba($scss-white, 0.9);
+  border: 1px solid rgba($scss-black, 0.1);
+  color: $color-text-primary;
+  transition: all $transition-fast;
+  z-index: 2;
+
+  &.prev {
+    left: 4%;
+  }
+
+  &.next {
+    right: 4%;
+  }
+
+  &:hover {
+    background-color: $color-primary;
+    color: $color-text-inverse;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: $shadow-lg;
+  }
+
+  svg {
+    width: 60%;
+    height: 60%;
+  }
+}
+
+.image-counter {
+  position: absolute;
+  top: 4%;
+  right: 4%;
+  background-color: rgba($scss-black, 0.7);
+  color: $scss-white;
+  padding: 2% 3%;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: 500;
+}
+
+@container (max-width: 500px) {
+  .simple-gallery,
+  .full-gallery {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 10px;
+
+    .thumbnails.simple,
+    .thumbnails.gallery {
+      flex-direction: row;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .thumbnails-section {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: $thumbnail-gap;
+      width: 100%;
+
+      .thumbnails.gallery {
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .main-image-wrapper {
+      width: 100%;
+    }
+  }
+}

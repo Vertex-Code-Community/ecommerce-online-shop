@@ -37,3 +37,8 @@ export const selectPageSize = createSelector(
   selectProductState,
   (state) => state?.pageSize ?? 10
 );
+
+export const selectTotalPages = createSelector(
+  selectProductState,
+  (state) => Math.ceil((state?.totalCount ?? 0) / (state?.pageSize ?? 10))
+);

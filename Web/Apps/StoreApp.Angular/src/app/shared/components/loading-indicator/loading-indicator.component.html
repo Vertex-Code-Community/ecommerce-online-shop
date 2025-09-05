@@ -1,0 +1,6 @@
+<div class="loading-indicator" [class]="'loading-indicator--' + size">
+  <div class="loading-spinner" [style.border-top-color]="color"></div>
+  @if (text) {
+    <p class="loading-text">{{ text }}</p>
+  }
+</div>

@@ -15,7 +15,8 @@ public class ProductMappingProfile : Profile
                         ? src.ProductImages.ImagesUrls : new List<string>()));
 
         CreateMap<ProductEntity, ProductModel>()
-            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.MainImageUrl));
+            .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.MainImageUrl))
+            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.AverageRating));
 
         CreateMap<CreateProduct, ProductEntity>();
         CreateMap<UpdateProduct, ProductEntity>();
@@ -23,7 +24,7 @@ public class ProductMappingProfile : Profile
         CreateMap<ProductEntity, FullProductModel>()
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.MainImageUrl))
             .ForMember(p => p.Details, opt => opt.MapFrom(src => src.ProductDetails))
-            .ForMember(p => p.Rating, opt => opt.MapFrom(src => src.Reviews.Any() ? src.Reviews.Average(r => r.Rating) : 0));
+            .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.AverageRating));
 
         CreateMap<UpdateCartItem, CartItemEntity>();
         CreateMap<CartItemEntity, CartItemModel>()

@@ -251,6 +251,11 @@ namespace StoreApp.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<double>("AverageRating")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("float")
+                        .HasDefaultValue(0.0);
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
@@ -519,7 +524,7 @@ namespace StoreApp.DAL.Migrations
             modelBuilder.Entity("StoreApp.DAL.Entities.ProductImagesEntity", b =>
                 {
                     b.HasOne("StoreApp.DAL.Entities.ProductEntity", null)
-                        .WithMany()
+                        .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -548,6 +553,8 @@ namespace StoreApp.DAL.Migrations
                     b.Navigation("CartItems");
 
                     b.Navigation("ProductDetails");
+
+                    b.Navigation("ProductImages");
 
                     b.Navigation("Reviews");
                 });

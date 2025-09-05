@@ -8,7 +8,7 @@ import { FooterComponent } from '../components/footer/footer.component';
   standalone: true,
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './client-layout.component.html',
-  styleUrls: ['./client-layout.component.css']
+  styleUrls: ['./client-layout.component.scss']
 })
 export class ClientLayoutComponent {
 }

@@ -90,7 +90,7 @@ export class AuthEffects {
       ofType(AuthActions.loginFailure, AuthActions.refreshTokenFailure),
       tap(() => {
         console.log('Authentication failed, navigating to login');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       })
     ),
     { dispatch: false }
@@ -112,7 +112,7 @@ export class AuthEffects {
       ofType(AuthActions.logoutSuccess, AuthActions.clearTokensSuccess),
       tap(() => {
         console.log('Logged out, navigating to login');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
       })
     ),
     { dispatch: false }

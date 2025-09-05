@@ -12,6 +12,7 @@ public class Seeder(RoleManager<IdentityRole> roleManager, UserManager<UserEntit
         await SeedRoles();
         await SeedProducts();
         await SeedUsers();
+        await SeedReviews();
     }
     
     private async Task SeedRoles()
@@ -104,23 +105,41 @@ public class Seeder(RoleManager<IdentityRole> roleManager, UserManager<UserEntit
         var colorHexes = new[] { "#000000", "#FFFFFF", "#0000FF", "#FF0000", "#008000", "#FFFF00", "#808080", "#A52A2A" };
         var sizes = new[] { "XS", "S", "M", "L", "XL", "XXL" };
 
-        foreach (var t in products)
+        foreach (var product in products)
         {
-            var colorIndex = random.Next(colors.Length);
-            var sizeIndex = random.Next(sizes.Length);
-            
-            var productDetail = new ProductDetailEntity
-            {
-                ProductId = t.Id,
-                ColorName = colors[colorIndex],
-                ColorHex = colorHexes[colorIndex],
-                SizeName = sizes[sizeIndex],
-                UnitsInStock = random.Next(5, 50),
-                SKU = $"SKU-{t.Id:D4}-{colors[colorIndex][0]}{sizes[sizeIndex]}",
-                ProductImagesId = null
-            };
+            var selectedColors = colors.Zip(colorHexes, (name, hex) => new { Name = name, Hex = hex })
+                .OrderBy(_ => random.Next())
+                .Take(Math.Max(3, random.Next(3, 6)))
+                .ToList();
 
-            productDetails.Add(productDetail);
+            var productDetailsCount = 0;
+
+            foreach (var color in selectedColors)
+            {
+                var selectedSizes = sizes
+                    .OrderBy(_ => random.Next())
+                    .Take(Math.Max(3, random.Next(3, 5)))
+                    .ToList();
+
+                foreach (var size in selectedSizes)
+                {
+                    var productDetail = new ProductDetailEntity
+                    {
+                        ProductId = product.Id,
+                        ColorName = color.Name,
+                        ColorHex = color.Hex,
+                        SizeName = size,
+                        UnitsInStock = random.Next(5, 50),
+                        SKU = $"SKU-{product.Id:D4}-{color.Name[0]}{size}",
+                        ProductImagesId = null
+                    };
+
+                    productDetails.Add(productDetail);
+                    productDetailsCount++;
+                }
+            }
+            
+            Console.WriteLine($"Added {selectedColors.Count} colors (total {productDetailsCount} product details) for product: {product.Name}");
         }
 
         await dbContext.ProductDetails.AddRangeAsync(productDetails);
@@ -147,7 +166,52 @@ public class Seeder(RoleManager<IdentityRole> roleManager, UserManager<UserEntit
             "jane.smith@example.com",
             "mike.johnson@example.com",
             "sarah.wilson@example.com",
-            "david.brown@example.com"
+            "david.brown@example.com",
+            "emily.davis@example.com",
+            "chris.miller@example.com",
+            "lisa.garcia@example.com",
+            "james.martinez@example.com",
+            "anna.rodriguez@example.com",
+            "robert.lopez@example.com",
+            "maria.gonzalez@example.com",
+            "william.anderson@example.com",
+            "jennifer.taylor@example.com",
+            "daniel.thomas@example.com",
+            "jessica.jackson@example.com",
+            "matthew.white@example.com",
+            "ashley.harris@example.com",
+            "joshua.martin@example.com",
+            "amanda.thompson@example.com",
+            "christopher.garcia@example.com",
+            "melissa.clark@example.com",
+            "andrew.rodriguez@example.com",
+            "stephanie.lewis@example.com",
+            "kenneth.lee@example.com",
+            "nicole.walker@example.com",
+            "steven.hall@example.com",
+            "rachel.allen@example.com",
+            "brian.young@example.com",
+            "laura.hernandez@example.com",
+            "kevin.king@example.com",
+            "michelle.wright@example.com",
+            "ryan.lopez@example.com",
+            "kimberly.hill@example.com",
+            "jason.scott@example.com",
+            "donna.green@example.com",
+            "jeff.adams@example.com",
+            "carol.baker@example.com",
+            "gary.gonzalez@example.com",
+            "sandra.nelson@example.com",
+            "mark.carter@example.com",
+            "ruth.mitchell@example.com",
+            "paul.perez@example.com",
+            "sharon.roberts@example.com",
+            "anthony.turner@example.com",
+            "helen.phillips@example.com",
+            "edward.campbell@example.com",
+            "barbara.parker@example.com",
+            "thomas.evans@example.com",
+            "betty.edwards@example.com"
         };
 
         const string password = "Password123!";
@@ -210,55 +274,148 @@ public class Seeder(RoleManager<IdentityRole> roleManager, UserManager<UserEntit
         await dbContext.SaveChangesAsync();
         
         Console.WriteLine($"Added {cartItems.Count} cart items to database.");
-        
-        Console.WriteLine("Adding reviews for users...");
-        
-        var reviews = new List<ReviewEntity>();
-        var reviewComments = new[]
+        Console.WriteLine("Users seeding completed successfully!");
+    }
+
+    private async Task SeedReviews()
+    {
+        if (await dbContext.Reviews.AnyAsync())
         {
-            "Great product! Highly recommend.",
-            "Excellent quality, very satisfied.",
-            "Good value for money.",
-            "Nice design and comfortable fit.",
-            "Perfect for everyday use.",
-            "Amazing product, exceeded expectations.",
-            "Very good quality, fast delivery.",
-            "Beautiful design, love it!",
-            "Comfortable and stylish.",
-            "Great purchase, would buy again."
-        };
-        
+            Console.WriteLine("Reviews already exist in database. Skipping seeding.");
+            return;
+        }
+
+        Console.WriteLine("Starting reviews seeding...");
+
+        var userIds = await dbContext.Users
+            .Select(u => u.Id).ToListAsync();
+
         var products = await dbContext.Products.ToListAsync();
-        
+
+        if (!userIds.Any())
+        {
+            Console.WriteLine("No users found. Cannot create reviews.");
+            return;
+        }
+
         if (!products.Any())
         {
             Console.WriteLine("No products found. Cannot create reviews.");
             return;
         }
+
+        var reviews = new List<ReviewEntity>();
+        var random = new Random();
         
-        foreach (var user in users)
+        var reviewComments = new[]
         {
-            var randomProduct = products.OrderBy(_ => random.Next()).First();
-            var randomComment = reviewComments.OrderBy(_ => random.Next()).First();
-            var randomRating = random.Next(3, 6);
+            "Great product! Highly recommend.",
+            "Excellent quality, very satisfied.",
+            "Perfect for everyday use.",
+            "Beautiful design, love it!",
+            "Outstanding quality!",
+            "Love the style and fit!",
+            "Perfect size and great material.",
+            "Beautiful color, fits perfectly.",
             
-            var review = new ReviewEntity
+            "This product exceeded all my expectations! The quality is outstanding and the fit is perfect. I've been wearing it for weeks now and it still looks brand new. The material is soft and comfortable, and the design is exactly what I was looking for. Definitely worth every penny and I will be ordering more colors soon.",
+            "Amazing purchase! I was a bit hesitant at first due to the price, but after receiving the item I can say it's absolutely worth it. The craftsmanship is excellent, attention to detail is impressive, and the customer service was top-notch. Fast shipping and beautiful packaging too. Highly recommend to anyone considering this product.",
+            "I've been searching for something like this for months and finally found the perfect item. The quality is exceptional, much better than similar products I've tried before. It fits exactly as expected and the color is vibrant and true to the photos. Very happy with this purchase and will definitely shop here again.",
+            "Fantastic product with incredible attention to detail. The material feels premium and the construction is solid. I've received many compliments when wearing this. The sizing chart was accurate and it arrived quickly. This has become one of my favorite pieces and I'm planning to buy it in other colors as well.",
+            
+            "Good value for money.",
+            "Decent quality for the price.",
+            "Not bad, but could be better.",
+            "Exactly as described, very happy.",
+            "It's okay, nothing special but does the job.",
+            "Average quality, fits as expected.",
+            
+            "The product is decent overall. The quality is acceptable for the price point, though I've seen better materials elsewhere. It fits well and looks nice, but nothing particularly stands out about it. Shipping was reasonable and it arrived in good condition. It's a solid choice if you're looking for something basic.",
+            "Mixed feelings about this purchase. On the positive side, it fits well and the color is nice. However, the material feels a bit cheaper than I expected based on the photos. It's not bad, just not as premium as I hoped. For the price, it's acceptable but I probably wouldn't buy it again.",
+            
+            "Poor quality, disappointed.",
+            "Not worth the money.",
+            "Cheap material, looks nothing like photos.",
+            "Terrible fit, had to return.",
+            "Very disappointed with this purchase.",
+            "Low quality, falling apart already.",
+            
+            "Very disappointed with this product. The quality is much lower than expected - the material feels cheap and thin, and the stitching is already coming loose after just a few wears. The fit is completely off from the size chart, much smaller than indicated. The color also looks different from the website photos. Definitely not worth the price and I'll be returning this.",
+            "I really wanted to love this product based on the reviews, but unfortunately it didn't meet my expectations. The material is scratchy and uncomfortable, and after one wash it started to lose its shape. The color faded significantly and now looks completely different. Customer service was unhelpful when I tried to address these issues. Would not recommend.",
+            "Waste of money. The product arrived with loose threads and what appears to be stains or discoloration. The material is very thin and cheap feeling, nothing like what's described. It doesn't fit properly despite ordering my usual size. I've had much better experiences with similar products from other brands. Will not be shopping here again."
+        };
+
+        foreach (var product in products)
+        {
+            var reviewsCount = random.Next(5, 11);
+            
+            var selectedUserIds = userIds
+                .OrderBy(_ => random.Next())
+                .Take(reviewsCount)
+                .ToList();
+            
+            for (int i = 0; i < selectedUserIds.Count; i++)
             {
-                Comment = randomComment,
-                Rating = randomRating,
-                CreatedAt = DateTime.UtcNow.AddDays(-random.Next(0, 30)),
-                ProductId = randomProduct.Id,
-                UserId = user.Id
-            };
+                var userId = selectedUserIds[i];
+                var commentIndex = random.Next(reviewComments.Length);
+                var randomComment = reviewComments[commentIndex];
+                
+                int randomRating;
+                if (commentIndex < 12) 
+                {
+                    randomRating = random.Next(4, 6); 
+                }
+                else if (commentIndex < 18)
+                {
+                    randomRating = 3; 
+                }
+                else 
+                {
+                    randomRating = random.Next(1, 3);
+                }
+                
+                var review = new ReviewEntity
+                {
+                    Comment = randomComment,
+                    Rating = randomRating,
+                    CreatedAt = DateTime.UtcNow.AddDays(-random.Next(0, 60)),
+                    ProductId = product.Id,
+                    UserId = userId
+                };
+                
+                reviews.Add(review);
+            }
             
-            reviews.Add(review);
-            Console.WriteLine($"Added review with rating {randomRating} for user: {user.UserName} on product: {randomProduct.Name}");
+            Console.WriteLine($"Added {selectedUserIds.Count} reviews for product: {product.Name}");
         }
-        
+
         await dbContext.Reviews.AddRangeAsync(reviews);
         await dbContext.SaveChangesAsync();
         
         Console.WriteLine($"Added {reviews.Count} reviews to database.");
-        Console.WriteLine("Users seeding completed successfully!");
+        
+        Console.WriteLine("Updating AverageRating for products...");
+        
+        var productRatings = reviews
+            .GroupBy(r => r.ProductId)
+            .Select(g => new 
+            {
+                ProductId = g.Key,
+                AverageRating = g.Average(r => r.Rating)
+            })
+            .ToList();
+
+        foreach (var productRating in productRatings)
+        {
+            var product = products.FirstOrDefault(p => p.Id == productRating.ProductId);
+            if (product != null)
+            {
+                product.AverageRating = Math.Round(productRating.AverageRating, 2);
+                Console.WriteLine($"Updated AverageRating for product {product.Name}: {product.AverageRating:F2}");
+            }
+        }
+
+        await dbContext.SaveChangesAsync();
+        Console.WriteLine("Reviews seeding completed successfully!");
     }
 }

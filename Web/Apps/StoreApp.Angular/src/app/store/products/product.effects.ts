@@ -27,7 +27,7 @@ export class ProductEffects {
           map(result => ProductActions.loadProductsSuccess({ result })),
           catchError(err => {
             console.error('Error loading products:', err);
-            return of(ProductActions.loadProductsFailure({ 
+            return of(ProductActions.loadProductsFailure({
               message: err?.message || 'Failed to load products',
               statusCode: err?.status || 500
             }));
@@ -45,88 +45,13 @@ export class ProductEffects {
           map(product => ProductActions.loadProductSuccess(product)),
           catchError(err => {
             console.error('Error loading product:', err);
-            return of(ProductActions.loadProductFailure({ 
+            return of(ProductActions.loadProductFailure({
               message: err?.message || 'Failed to load product',
               statusCode: err?.status || 500
             }));
           })
         )
       )
-    )
-  );
-
-  addProduct$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductActions.addProduct),
-      mergeMap(product =>
-        this.productService.addProduct(product).pipe(
-          map(() => ProductActions.addProductSuccess()),
-          catchError(err => {
-            console.error('Error adding product:', err);
-            return of(ProductActions.addProductFailure({ 
-              message: err?.message || 'Failed to add product',
-              statusCode: err?.status || 500
-            }));
-          })
-        )
-      )
-    )
-  );
-
-  reloadAfterAdd$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductActions.addProductSuccess),
-      map(() => ProductActions.loadProducts())
-    )
-  );
-
-  updateProduct$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductActions.updateProduct),
-      mergeMap(product =>
-        this.productService.updateProduct(product).pipe(
-          map(() => ProductActions.updateProductSuccess()),
-          catchError(err => {
-            console.error('Error updating product:', err);
-            return of(ProductActions.updateProductFailure({ 
-              message: err?.message || 'Failed to update product',
-              statusCode: err?.status || 500
-            }));
-          })
-        )
-      )
-    )
-  );
-
-  reloadAfterUpdate$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductActions.updateProductSuccess),
-      map(() => ProductActions.loadProducts())
-    )
-  );
-
-  deleteProduct$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductActions.deleteProduct),
-      mergeMap(({ id }) =>
-        this.productService.deleteProductById(id).pipe(
-          map(() => ProductActions.deleteProductSuccess()),
-          catchError(err => {
-            console.error('Error deleting product:', err);
-            return of(ProductActions.deleteProductFailure({ 
-              message: err?.message || 'Failed to delete product',
-              statusCode: err?.status || 500
-            }));
-          })
-        )
-      )
-    )
-  );
-
-  reloadAfterDelete$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProductActions.deleteProductSuccess),
-      map(() => ProductActions.loadProducts())
     )
   );
 

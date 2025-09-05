@@ -1,0 +1,63 @@
+<div class="product-detail">
+  <app-image-gallery [images]="displayImages" [initialImageIndex]="0"/>
+
+  <div class="product-info">
+    <h3 class="product-title">{{ fullProduct.name.toUpperCase() }}</h3>
+
+    <div class="product-rating">
+      <app-product-rating [rating]="fullProduct.rating"/>
+    </div>
+
+    <div class="product-price">
+      <app-product-price
+        [discount]="fullProduct.discount || 0"
+        [currentPrice]="currentPrice"
+        [oldPrice]="oldPrice">
+      </app-product-price>
+    </div>
+
+    <p class="secondary-text">{{ fullProduct.description }}</p>
+
+    <hr />
+
+    @if (availableColors.length > 0) {
+      <div class="selection-block">
+        <app-color-selector
+          [colors]="availableColors"
+          [selectedColor]="selectedColor?.hexCode || null"
+          [label]="'Select Colors'"
+          (colorSelected)="onColorSelected($event)">
+        </app-color-selector>
+      </div>
+      <hr />
+    }
+
+    @if (availableSizes.length > 0) {
+      <div class="selection-block">
+        <app-size-selector
+          [sizes]="availableSizes"
+          [selectedSize]="selectedSize?.name || null"
+          [label]="'Select Size'"
+          (sizeSelected)="onSizeSelected($event)">
+        </app-size-selector>
+      </div>
+      <hr />
+    }
+
+    <div class="product-buttons">
+      <app-counter
+        [min]="1"
+        [max]="maxQuantity"
+        [value]="quantity"
+        (valueChanged)="onQuantityChange($event)">
+      </app-counter>
+
+      <button
+        class="add-to-cart-button"
+        (click)="onAddToCart()"
+        [disabled]="maxQuantity === 0">
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</div>

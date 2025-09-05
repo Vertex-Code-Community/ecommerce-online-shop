@@ -1,0 +1,148 @@
+$header-height: 96px;
+
+$scss-primary: #33b469;
+$scss-primary-hover: #2aa35b;
+$scss-success: #5db276;
+$scss-warning: #ea9532;
+$scss-danger: #dc3545;
+$scss-error-alt: #ff4d4f;
+$scss-error-alt2: #e63946;
+$scss-white: #ffffff;
+$scss-black: #000000;
+
+$scss-neutral-50: #f7f7f7;
+$scss-neutral-75: #f3f1f7;
+$scss-neutral-100: #f1f7f3;
+$scss-neutral-150: #f7f6f1;
+$scss-neutral-200: #f1f3f7;
+$scss-neutral-250: #f0f0f0;
+$scss-neutral-300: #e9eaec;
+$scss-neutral-325: #e8eaed;
+$scss-neutral-350: #e8e8e8;
+$scss-neutral-400: #e0e0e0;
+$scss-neutral-425: #dee2e6;
+$scss-neutral-500: #bebebe;
+$scss-neutral-600: #979797;
+$scss-neutral-650: #5b5b5b;
+$scss-neutral-675: #5a5959;
+$scss-neutral-700: #515358;
+$scss-neutral-750: #333333;
+$scss-neutral-800: #2e2e2e;
+$scss-neutral-825: #292d32;
+$scss-neutral-850: #212529;
+$scss-neutral-900: #131212;
+
+$color-bg-page: #fdfdfd;
+$color-bg-surface: $scss-white;
+$color-bg-subtle: #fefefe;
+$color-bg-muted: #f9fafc;
+$color-text-primary: $scss-neutral-900;
+$color-text-secondary: $scss-neutral-750;
+$color-text-muted: $scss-neutral-650;
+$color-text-subtle: $scss-neutral-675;
+$color-text-inverse: $scss-white;
+$color-primary: $scss-primary;
+$color-primary-hover: $scss-primary-hover;
+$color-primary-10a: rgba($scss-primary, 0.1);
+$color-primary-20a: rgba($scss-primary, 0.2);
+$color-primary-80a: rgba($scss-primary, 0.8);
+$color-success: $scss-success;
+$color-warning: $scss-warning;
+$color-danger: $scss-danger;
+$color-error-alt: $scss-error-alt;
+$color-error-alt2: $scss-error-alt2;
+$color-white-alt: #fefefe;
+$color-border: $scss-neutral-400;
+$color-bg-disabled: $scss-neutral-400;
+$color-text-disabled: $scss-neutral-600;
+$icon-primary: $scss-neutral-900;
+$icon-muted: $scss-neutral-650;
+$icon-inverse: $scss-white;
+
+$dark-bg-page: #0f1115;
+$dark-bg-surface: #121418;
+$dark-bg-subtle: #151820;
+$dark-bg-secondary: #1a1f28;
+$dark-bg-muted: #1a1f28;
+$dark-text-primary: #ededed;
+$dark-text-secondary: #e0e0e0;
+$dark-text-muted: #bebebe;
+$dark-text-subtle: #a0a0a0;
+$dark-text-inverse: #131212;
+$dark-border: #333842;
+
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+$font-family-primary: 'Roboto', sans-serif;
+$font-family-secondary: 'Inter', sans-serif;
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-md: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+$font-size-xxl: 24px;
+$line-height-tight: 1.2;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.75;
+
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$border-radius-full: 9999px;
+
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+$transition-fast: 0.15s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-xxl: 1400px;
+
+$select-width: 290px;
+$select-height: 56px;
+$select-item-height: 40px;
+$select-content-height: 200px;
+
+// Content layout
+$content-max-width: 1280px;
+$header-height: 96px;
+
+// Common colors
+$color-star: #FFD700;
+$color-discount-bg: rgba(255, 51, 51, 0.1);
+$color-discount-text: #FF3333;
+$color-searchbar-bg: #F0F0F0;
+$color-product-card-bg: #F0EEED;
+$color-verified: #4CAF50;
+$color-border-light: rgba(0, 0, 0, 0.1);
+
+// Common font sizes
+$font-size-product-title: 20px;
+$font-size-logo: 32px;
+$font-size-review-author: 20px;
+
+// Product title sizes
+$font-size-product-title-desktop: 40px;
+$font-size-product-title-tablet: 32px;
+$font-size-product-title-mobile: 28px;
