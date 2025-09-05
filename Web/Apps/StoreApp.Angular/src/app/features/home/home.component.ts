@@ -7,6 +7,7 @@ import { StartComponent } from './components/start/start.component';
 import { BrandsComponent } from './components/brands/brands.component';
 import { StylesComponent } from './components/styles/styles.component';
 import { CustomerReviewsComponent } from './components/customer-reviews/customer-reviews.component';
+import { DotsLoaderComponent } from '../../shared/components/dots-loader/dots-loader.component';
 import { AppState } from '../../store/app.state';
 import { Product } from '../../shared/models/product/product';
 import { Review } from '../../shared/models/review/review';
@@ -28,7 +29,7 @@ import { MOCK_BRANDS } from '../../mocks/brands.mock';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ProductListComponent, StartComponent, BrandsComponent, StylesComponent, CustomerReviewsComponent],
+  imports: [CommonModule, ProductListComponent, StartComponent, BrandsComponent, StylesComponent, CustomerReviewsComponent, DotsLoaderComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

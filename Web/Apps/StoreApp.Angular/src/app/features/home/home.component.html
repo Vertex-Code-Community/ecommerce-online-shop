@@ -3,15 +3,14 @@
   <app-brands [brands]="MOCK_BRANDS"/>
 
   <div class="products-wrapper">
-    @if (newArrivalsLoading$ | async) {
-      <div class="loading-section">Loading new arrivals...</div>
-    } @else if (newArrivalsError$ | async) {
+    @if (newArrivalsError$ | async) {
       <div class="error-section">Failed to load new arrivals</div>
     } @else {
       <app-product-list
         [headerText]="'NEW ARRIVALS'"
         [products]="(newArrivals$ | async)!"
         [isScrollable]="true"
+        [isLoading]="(newArrivalsLoading$ | async) || false"
       />
     }
 
@@ -19,22 +18,26 @@
       <div class="separator"></div>
     </div>
 
-    @if (topSellingLoading$ | async) {
-      <div class="loading-section">Loading top selling products...</div>
-    } @else if (topSellingError$ | async) {
+    @if (topSellingError$ | async) {
       <div class="error-section">Failed to load top selling products</div>
     } @else {
       <app-product-list
         [headerText]="'TOP SELLING'"
         [products]="(topSellingProducts$ | async)!"
         [isScrollable]="true"
+        [isLoading]="(topSellingLoading$ | async) || false"
       />
     }
   </div>
   <app-styles [styles]="MOCK_STYLES"/>
-  
+
   @if (topRatingReviewsLoading$ | async) {
-    <div class="loading-section">Loading customer reviews...</div>
+    <div class="loading-section">
+      <app-dots-loader
+        color="#000000"
+        [size]="8"
+        [animationDuration]="1.0"/>
+    </div>
   } @else if (topRatingReviewsError$ | async) {
     <div class="error-section">Failed to load customer reviews</div>
   } @else {

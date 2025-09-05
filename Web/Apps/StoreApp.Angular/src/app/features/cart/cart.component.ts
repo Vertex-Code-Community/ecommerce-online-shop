@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { CounterComponent } from '../../shared/components/counter/counter.component';
 import { ProductPriceComponent } from '../../shared/components/product-price/product-price.component';
+import { DotsLoaderComponent } from '../../shared/components/dots-loader/dots-loader.component';
 import { CartItem } from '../../shared/models/cart/cartItem';
 import { AppState } from '../../store/app.state';
 import { selectCartItems, selectCartLoading, selectCartError } from '../../store/cart/cart.selectors';
@@ -19,6 +20,7 @@ import {RouterLink} from '@angular/router';
     FormsModule,
     CounterComponent,
     ProductPriceComponent,
+    DotsLoaderComponent,
     RouterLink
   ],
   templateUrl: './cart.component.html',

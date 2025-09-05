@@ -67,6 +67,15 @@
         </div>
       </div>
     </div>
-    <button type="submit" class="login-button button-large">Login</button>
+    <button type="submit" class="login-button button-large" [disabled]="loading$ | async">
+      @if (loading$ | async) {
+        <app-dots-loader
+          color="#ffffff"
+          [size]="6"
+          [animationDuration]="1.0"/>
+      } @else {
+        Login
+      }
+    </button>
   </form>
 </div>

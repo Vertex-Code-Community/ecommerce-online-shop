@@ -1,7 +1,10 @@
 <div class="cart-page-wrapper">
   @if ((isLoading$ | async) === true) {
     <div class="loading-indicator">
-      <p>Loading...</p>
+      <app-dots-loader
+        color="#000000"
+        [size]="10"
+        [animationDuration]="1.0"/>
     </div>
   } @else {
     <div class="cart-page">

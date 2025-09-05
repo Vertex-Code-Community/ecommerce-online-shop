@@ -7,10 +7,11 @@ import * as AuthActions from '../../../../store/auth/auth.actions';
 import * as AuthSelectors from '../../../../store/auth/auth.selectors';
 import { Observable } from 'rxjs';
 import { AppState } from '../../../../store/app.state';
+import { DotsLoaderComponent } from '../../../../shared/components/dots-loader/dots-loader.component';
 
 @Component({
   selector: 'app-login-page',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DotsLoaderComponent],
   templateUrl: './login-page.html',
   standalone: true,
   styleUrls: ['./login-page.css']
