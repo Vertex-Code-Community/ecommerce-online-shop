@@ -161,5 +161,25 @@ export const cartReducer = createReducer(
     ...state,
     loading: false,
     error
+  })),
+
+  on(CartActions.syncCartToApi, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+
+  on(CartActions.syncCartToApiSuccess, (state, { items }) => ({
+    ...state,
+    items,
+    loading: false,
+    error: null,
+    totalCount: calculateTotalCount(items)
+  })),
+
+  on(CartActions.syncCartToApiFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
   }))
 );

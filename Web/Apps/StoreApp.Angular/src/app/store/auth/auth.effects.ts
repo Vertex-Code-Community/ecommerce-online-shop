@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from './auth.actions';
+import * as CartActions from '../cart/cart.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
@@ -105,6 +106,13 @@ export class AuthEffects {
       })
     ),
     { dispatch: false }
+  );
+
+  syncCartOnLoginSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginSuccess),
+      map(() => CartActions.syncCartToApi())
+    )
   );
 
   navigateToLoginOnLogout$ = createEffect(() =>

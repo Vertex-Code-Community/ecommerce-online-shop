@@ -93,4 +93,16 @@ export class CartEffects {
       )
     )
   );
+
+  syncCartToApi$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.syncCartToApi),
+      switchMap(() =>
+        this.cartService.syncCartToApi().pipe(
+          map(items => CartActions.syncCartToApiSuccess({ items })),
+          catchError(error => of(CartActions.syncCartToApiFailure({ error })))
+        )
+      )
+    )
+  );
 }
