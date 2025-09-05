@@ -36,10 +36,10 @@ public class CartItemsController(ICartItemService cartItemService) : ControllerB
     }
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteItemAsync([FromQuery] int productId)
+    public async Task<IActionResult> DeleteItemAsync([FromQuery] int productDetailId)
     {
         var id = User.GetUserId();
-        await cartItemService.DeleteCartItemAsync(id, productId);
+        await cartItemService.DeleteCartItemAsync(id, productDetailId);
         return NoContent();
     }
 

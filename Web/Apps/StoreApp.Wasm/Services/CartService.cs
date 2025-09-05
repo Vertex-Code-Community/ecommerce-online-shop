@@ -128,16 +128,14 @@ public class CartService(
     {
         return new OrderItemModel
         {
-            Id = apiCartItem.Id,
-            UserId = apiCartItem.UserId,
             ProductModel = new ProductModel
             {
-                Id = apiCartItem.ProductModel.Id,
-                Title = apiCartItem.ProductModel.Name,
-                CurrentPrice = (double)apiCartItem.ProductModel.Price,
-                ImageSrc = apiCartItem.ProductModel.ImageUrl ?? string.Empty,
-                Description = apiCartItem.ProductModel.Description ?? string.Empty,
-                UnitsInStock = apiCartItem.ProductModel.UnitsInStock
+                Id = apiCartItem.Product.Id,
+                Title = apiCartItem.Product.Name,
+                CurrentPrice = (double)apiCartItem.Product.Price,
+                ImageSrc = apiCartItem.Product.ImageUrl ?? string.Empty,
+                Description = apiCartItem.Product.Description ?? string.Empty,
+                UnitsInStock = apiCartItem.Product.UnitsInStock
             },
             Quantity = apiCartItem.Quantity
         };
