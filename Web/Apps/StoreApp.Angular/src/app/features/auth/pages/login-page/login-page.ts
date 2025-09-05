@@ -18,7 +18,10 @@ import { DotsLoaderComponent } from '../../../../shared/components/dots-loader/d
 })
 export class LoginPage {
   loginForm: FormGroup;
+  registerForm: FormGroup;
   showPassword = false;
+  showConfirmPassword = false;
+  isLoginMode = true;
 
   loading$: Observable<boolean>;
   error$: Observable<string | null>;
@@ -30,10 +33,20 @@ export class LoginPage {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(8),
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)
       ])
+    });
+
+    this.registerForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)
+      ]),
+      confirmPassword: new FormControl('', [Validators.required])
     });
 
     this.loading$ = this.store.select(AuthSelectors.selectAuthLoading);
@@ -44,7 +57,28 @@ export class LoginPage {
     this.showPassword = !this.showPassword;
   }
 
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  toggleMode() {
+    this.isLoginMode = !this.isLoginMode;
+    this.showPassword = false;
+    this.showConfirmPassword = false;
+    this.loginForm.reset();
+    this.registerForm.reset();
+  }
+
+
   onSubmit() {
+    if (this.isLoginMode) {
+      this.onLoginSubmit();
+    } else {
+      this.onRegisterSubmit();
+    }
+  }
+
+  onLoginSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
@@ -58,7 +92,32 @@ export class LoginPage {
 
     } else {
       this.loginForm.markAllAsTouched();
-      console.warn('Form is invalid');
+      console.warn('Login form is invalid');
+    }
+  }
+
+  onRegisterSubmit() {
+    // Check password match
+    const password = this.registerForm.get('password')?.value;
+    const confirmPassword = this.registerForm.get('confirmPassword')?.value;
+
+    if (password !== confirmPassword) {
+      this.registerForm.get('confirmPassword')?.setErrors({ passwordMismatch: true });
+      this.registerForm.markAllAsTouched();
+      return;
+    }
+
+    if (this.registerForm.valid) {
+      const { firstName, lastName, email, password } = this.registerForm.value;
+
+      console.log('Registration data:', { firstName, lastName, email, password });
+
+      alert('Registration successful! Please login with your credentials.');
+      this.toggleMode();
+
+    } else {
+      this.registerForm.markAllAsTouched();
+      console.warn('Register form is invalid');
     }
   }
 }
