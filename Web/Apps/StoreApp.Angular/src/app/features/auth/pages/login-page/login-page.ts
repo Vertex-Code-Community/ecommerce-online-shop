@@ -14,7 +14,7 @@ import { DotsLoaderComponent } from '../../../../shared/components/dots-loader/d
   imports: [CommonModule, ReactiveFormsModule, DotsLoaderComponent],
   templateUrl: './login-page.html',
   standalone: true,
-  styleUrls: ['./login-page.css']
+  styleUrls: ['./login-page.scss']
 })
 export class LoginPage {
   loginForm: FormGroup;
@@ -29,7 +29,11 @@ export class LoginPage {
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(4)])
+      password: new FormControl('', [
+        Validators.required, 
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)
+      ])
     });
 
     this.loading$ = this.store.select(AuthSelectors.selectAuthLoading);
