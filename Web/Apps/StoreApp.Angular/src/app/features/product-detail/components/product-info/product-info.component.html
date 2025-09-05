@@ -45,12 +45,13 @@
     }
 
     <div class="product-buttons">
-      <app-counter
-        [min]="1"
-        [max]="maxQuantity"
-        [value]="quantity"
-        (valueChanged)="onQuantityChange($event)">
-      </app-counter>
+      <div class="counter-wrapper">
+        <app-counter
+          [min]="1"
+          [max]="maxQuantity"
+          [value]="quantity"
+          (valueChanged)="onQuantityChange($event)"/>
+      </div>
 
       <button
         class="add-to-cart-button"

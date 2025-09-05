@@ -195,9 +195,18 @@ export class ProductInfoComponent implements OnInit, OnChanges, OnDestroy {
   onAddToCart(): void {
     if (this.selectedProductDetail && this.maxQuantity > 0) {
       const cartItem: CartItem = {
-        productId: this.fullProduct.id,
+        product: {
+          id: this.fullProduct.id,
+          name: this.fullProduct.name,
+          description: this.fullProduct.description,
+          price: this.fullProduct.price,
+          imageUrl: this.fullProduct.imageUrl,
+          discount: this.fullProduct.discount,
+          rating: this.fullProduct.rating,
+          unitsInStock: this.fullProduct.unitsInStock,
+        },
         quantity: this.quantity,
-        productDetail: this.selectedProductDetail
+        productDetail: this.selectedProductDetail,
       };
 
       this.store.dispatch(CartActions.addToCart({ item: cartItem }));

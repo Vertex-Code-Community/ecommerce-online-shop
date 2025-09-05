@@ -1,7 +1,8 @@
 import { ProductDetail } from '../product/productDetail';
+import {Product} from '../product/product';
 
 export interface CartItem {
-  productId: number;
   quantity: number;
   productDetail: ProductDetail;
+  product: Product;
 }
