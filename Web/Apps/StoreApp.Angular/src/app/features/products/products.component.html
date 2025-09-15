@@ -23,38 +23,45 @@
     }
     @else
     {
-      <div class="products-list-wrapper">
-      <div class="products-header">
-        <h2>Products</h2>
-
-        <div class="products-header-right">
-          <p class="product-count">Showing {{ (currentPage$ | async)! * (pageSize$ | async)! - ((pageSize$ | async)! - 1) }} -
-            {{ Math.min((currentPage$ | async)! * (pageSize$ | async)!, (totalCount$ | async)!) }} of
-            {{ (totalCount$ | async)! }} products</p>
-
-          <div class="sort-dropdown">
-            <label for="sortSelect">Sort by: </label>
-            <select id="sortSelect" [(ngModel)]="selectedSort" (change)="onSortChange($event)">
-              <option value="name-asc">Name Asc</option>
-              <option value="name-desc">Name Desc</option>
-              <option value="price-asc">Price Asc</option>
-              <option value="price-desc">Price Desc</option>
-            </select>
-          </div>
+      @if((totalCount$ | async) === 0) {
+        <div class="no-products">
+          <h2>No Products Found</h2>
+          <p>Try adjusting your filters or search criteria.</p>
         </div>
-      </div>
+      } @else {
+        <div class="products-list-wrapper">
+          <div class="products-header">
+            <h2>Products</h2>
 
-      <app-product-list [isScrollable]="false" [showViewAllButton]="false" [products]="(products$ | async)!"></app-product-list>
+            <div class="products-header-right">
+              <p class="product-count">Showing {{ (currentPage$ | async)! * (pageSize$ | async)! - ((pageSize$ | async)! - 1) }} -
+                {{ Math.min((currentPage$ | async)! * (pageSize$ | async)!, (totalCount$ | async)!) }} of
+                {{ (totalCount$ | async)! }} products</p>
 
-      @if((totalPages$ | async) && (currentPage$ | async))
-      {
-        <app-store-pagination
-          [totalPages]="(totalPages$ | async)!"
-          [currentPage]="(currentPage$ | async)!"
-          (pageChange)="onPageChange($event)">
-        </app-store-pagination>
+              <div class="sort-dropdown">
+                <label for="sortSelect">Sort by: </label>
+                <select id="sortSelect" [(ngModel)]="selectedSort" (change)="onSortChange($event)">
+                  <option value="name-asc">Name Asc</option>
+                  <option value="name-desc">Name Desc</option>
+                  <option value="price-asc">Price Asc</option>
+                  <option value="price-desc">Price Desc</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <app-product-list [isScrollable]="false" [showViewAllButton]="false" [products]="(products$ | async)!"></app-product-list>
+
+          @if((totalPages$ | async) && (currentPage$ | async))
+          {
+            <app-store-pagination
+              [totalPages]="(totalPages$ | async)!"
+              [currentPage]="(currentPage$ | async)!"
+              (pageChange)="onPageChange($event)">
+            </app-store-pagination>
+          }
+        </div>
       }
-    </div>
     }
   </div>
 </div>

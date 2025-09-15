@@ -11,7 +11,7 @@ import {CustomSliderComponent} from '../../../../shared/components/custom-slider
 import {Store} from '@ngrx/store';
 import {AppState} from '../../../../store/app.state';
 import {selectFilters} from '../../../../store/products/product.selectors';
-import {setFilters} from '../../../../store/products/product.actions';
+import {setCurrentPage, setFilters} from '../../../../store/products/product.actions';
 
 @Component({
   selector: 'app-product-filters',
@@ -70,7 +70,7 @@ export class ProductFiltersComponent {
   onApplyFilters() {
     const filters : Record<string, string> = {
       minPrice: this.priceRange[0].toString(),
-      maxPrice: this.priceRange[1].toString()
+      maxPrice: this.priceRange[1].toString(),
     };
 
     if (this.selectedColor) {

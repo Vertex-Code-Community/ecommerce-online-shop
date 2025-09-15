@@ -89,7 +89,7 @@
     padding: 0 $spacing-md;
   }
 
-  .content {
+  .content--scrollable {
     justify-content: flex-start;
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -111,7 +111,6 @@
       }
     }
   }
-
   .view-all {
     margin-top: $spacing-lg;
   }
