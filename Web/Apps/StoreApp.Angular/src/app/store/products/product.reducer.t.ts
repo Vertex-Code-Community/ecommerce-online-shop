@@ -12,6 +12,7 @@ export interface ProductState {
   error: ErrorResult | null;
   currentPage: number;
   pageSize: number;
+  filters: Record<string, string>;
 }
 
 export const initialState: ProductState = {
@@ -22,6 +23,7 @@ export const initialState: ProductState = {
   error: null,
   currentPage: 1,
   pageSize: 10,
+  filters: {}
 };
 
 export const productReducer = createReducer(
@@ -72,5 +74,10 @@ export const productReducer = createReducer(
   on(ProductActions.setPageSize, (state, { pageSize }) => ({
     ...state,
     pageSize: pageSize || 10
+  })),
+
+  on(ProductActions.setFilters, (state, { filters }) => ({
+    ...state,
+    filters: { ...state.filters, ...filters }
   })),
 );

@@ -22,3 +22,5 @@ export const loadProductFailure = createAction('[Product] Load Product Failure',
 export const setCurrentPage = createAction('[Product] Set Current Page', props<{ page: number }>());
 
 export const setPageSize = createAction('[Product] Set Page Size', props<{ pageSize: number }>());
+
+export const setFilters = createAction('[Product] Set Filters', props<{ filters: Record<string, string> }>());
