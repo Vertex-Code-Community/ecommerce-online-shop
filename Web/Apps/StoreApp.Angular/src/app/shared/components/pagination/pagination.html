@@ -1,0 +1,26 @@
+<div class="pagination">
+  <button class="pagination-btn" (click)="onPrevClick()" [disabled]="currentPage === 1">
+    ← Previous
+  </button>
+
+  <div class="pagination-pages">
+    @for (page of pages; track page) {
+
+      @if (page !== '...') {
+        <button
+          class="pagination-page"
+          [class.active]="page === currentPage"
+          (click)="onPageClick(page)">
+          {{ page }}
+        </button>
+      }
+      @else {
+        <span class="pagination-dots">...</span>
+      }
+    }
+  </div>
+
+  <button class="pagination-btn" (click)="onNextClick()" [disabled]="currentPage === totalPages">
+    Next →
+  </button>
+</div>

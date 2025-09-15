@@ -1,0 +1,47 @@
+@use '../styles/shared/variables' as *;
+@use '../styles/shared/mixins' as *;
+
+.pagination {
+  @include flex-between;
+  gap: $spacing-md;
+  margin: $spacing-md 0;
+
+  .pagination-btn {
+    @include button-base;
+    background-color: $color-bg-surface;
+    border: 1px solid $color-border;
+    color: $color-text-primary;
+    border-radius: $border-radius-md;
+
+    &:hover:not(:disabled) {
+      background-color: $color-bg-muted;
+    }
+  }
+
+  .pagination-pages {
+    @include flex-center;
+    gap: $spacing-sm;
+
+    .pagination-page {
+      @include button-base;
+      background-color: transparent;
+      border: none;
+      color: $color-text-primary;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $border-radius-md;
+
+      &.active {
+        background-color: $color-bg-muted;
+      }
+
+      &:hover:not(.active) {
+        background-color: $color-bg-subtle;
+      }
+    }
+
+    .pagination-dots {
+      padding: $spacing-sm $spacing-md;
+      color: $color-text-muted;
+    }
+  }
+}
