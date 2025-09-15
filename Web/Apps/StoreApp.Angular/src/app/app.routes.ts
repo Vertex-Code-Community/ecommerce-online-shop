@@ -5,6 +5,7 @@ import { ClientLayoutComponent } from './shared/layout/client-layout.component';
 import { HomeComponent } from './features/home/home.component';
 import { ProductDetailComponent } from './features/product-detail/product-detail.component';
 import { CartComponent } from './features/cart/cart.component';
+import { ProductsComponent } from './features/products/products.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
     children: [
       { path: 'auth/login', component: LoginPage, canActivate: [guestGuard] },
       { path: 'home', component: HomeComponent },
+      { path: 'products', component: ProductsComponent },
       { path: 'products/:id', component: ProductDetailComponent },
       { path: 'cart', component: CartComponent },
       { path: '', redirectTo: '/home', pathMatch: 'full' },

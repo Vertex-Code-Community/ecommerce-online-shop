@@ -16,7 +16,7 @@ export interface ColorOption {
 export class ColorSelectorComponent {
   @Input() colors: ColorOption[] = [];
   @Input() selectedColor: string | null = null; // hexCode of selected color
-  @Input() label: string = 'Select Colors';
+  @Input() label: string | null = 'Select Colors';
   @Output() colorSelected = new EventEmitter<ColorOption>();
 
   onColorSelect(color: ColorOption): void {
