@@ -6,6 +6,7 @@ import { HomeComponent } from './features/home/home.component';
 import { ProductDetailComponent } from './features/product-detail/product-detail.component';
 import { CartComponent } from './features/cart/cart.component';
 import { ProductsComponent } from './features/products/products.component';
+import {RegisterPage} from './features/auth/pages/register-page/register-page.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,7 @@ export const routes: Routes = [
     component: ClientLayoutComponent,
     children: [
       { path: 'auth/login', component: LoginPage, canActivate: [guestGuard] },
+      { path: 'auth/register', component: RegisterPage, canActivate: [guestGuard] },
       { path: 'home', component: HomeComponent },
       { path: 'products', component: ProductsComponent },
       { path: 'products/:id', component: ProductDetailComponent },

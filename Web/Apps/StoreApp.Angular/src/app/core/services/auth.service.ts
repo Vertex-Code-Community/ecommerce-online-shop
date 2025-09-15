@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import {delay, Observable, of, throwError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Tokens } from '../../shared/models/auth/tokens';
 import { LoginRequest } from '../../shared/models/auth/login-request';
+import {RegisterRequest} from '../../shared/models/auth/register-request';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -25,18 +26,28 @@ export class AuthService {
     return throwError(() => ({ message: errorMessage, statusCode }));
   }
 
-  login(request: LoginRequest): Observable<Tokens> {
-    return this.http.post<Tokens>(`${this.apiUrl}/login`, request)
+  register(request: RegisterRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/register`, request)
       .pipe(
         catchError(this.handleError.bind(this))
       );
 
     // Mocked response for UI testing without backend
-    // const mockTokens: Tokens = {
-    //   accessToken: 'mock-access-token-' + Date.now(),
-    //   refreshToken: 'mock-refresh-token-' + Date.now()
-    // };
-    // return of(mockTokens).pipe(delay(300));
+    return of(void 0).pipe(delay(400));
+  }
+
+  login(request: LoginRequest): Observable<Tokens> {
+    // return this.http.post<Tokens>(`${this.apiUrl}/login`, request)
+    //   .pipe(
+    //     catchError(this.handleError.bind(this))
+    //   );
+
+    // Mocked response for UI testing without backend
+    const mockTokens: Tokens = {
+      accessToken: 'mock-access-token-' + Date.now(),
+      refreshToken: 'mock-refresh-token-' + Date.now()
+    };
+    return of(mockTokens).pipe(delay(300));
   }
 
   logout(): Observable<void> {
@@ -46,7 +57,7 @@ export class AuthService {
       );
 
     // Mocked response for UI testing without backend
-    // return of(void 0).pipe(delay(200));
+    return of(void 0).pipe(delay(200));
   }
 
   refreshToken(request: Tokens): Observable<Tokens> {
@@ -56,10 +67,10 @@ export class AuthService {
       );
 
     // Mocked response for UI testing without backend
-    // const mockTokens: Tokens = {
-    //   accessToken: 'mock-access-token-refreshed-' + Date.now(),
-    //   refreshToken: 'mock-refresh-token-refreshed-' + Date.now()
-    // };
-    // return of(mockTokens).pipe(delay(250));
+    const mockTokens: Tokens = {
+      accessToken: 'mock-access-token-refreshed-' + Date.now(),
+      refreshToken: 'mock-refresh-token-refreshed-' + Date.now()
+    };
+    return of(mockTokens).pipe(delay(250));
   }
 }

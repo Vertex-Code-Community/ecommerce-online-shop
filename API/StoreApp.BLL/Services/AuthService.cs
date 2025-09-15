@@ -12,7 +12,7 @@ namespace StoreApp.BLL.Services;
 
 public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtProvider) : IAuthService
 {
-    public async Task RegisterUserAsync(CredentialsDto dto)
+    public async Task RegisterUserAsync(RegisterModel dto)
     {
         var existingUser = await userManager.FindByEmailAsync(dto.Email);
         if (existingUser is not null)
@@ -24,6 +24,7 @@ public class AuthService(UserManager<UserEntity> userManager, IJwtProvider jwtPr
         {
             UserName = dto.Email,
             Email = dto.Email,
+            PhoneNumber = dto.PhoneNumber
         };
         
         var result = await userManager.CreateAsync(newUser, dto.Password);

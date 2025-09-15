@@ -11,7 +11,7 @@ namespace StoreApp.API.Controllers;
 public class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("register")]
-    public async Task<IActionResult> RegisterAsync([FromBody] CredentialsDto model)
+    public async Task<IActionResult> RegisterAsync([FromBody] RegisterModel model)
     {
         await authService.RegisterUserAsync(model);
         return NoContent();

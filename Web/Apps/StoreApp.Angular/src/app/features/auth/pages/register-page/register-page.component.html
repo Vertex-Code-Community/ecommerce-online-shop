@@ -1,0 +1,170 @@
+<div class="auth-page-wrapper">
+  @if ((loading$ | async)) {
+    <div class="loading-indicator">
+      <app-dots-loader
+        color="#000000"
+        [size]="12"
+        [animationDuration]="1.2"/>
+    </div>
+  }
+  @else {
+    <div class="auth-page">
+      <div class="auth-content register-content">
+        <div class="auth-header">
+          <h1 class="auth-title">CREATE ACCOUNT</h1>
+          <p class="auth-subtitle">Please fill in your details to create an account</p>
+        </div>
+
+        <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="register-email" class="form-label">Email address</label>
+            <input
+              class="form-input"
+              id="register-email"
+              type="email"
+              placeholder="Enter your email"
+              formControlName="email"
+              [class.error]="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)"
+            />
+            <div class="error-message">
+              @if (registerForm.get('email')?.invalid &&
+                (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)
+                ) {
+                @if (registerForm.get('email')?.errors?.['required']) {
+                  <div>Email is required</div>
+                }
+                @if (registerForm.get('email')?.errors?.['email']) {
+                  <div>Please enter a valid email address</div>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="phone" class="form-label">Phone(Optional)</label>
+            <input
+              class="form-input"
+              id="phone"
+              type="text"
+              placeholder="Enter your phone"
+              formControlName="phone"
+              [class.error]="registerForm.get('phone')?.invalid && (registerForm.get('phone')?.touched || registerForm.get('phone')?.dirty)"
+            />
+            <div class="error-message">
+              @if (registerForm.get('phone')?.invalid &&
+              (registerForm.get('phone')?.touched || registerForm.get('phone')?.dirty)
+                ) {
+                @if (registerForm.get('phone')?.errors?.['phone']) {
+                  <div>Please enter a valid phone</div>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="register-password" class="form-label">Password</label>
+            <div class="password-input-wrapper">
+              <input
+                class="form-input"
+                id="register-password"
+                [type]="showPassword ? 'text' : 'password'"
+                placeholder="Enter your password"
+                formControlName="password"
+                [class.error]="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)"
+              />
+              <button
+                type="button"
+                class="password-toggle-btn"
+                (click)="togglePasswordVisibility()"
+                [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+              >
+                <img
+                  [src]="showPassword ? '/svg/eye-hidden.svg' : '/svg/eye-visible.svg'"
+                  [alt]="showPassword ? 'Hide' : 'Show'"
+                  class="password-toggle-icon"
+                />
+              </button>
+            </div>
+            <div class="error-message">
+              @if (registerForm.get('password')?.invalid &&
+                (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)
+                ) {
+                @if (registerForm.get('password')?.errors?.['required']) {
+                  <div>Password is required</div>
+                }
+                @if (registerForm.get('password')?.errors?.['minlength']) {
+                  <div>Password must be at least 8 characters</div>
+                }
+                @if (registerForm.get('password')?.errors?.['pattern']) {
+                  <div>Password must contain uppercase, lowercase letter and number</div>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <div class="password-input-wrapper">
+              <input
+                class="form-input"
+                id="confirmPassword"
+                [type]="showConfirmPassword ? 'text' : 'password'"
+                placeholder="Confirm your password"
+                formControlName="confirmPassword"
+                [class.error]="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)"
+              />
+              <button
+                type="button"
+                class="password-toggle-btn"
+                (click)="toggleConfirmPasswordVisibility()"
+                [attr.aria-label]="showConfirmPassword ? 'Hide password' : 'Show password'"
+              >
+                <img
+                  [src]="showConfirmPassword ? '/svg/eye-hidden.svg' : '/svg/eye-visible.svg'"
+                  [alt]="showConfirmPassword ? 'Hide' : 'Show'"
+                  class="password-toggle-icon"
+                />
+              </button>
+            </div>
+            <div class="error-message">
+              @if (registerForm.get('confirmPassword')?.invalid &&
+                (registerForm.get('confirmPassword')?.touched || registerForm.get('confirmPassword')?.dirty)
+                ) {
+                @if (registerForm.get('confirmPassword')?.errors?.['required']) {
+                  <div>Please confirm your password</div>
+                }
+                @if (registerForm.get('confirmPassword')?.errors?.['passwordMismatch']) {
+                  <div>Passwords do not match</div>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="sign-in--button"
+              [disabled]="(loading$ | async) || registerForm.invalid"
+            >
+              @if ((loading$ | async)) {
+                <app-dots-loader
+                  color="#ffffff"
+                  [size]="6"
+                  [animationDuration]="1.0"/>
+              } @else {
+                Create Account
+              }
+            </button>
+          </div>
+        </form>
+
+        <div class="auth-footer">
+          <p class="footer-text">
+            Already have an account?
+            <a class="signup-link" [routerLink]="'/auth/login'">Sign in</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  }
+</div>
