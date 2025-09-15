@@ -37,6 +37,8 @@
 
   <app-collapsible-section title="Price">
     <app-custom-slider
+      (valueRangeChange)="onPriceRangeChange($event)"
+      [(valueRange)]="priceRange"
       [min]="0" [max]="10000" [step]="100"
       mode="range" [showValues]="true"/>
   </app-collapsible-section>
@@ -44,13 +46,15 @@
   <div class="divider"></div>
 
   <app-collapsible-section title="Colors">
-    <app-color-selector [colors]="colors" [label]="null"/>
+    <app-color-selector [colors]="colors" [label]="null" (colorSelected)="onColorSelected($event)"
+                        [selectedColor]="selectedColor"/>
   </app-collapsible-section>
 
   <div class="divider"></div>
 
   <app-collapsible-section title="Sizes">
-    <app-size-selector [sizes]="sizes" [label]="null"/>
+    <app-size-selector [sizes]="sizes" [label]="null"
+                       (sizeSelected)="onSizeSelected($event)" [selectedSize]="selectedSize"/>
   </app-collapsible-section>
 
   <div class="divider"></div>
@@ -76,5 +80,5 @@
     </div>
   </app-collapsible-section>
 
-  <button class="apply-filters-btn">Apply Filter</button>
+  <button class="apply-filters-btn" (click)="onApplyFilters()">Apply Filter</button>
 </div>

@@ -62,51 +62,58 @@
   padding: 0 40px;
   gap: $spacing-lg;
 
-  .products-list-wrapper {
-    @include flex-center;
-    flex-direction: column;
+  .products-content {
+    @include flex-column;
+    width: 100%;
 
-    .products-header {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 $spacing-lg;
+    .products-list-wrapper {
+      @include flex-center;
+      flex-direction: column;
 
-      h1 {
-        font-family: var(--font-satoshi-bold), serif;
-        font-size: $font-size-xxxl;
-        color: $color-text-primary;
-        margin: 0;
-      }
-
-      .products-header-right {
+      .products-header {
+        width: 100%;
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: $spacing-md;
-        font-family: var(--font-satoshi-regular), serif;
+        padding: 0 $spacing-lg;
 
-        p {
+        h1 {
+          font-family: var(--font-satoshi-bold), serif;
+          font-size: $font-size-xxxl;
+          color: $color-text-primary;
           margin: 0;
-          font-size: $font-size-md;
-          color: $color-text-secondary;
         }
 
-        .sort-dropdown {
-          select {
-            appearance: none;
-            width: 100%;
-            padding: $spacing-sm $spacing-md;
-            max-width: 130px;
-            border: none;
-            border-radius: $border-radius-sm;
-            font-family: var(--font-satoshi-regular) serif;
+        .products-header-right {
+          display: flex;
+          align-items: center;
+          gap: $spacing-md;
+          font-family: var(--font-satoshi-regular), serif;
+
+          p {
+            margin: 0;
             font-size: $font-size-md;
-            color: $color-text-primary;
-            background-color: $scss-white;
-            cursor: pointer;
-            transition: border-color $transition-fast;
-            font-weight: bold;
+            color: $color-text-secondary;
+          }
+
+          .sort-dropdown {
+            @include flex-center;
+            flex-direction: row;
+
+            select {
+              appearance: none;
+              padding: $spacing-sm $spacing-md;
+              max-width: 130px;
+              border: none;
+              border-radius: $border-radius-sm;
+              font-family: var(--font-satoshi-regular) serif;
+              font-size: $font-size-md;
+              color: $color-text-primary;
+              background-color: $scss-white;
+              cursor: pointer;
+              transition: border-color $transition-fast;
+              font-weight: bold;
+            }
           }
         }
       }
@@ -123,5 +130,13 @@
 @media (max-width: 900px) {
   .filters-sidebar {
     display: none;
+  }
+
+  .products-page {
+    padding: 0 24px;
+  }
+
+  .products-header {
+    padding: 0 !important;
   }
 }

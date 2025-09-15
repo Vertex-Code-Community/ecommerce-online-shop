@@ -13,8 +13,9 @@ import {Product} from '../../shared/models/product/product';
 import {AsyncPipe} from '@angular/common';
 import {DotsLoaderComponent} from '../../shared/components/dots-loader/dots-loader.component';
 import {Pagination} from '../../shared/components/pagination/pagination';
-import {loadProducts, setCurrentPage, setPageSize} from '../../store/products/product.actions';
+import {loadProducts, setCurrentPage, setFilters, setPageSize} from '../../store/products/product.actions';
 import {ProductFiltersComponent} from './components/product-filters/product-filters.component';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-products',
@@ -23,7 +24,8 @@ import {ProductFiltersComponent} from './components/product-filters/product-filt
     AsyncPipe,
     DotsLoaderComponent,
     Pagination,
-    ProductFiltersComponent
+    ProductFiltersComponent,
+    FormsModule
   ],
   templateUrl: './products.component.html',
   standalone: true,
@@ -40,6 +42,7 @@ export class ProductsComponent {
   currentPage$: Observable<number> = this.store.select(selectCurrentPage);
   totalPages$: Observable<number> = this.store.select(selectTotalPages);
   pageSize$: Observable<number> = this.store.select(selectPageSize);
+  selectedSort = 'name-asc';
 
   ngOnInit(): void {
     this.store.dispatch(setPageSize({ pageSize: 9 }));
@@ -55,5 +58,16 @@ export class ProductsComponent {
     this.loadProducts();
   }
 
+  onSortChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const [sortBy, direction] = selectElement.value.split('-');
+
+    const sortAscending = direction === 'asc' ? 'true' : 'false';
+
+    this.selectedSort = selectElement.value;
+    this.store.dispatch(setFilters({ filters: { sortBy, sortAscending } }));
+  }
+
   protected readonly Math = Math;
+  protected readonly HTMLSelectElement = HTMLSelectElement;
 }

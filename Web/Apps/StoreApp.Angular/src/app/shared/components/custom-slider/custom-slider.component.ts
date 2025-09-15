@@ -25,20 +25,23 @@ export class CustomSliderComponent {
   @Output() valueChange = new EventEmitter<number>();
   @Output() valueRangeChange = new EventEmitter<[number, number]>();
 
+  onValueInput(event: Event) {
+    this.value = +(event.target as HTMLInputElement).value;
+  }
+
   onValueChange(event: Event) {
-    const newVal = +(event.target as HTMLInputElement).value;
-    this.value = newVal;
+    this.value = +(event.target as HTMLInputElement).value;
     this.valueChange.emit(this.value);
   }
 
-  onRangeChange(index: number, event: Event) {
-    const newVal = +(event.target as HTMLInputElement).value;
-    this.valueRange[index] = newVal;
+  onRangeInput(index: number, event: Event) {
+    this.valueRange[index] = +(event.target as HTMLInputElement).value;
+  }
 
+  onRangeChange() {
     if (this.valueRange[0] > this.valueRange[1]) {
       this.valueRange = [...this.valueRange].sort((a, b) => a - b) as [number, number];
     }
-
     this.valueRangeChange.emit(this.valueRange);
   }
 

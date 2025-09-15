@@ -1,27 +1,29 @@
-@if (isLoading$ | async) {
-  <div class="loading-indicator">
-    <app-dots-loader
-      color="#000000"
-      [size]="12"
-      [animationDuration]="1.2"/>
-  </div>
-}
-@else if (error$ | async)
-{
-  <div class="error-section">
-    <h2>Error Loading Products</h2>
-    <p>{{ (error$ | async).message }}</p>
-    <button (click)="loadProducts()" class="retry-button">Try Again</button>
-  </div>
-}
-@else if (products$ | async)
-{
-  <div class="products-page">
+<div class="products-page">
     <div class="filters-sidebar">
       <app-product-filters></app-product-filters>
     </div>
 
-    <div class="products-list-wrapper">
+  <div class="products-content">
+
+    @if(isLoading$ | async) {
+      <div class="loading-indicator">
+        <app-dots-loader
+          color="#000000"
+          [size]="12"
+          [animationDuration]="1.2"/>
+      </div>
+    }
+    @else if (error$ | async)
+    {
+      <div class="error-section">
+        <h2>Error Loading Products</h2>
+        <p>{{ (error$ | async).message }}</p>
+        <button (click)="loadProducts()" class="retry-button">Try Again</button>
+      </div>
+    }
+    @else
+    {
+      <div class="products-list-wrapper">
       <div class="products-header">
         <h2>Products</h2>
 
@@ -32,11 +34,11 @@
 
           <div class="sort-dropdown">
             <label for="sortSelect">Sort by: </label>
-            <select id="sortSelect">
-              <option value="nameAsc">Name (A-Z)</option>
-              <option value="nameDesc">Name (Z-A)</option>
-              <option value="priceAsc">Price (Low to High)</option>
-              <option value="priceDesc">Price (High to Low)</option>
+            <select id="sortSelect" [(ngModel)]="selectedSort" (change)="onSortChange($event)">
+              <option value="name-asc">Name Asc</option>
+              <option value="name-desc">Name Desc</option>
+              <option value="price-asc">Price Asc</option>
+              <option value="price-desc">Price Desc</option>
             </select>
           </div>
         </div>
@@ -53,5 +55,6 @@
         </app-store-pagination>
       }
     </div>
+    }
   </div>
-}
+</div>
