@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter, inject} from '@angular/core';
 import { ProductComponent } from '../product/product.component';
 import { Product } from '../../models/product/product';
-import {LoadingIndicatorComponent} from '../loading-indicator/loading-indicator.component';
+import {DotsLoaderComponent} from '../dots-loader/dots-loader.component';
 import {Router} from '@angular/router';
 
 @Component({
@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
   standalone: true,
-  imports: [ProductComponent, LoadingIndicatorComponent]
+  imports: [ProductComponent, DotsLoaderComponent]
 })
 export class ProductListComponent {
   @Input() products: Product[] = [];

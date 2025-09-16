@@ -1,0 +1,66 @@
+<div class="slider-wrapper">
+  <div class="slider-track">
+
+    @if (mode === 'range') {
+      <div
+        class="slider-range"
+        [ngStyle]="{
+          left: getPercentage(valueRange[0]) + '%',
+          width: (getPercentage(valueRange[1]) - getPercentage(valueRange[0])) + '%'
+        }"
+      ></div>
+    }
+    @else if (mode === 'single') {
+      <div
+        class="slider-range"
+        [ngStyle]="{
+          width: getPercentage(value) + '%'
+        }"
+      ></div>
+    }
+
+    @if (mode === 'single') {
+      <input
+        type="range"
+        [min]="min"
+        [max]="max"
+        [step]="step"
+        [(ngModel)]="value"
+        (input)="onValueInput($event)"
+        (change)="onValueChange($event)"
+      />
+    }
+
+    @if (mode === 'range') {
+      <input
+        type="range"
+        [min]="min"
+        [max]="max"
+        [step]="step"
+        [(ngModel)]="valueRange[0]"
+        (input)="onRangeInput(0, $event)"
+        (change)="onRangeChange()"
+      />
+      <input
+        type="range"
+        [min]="min"
+        [max]="max"
+        [step]="step"
+        [(ngModel)]="valueRange[1]"
+        (input)="onRangeInput(1, $event)"
+        (change)="onRangeChange()"
+      />
+    }
+  </div>
+
+  @if (showValues) {
+    <div class="slider-values">
+      @if (mode === 'single') {
+        <span>₴{{ value }}</span>
+      }
+      @if (mode === 'range') {
+        <span>₴{{ valueRange[0] }} – ₴{{ valueRange[1] }}</span>
+      }
+    </div>
+  }
+</div>

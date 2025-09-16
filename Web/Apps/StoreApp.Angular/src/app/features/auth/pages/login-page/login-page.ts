@@ -1,19 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as AuthActions from '../../../../store/auth/auth.actions';
 import * as AuthSelectors from '../../../../store/auth/auth.selectors';
 import { Observable } from 'rxjs';
 import { AppState } from '../../../../store/app.state';
+import { DotsLoaderComponent } from '../../../../shared/components/dots-loader/dots-loader.component';
 
 @Component({
   selector: 'app-login-page',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DotsLoaderComponent, RouterLink],
   templateUrl: './login-page.html',
   standalone: true,
-  styleUrls: ['./login-page.css']
+  styleUrls: ['./login-page.scss']
 })
 export class LoginPage {
   loginForm: FormGroup;
@@ -28,7 +29,11 @@ export class LoginPage {
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(4)])
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/)
+      ])
     });
 
     this.loading$ = this.store.select(AuthSelectors.selectAuthLoading);
@@ -53,7 +58,7 @@ export class LoginPage {
 
     } else {
       this.loginForm.markAllAsTouched();
-      console.warn('Form is invalid');
+      console.warn('Login form is invalid');
     }
   }
 }

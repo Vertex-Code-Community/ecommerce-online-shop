@@ -1,72 +1,111 @@
-<div class="login-form-container center">
-  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <h1 class="title">Log in</h1>
-    <div class="email-container">
-      <label for="email" class="input-label">Email address</label>
-      <input
-        class="login-input"
-        id="email"
-        type="email"
-        placeholder="example@gmail.com"
-        formControlName="email"
-      />
-      <div
-        *ngIf="
-        loginForm.get('email')?.invalid &&
-        (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
-      >
-        <div
-          class="input-error"
-          *ngIf="loginForm.get('email')?.errors?.['required']"
-        >
-          Email is required.
+<div class="auth-page-wrapper">
+  @if ((loading$ | async)) {
+    <div class="loading-indicator">
+      <app-dots-loader
+        color="#000000"
+        [size]="12"
+        [animationDuration]="1.2"/>
+    </div>
+  }
+  @else {
+    <div class="auth-page">
+      <div class="auth-content login-content">
+        <div class="auth-header">
+          <h1 class="auth-title">WELCOME BACK</h1>
+          <p class="auth-subtitle">Please sign in to your account</p>
         </div>
-        <div
-          class="input-error"
-          *ngIf="loginForm.get('email')?.errors?.['email']"
-        >
-          Email is invalid.
+
+        <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="login-email" class="form-label">Email address</label>
+            <input
+              class="form-input"
+              id="login-email"
+              type="email"
+              placeholder="Enter your email"
+              formControlName="email"
+              [class.error]="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+            />
+            <div class="error-message">
+              @if (loginForm.get('email')?.invalid &&
+                (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)
+                ) {
+                @if (loginForm.get('email')?.errors?.['required']) {
+                  <div>Email is required</div>
+                }
+                @if (loginForm.get('email')?.errors?.['email']) {
+                  <div>Please enter a valid email address</div>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="login-password" class="form-label">Password</label>
+            <div class="password-input-wrapper">
+              <input
+                class="form-input"
+                id="login-password"
+                [type]="showPassword ? 'text' : 'password'"
+                placeholder="Enter your password"
+                formControlName="password"
+                [class.error]="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
+              />
+              <button
+                type="button"
+                class="password-toggle-btn"
+                (click)="togglePasswordVisibility()"
+                [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+              >
+                <img
+                  [src]="showPassword ? '/svg/eye-hidden.svg' : '/svg/eye-visible.svg'"
+                  [alt]="showPassword ? 'Hide' : 'Show'"
+                  class="password-toggle-icon"
+                />
+              </button>
+            </div>
+            <div class="error-message">
+              @if (loginForm.get('password')?.invalid &&
+                (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)
+                ) {
+                @if (loginForm.get('password')?.errors?.['required']) {
+                  <div>Password is required</div>
+                }
+                @if (loginForm.get('password')?.errors?.['minlength']) {
+                  <div>Password must be at least 8 characters</div>
+                }
+                @if (loginForm.get('password')?.errors?.['pattern']) {
+                  <div>Password must contain uppercase, lowercase letter and number</div>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="submit"
+              class="sign-in--button"
+              [disabled]="(loading$ | async) || loginForm.invalid"
+            >
+              @if ((loading$ | async)) {
+                <app-dots-loader
+                  color="#ffffff"
+                  [size]="6"
+                  [animationDuration]="1.0"/>
+              } @else {
+                Sign In
+              }
+            </button>
+          </div>
+        </form>
+
+        <div class="auth-footer">
+          <p class="footer-text">
+            Don't have an account?
+            <a class="signup-link" [routerLink]="'/auth/register'">Sign up</a>
+          </p>
         </div>
       </div>
     </div>
-    <div class="password-container">
-      <label for="password" class="input-label">Password</label>
-      <div class="password-wrapper">
-        <input
-          class="login-input"
-          id="password"
-          [type]="showPassword ? 'text' : 'password'"
-          placeholder="Enter your password"
-          formControlName="password"
-        />
-        <button
-          type="button"
-          class="toggle-password-btn"
-          (click)="togglePasswordVisibility()"
-        >
-          {{ showPassword ? 'Hide' : 'Show' }}
-        </button>
-      </div>
-      <div
-        *ngIf="
-        loginForm.get('password')?.invalid &&
-        (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)
-      "
-      >
-        <div
-          class="input-error"
-          *ngIf="loginForm.get('password')?.errors?.['required']"
-        >
-          Password is required.
-        </div>
-        <div
-          class="input-error"
-          *ngIf="loginForm.get('password')?.errors?.['minlength']"
-        >
-          Password must be at least 8 characters.
-        </div>
-      </div>
-    </div>
-    <button type="submit" class="login-button button-large">Login</button>
-  </form>
+  }
 </div>

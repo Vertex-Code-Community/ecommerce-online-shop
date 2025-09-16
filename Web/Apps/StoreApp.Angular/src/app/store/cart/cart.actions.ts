@@ -103,3 +103,17 @@ export const clearCartFailure = createAction(
   '[Cart] Clear Cart Failure',
   props<{ error: any }>()
 );
+
+export const syncCartToApi = createAction(
+  '[Cart] Sync Cart To API'
+);
+
+export const syncCartToApiSuccess = createAction(
+  '[Cart] Sync Cart To API Success',
+  props<{ items: CartItem[] }>()
+);
+
+export const syncCartToApiFailure = createAction(
+  '[Cart] Sync Cart To API Failure',
+  props<{ error: any }>()
+);

@@ -13,4 +13,5 @@ export class ProductPriceComponent {
   @Input() oldPrice?: number;
   @Input() discount?: number;
   @Input() textSize: string = '1em';
+  @Input() color: string = '#000';
 }

@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as AuthActions from './auth.actions';
+import * as CartActions from '../cart/cart.actions';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
@@ -27,6 +28,35 @@ export class AuthEffects {
         )
       )
     )
+  );
+
+  register$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.register),
+      mergeMap((registerRequest) =>
+        this.authService.register(registerRequest.request).pipe(
+          map(() => AuthActions.registerSuccess()),
+          catchError((err) => {
+            console.error('Register error:', err);
+            return of(AuthActions.registerFailure({
+              message: err?.message || 'Register failed',
+              statusCode: err?.statusCode || 500
+            }));
+          })
+        )
+      )
+    )
+  );
+
+  onRegisterSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.registerSuccess),
+      tap(() => {
+        console.log('Registration successful, navigating to login');
+        this.router.navigate(['/auth/login']);
+      })
+    ),
+    { dispatch: false }
   );
 
   logout$ = createEffect(() =>
@@ -105,6 +135,13 @@ export class AuthEffects {
       })
     ),
     { dispatch: false }
+  );
+
+  syncCartOnLoginSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.loginSuccess),
+      map(() => CartActions.syncCartToApi())
+    )
   );
 
   navigateToLoginOnLogout$ = createEffect(() =>

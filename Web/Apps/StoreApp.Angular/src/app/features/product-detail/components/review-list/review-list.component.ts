@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReviewComponent } from '../../../../shared/components/review/review.component';
+import { DotsLoaderComponent } from '../../../../shared/components/dots-loader/dots-loader.component';
 import { Review } from '../../../../shared/models/review/review';
 
 export enum ReviewSortOptions {
@@ -12,7 +13,7 @@ export enum ReviewSortOptions {
 @Component({
   selector: 'app-review-list',
   standalone: true,
-  imports: [CommonModule, ReviewComponent],
+  imports: [CommonModule, ReviewComponent, DotsLoaderComponent],
   templateUrl: './review-list.component.html',
   styleUrl: './review-list.component.scss'
 })

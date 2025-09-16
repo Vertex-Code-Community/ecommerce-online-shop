@@ -1,0 +1,12 @@
+<div class="collapsible-section">
+  <div class="section-header" (click)="toggle()">
+    <span>{{ title }}</span>
+    <img class="arrow" [class.open]="isOpen" src="/svg/dropdown-arrow.svg" alt="Toggle" />
+  </div>
+
+  @if(isOpen) {
+    <div class="section-content">
+      <ng-content></ng-content>
+    </div>
+  }
+</div>

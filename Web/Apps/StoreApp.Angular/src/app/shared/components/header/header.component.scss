@@ -1,5 +1,7 @@
-@use '../../../../styles/shared/variables' as *;
-@use '../../../../styles/shared/mixins' as *;
+@use './shared/variables' as *;
+@use './shared/mixins' as *;
+@use 'sass:color' as color;
+
 
 * {
   box-sizing: border-box;
@@ -141,12 +143,47 @@
   height: 22px;
 }
 
+.authenticated-actions {
+  @include flex-center;
+  gap: 8px;
+}
+
 .user-profile {
   width: 22px;
   height: 22px;
   cursor: pointer;
   flex-shrink: 0;
   @include flex-center;
+}
+
+.login-button,
+.logout-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 64px;
+  background-color: #000000;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-family: 'Satoshi Medium', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #FFFFFF;
+  padding: 8px 24px;
+  white-space: nowrap;
+
+  &:active {
+    transform: scale(0.96);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.logout-button,
+.login-button {
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
 }
 
 .cart-badge {
@@ -260,5 +297,15 @@
 
   .user-actions {
     gap: 12px;
+  }
+
+  .login-button,
+  .logout-button {
+    padding: 6px 12px;
+    font-size: $font-size-xs;
+  }
+
+  .authenticated-actions {
+    gap: 6px;
   }
 }

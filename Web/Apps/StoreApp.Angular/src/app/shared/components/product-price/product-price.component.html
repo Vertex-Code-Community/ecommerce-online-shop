@@ -1,5 +1,5 @@
 <div class="price">
-    <span class="current">{{ currentPrice | currency }}</span>
+    <span class="current" [style]="{ color: color || '#000' }">{{ currentPrice | currency }}</span>
     @if (oldPrice) {
         <span class="old">{{ oldPrice | currency }}</span>
     }

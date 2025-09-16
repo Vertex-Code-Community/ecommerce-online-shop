@@ -5,7 +5,7 @@ import { ProductService } from '../../core/services/product.service';
 import { catchError, map, mergeMap, of, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
-import { selectCurrentPage, selectPageSize } from './product.selectors';
+import {selectCurrentPage, selectFilters, selectPageSize} from './product.selectors';
 
 @Injectable()
 export class ProductEffects {
@@ -18,12 +18,13 @@ export class ProductEffects {
       ofType(ProductActions.loadProducts),
       withLatestFrom(
         this.store.select(selectCurrentPage),
-        this.store.select(selectPageSize)
+        this.store.select(selectPageSize),
+        this.store.select(selectFilters),
       ),
-      mergeMap(([_, page, pageSize]) => {
+      mergeMap(([_, page, pageSize, filters]) => {
         const safePage = page || 1;
         const safePageSize = pageSize || 10;
-        return this.productService.getPagedProducts(safePage, safePageSize).pipe(
+        return this.productService.getPagedProducts(safePage, safePageSize, filters).pipe(
           map(result => ProductActions.loadProductsSuccess({ result })),
           catchError(err => {
             console.error('Error loading products:', err);
@@ -52,6 +53,13 @@ export class ProductEffects {
           })
         )
       )
+    )
+  );
+
+  setFilters$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.setFilters),
+      map(() => ProductActions.loadProducts())
     )
   );
 

@@ -41,7 +41,10 @@
 
   @if (isLoading) {
     <div class="loading-state">
-      <p>Loading reviews...</p>
+      <app-dots-loader
+        color="#33b469"
+        [size]="8"
+        [animationDuration]="1.0"/>
     </div>
   } @else {
     <div class="review-list">

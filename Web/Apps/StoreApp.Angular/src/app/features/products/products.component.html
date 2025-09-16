@@ -1,0 +1,67 @@
+<div class="products-page">
+    <div class="filters-sidebar">
+      <app-product-filters></app-product-filters>
+    </div>
+
+  <div class="products-content">
+
+    @if(isLoading$ | async) {
+      <div class="loading-indicator">
+        <app-dots-loader
+          color="#000000"
+          [size]="12"
+          [animationDuration]="1.2"/>
+      </div>
+    }
+    @else if (error$ | async)
+    {
+      <div class="error-section">
+        <h2>Error Loading Products</h2>
+        <p>{{ (error$ | async).message }}</p>
+        <button (click)="loadProducts()" class="retry-button">Try Again</button>
+      </div>
+    }
+    @else
+    {
+      @if((totalCount$ | async) === 0) {
+        <div class="no-products">
+          <h2>No Products Found</h2>
+          <p>Try adjusting your filters or search criteria.</p>
+        </div>
+      } @else {
+        <div class="products-list-wrapper">
+          <div class="products-header">
+            <h2>Products</h2>
+
+            <div class="products-header-right">
+              <p class="product-count">Showing {{ (currentPage$ | async)! * (pageSize$ | async)! - ((pageSize$ | async)! - 1) }} -
+                {{ Math.min((currentPage$ | async)! * (pageSize$ | async)!, (totalCount$ | async)!) }} of
+                {{ (totalCount$ | async)! }} products</p>
+
+              <div class="sort-dropdown">
+                <label for="sortSelect">Sort by: </label>
+                <select id="sortSelect" [(ngModel)]="selectedSort" (change)="onSortChange($event)">
+                  <option value="name-asc">Name Asc</option>
+                  <option value="name-desc">Name Desc</option>
+                  <option value="price-asc">Price Asc</option>
+                  <option value="price-desc">Price Desc</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <app-product-list [isScrollable]="false" [showViewAllButton]="false" [products]="(products$ | async)!"></app-product-list>
+
+          @if((totalPages$ | async) && (currentPage$ | async))
+          {
+            <app-store-pagination
+              [totalPages]="(totalPages$ | async)!"
+              [currentPage]="(currentPage$ | async)!"
+              (pageChange)="onPageChange($event)">
+            </app-store-pagination>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>

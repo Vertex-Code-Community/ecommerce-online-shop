@@ -1,9 +1,10 @@
 <div class="product-detail-page-wrapper">
   @if (isLoading$ | async) {
     <div class="loading-indicator">
-      <app-loading-indicator
-        text="Loading product details..."
-        size="large" color="#33b469"/>
+      <app-dots-loader
+        color="#000000"
+        [size]="12"
+        [animationDuration]="1.2"/>
     </div>
   }
   @else if (error$ | async)

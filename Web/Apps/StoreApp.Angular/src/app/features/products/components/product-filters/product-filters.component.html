@@ -1,0 +1,84 @@
+<div class="filter-sidebar">
+  <h3 class="filter-title">
+    Filters
+    <div class="filter-icon-wrapper">
+      <img src="/svg/filters.svg" alt="Menu" class="filter-icon" />
+    </div>
+  </h3>
+
+  <div class="divider"></div>
+
+  <app-collapsible-section title="Categories">
+    <div class="filter-list">
+      <span>
+        T-shirts
+        <img src="/svg/dropdown-arrow.svg" alt="Arrow Right" class="arrow-icon" />
+      </span>
+      <span>
+        Shorts
+        <img src="/svg/dropdown-arrow.svg" alt="Arrow Right" class="arrow-icon" />
+      </span>
+      <span>
+        Shirts
+        <img src="/svg/dropdown-arrow.svg" alt="Arrow Right" class="arrow-icon" />
+      </span>
+      <span>
+        Hoodie
+        <img src="/svg/dropdown-arrow.svg" alt="Arrow Right" class="arrow-icon" />
+      </span>
+      <span>
+        Jeans
+        <img src="/svg/dropdown-arrow.svg" alt="Arrow Right" class="arrow-icon" />
+      </span>
+    </div>
+  </app-collapsible-section>
+
+  <div class="divider"></div>
+
+  <app-collapsible-section title="Price">
+    <app-custom-slider
+      (valueRangeChange)="onPriceRangeChange($event)"
+      [(valueRange)]="priceRange"
+      [min]="0" [max]="10000" [step]="100"
+      mode="range" [showValues]="true"/>
+  </app-collapsible-section>
+
+  <div class="divider"></div>
+
+  <app-collapsible-section title="Colors">
+    <app-color-selector [colors]="colors" [label]="null" (colorSelected)="onColorSelected($event)"
+                        [selectedColor]="selectedColor"/>
+  </app-collapsible-section>
+
+  <div class="divider"></div>
+
+  <app-collapsible-section title="Sizes">
+    <app-size-selector [sizes]="sizes" [label]="null"
+                       (sizeSelected)="onSizeSelected($event)" [selectedSize]="selectedSize"/>
+  </app-collapsible-section>
+
+  <div class="divider"></div>
+
+  <app-collapsible-section title="Dress Styles">
+    <div class="filter-list">
+      <span>
+        Casual
+        <img src="/svg/dropdown-arrow.svg" alt="Arrow Right" class="arrow-icon" />
+      </span>
+      <span>
+        Formal
+        <img src="/svg/dropdown-arrow.svg" alt="Arrow Right" class="arrow-icon" />
+      </span>
+      <span>
+        Party
+        <img src="/svg/dropdown-arrow.svg" alt="Arrow Right" class="arrow-icon" />
+      </span>
+      <span>
+        Gym
+        <img src="/svg/dropdown-arrow.svg" alt="Arrow Right" class="arrow-icon" />
+      </span>
+    </div>
+  </app-collapsible-section>
+
+  <button class="apply-filters-btn" (click)="onApplyFilters()">Apply Filter</button>
+</div>

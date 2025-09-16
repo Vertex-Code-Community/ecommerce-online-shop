@@ -21,7 +21,10 @@
   }
   @else {
     <div class="loading-indicator">
-        <app-loading-indicator text="Loading products..." size="medium" color="#33b469"/>
+        <app-dots-loader
+          color="#000000"
+          [size]="10"
+          [animationDuration]="1.0"/>
     </div>
   }
 </div>

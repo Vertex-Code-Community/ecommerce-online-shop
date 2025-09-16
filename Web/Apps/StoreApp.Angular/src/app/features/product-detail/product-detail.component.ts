@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CommonModule, AsyncPipe } from '@angular/common';
-import { LoadingIndicatorComponent } from '../../shared/components/loading-indicator/loading-indicator.component';
+import { DotsLoaderComponent } from '../../shared/components/dots-loader/dots-loader.component';
 import { ReviewListComponent } from './components/review-list/review-list.component';
 import { ProductInfoComponent } from './components/product-info/product-info.component';
 import { ProductListComponent } from '../../shared/components/product-list/product-list.component';
@@ -27,7 +27,7 @@ import { selectIsAuthenticated } from '../../store/auth/auth.selectors';
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, LoadingIndicatorComponent, ReviewListComponent, ProductInfoComponent, ProductListComponent],
+  imports: [CommonModule, AsyncPipe, DotsLoaderComponent, ReviewListComponent, ProductInfoComponent, ProductListComponent],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
 })

@@ -1,0 +1,33 @@
+@use '../../../../styles/shared/variables' as *;
+@use '../../../../styles/shared/mixins' as *;
+
+.collapsible-section {
+  @include flex-column;
+  gap: $spacing-md;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  font-family: $font-family-satoshi-bold, serif;
+  font-weight: 700;
+  font-size: $font-size-xl;
+  line-height: 100%;
+  letter-spacing: 0;
+  vertical-align: middle;
+}
+
+.arrow {
+  transition: transform 0.2s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.section-content {
+  margin-top: 8px;
+}

@@ -1,0 +1,102 @@
+<div class="cart-page-wrapper">
+  @if ((isLoading$ | async) === true) {
+    <div class="loading-indicator">
+      <app-dots-loader
+        color="#000000"
+        [size]="10"
+        [animationDuration]="1.0"/>
+    </div>
+  } @else {
+    <div class="cart-page">
+      <div class="cart-title">YOUR CART</div>
+
+      @if ((cartItems$ | async)!.length === 0) {
+        <div class="empty-cart">
+          <p>Your cart is empty.</p>
+        </div>
+      } @else {
+        <div class="content">
+          <div class="items">
+            @for (item of (cartItems$ | async); track item.product.id; let i = $index) {
+              <div class="cart-item">
+                <div class="image" [routerLink]="['/products', item.product.id]">
+                  <img [src]="item.product.imageUrl" [alt]="item.product.name" />
+                </div>
+                <div class="details">
+                  <div class="top-row">
+                    <div class="title">{{ item.product.name }}</div>
+                    <button class="remove" (click)="removeItem(item)">
+                      <img src="/svg/trash-icon.svg" alt="Remove item" />
+                    </button>
+                  </div>
+                  <div class="product-options">
+                    <div class="option">
+                      <span class="option-label">Color:</span>
+                      <span class="option-value">{{ item.productDetail.colorName }}</span>
+                    </div>
+                    <div class="option">
+                      <span class="option-label">Size:</span>
+                      <span class="option-value">{{ item.productDetail.sizeName }}</span>
+                    </div>
+                  </div>
+                  <div class="bottom-row">
+                    <div class="meta">
+                      <app-product-price [currentPrice]="item.product.price" />
+                    </div>
+                    <div class="quantity">
+                      <app-counter
+                        [value]="item.quantity"
+                        [min]="1"
+                        [max]="item.productDetail.unitsInStock"
+                        (valueChanged)="onQuantityChange(item, $event)"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              @if ((cartItems$ | async)?.length! > 1 && i < (cartItems$ | async)?.length! - 1) {
+                <div class="item-separator"></div>
+              }
+            }
+          </div>
+
+          <div class="summary">
+            <div class="summary-title">Order Summary</div>
+            <div class="row">
+              <div class="row-title">Subtotal</div>
+              <app-product-price [currentPrice]="getSubtotal((cartItems$ | async)!)" />
+            </div>
+            <div class="row">
+              <div class="row-title">Discount ({{ promoApplied ? '-' + discountPercentage + '%' : '0%' }})</div>
+              <app-product-price [currentPrice]="promoApplied ? -getDiscountAmount((cartItems$ | async)!) : 0" [color]="'#FF0000'" />
+            </div>
+            <div class="row">
+              <div class="row-title">Delivery Fee</div>
+              <app-product-price [currentPrice]="deliveryFee" />
+            </div>
+            <div class="item-separator"></div>
+            <div class="total">
+              <div class="row-title">Total</div>
+              <app-product-price [currentPrice]="getTotal((cartItems$ | async)!)" />
+            </div>
+
+            <div class="promo">
+              <div class="promo-input">
+                <img src="/svg/label-icon.svg" alt="Promo code" />
+                <input
+                  type="text"
+                  placeholder="Add promo code"
+                  [(ngModel)]="promoCode">
+              </div>
+              <button class="apply-btn" (click)="applyPromoCode()">Apply</button>
+            </div>
+
+            <button class="checkout-btn" (click)="goToCheckout()">
+              Go to Checkout
+              <img src="/svg/arrow-right.svg" alt="Arrow right" />
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

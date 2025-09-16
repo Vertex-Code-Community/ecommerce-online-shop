@@ -189,6 +189,11 @@
   --muted: var(--color-text-muted);
   --border: var(--color-border);
 
+  --font-satoshi-regular: 'Satoshi Regular', #{$font-family-primary};
+  --font-satoshi-medium: 'Satoshi Medium', #{$font-family-primary};
+  --font-satoshi-bold: 'Satoshi Bold', #{$font-family-primary};
+  --font-integral-bold: 'Integral CF Bold', #{$font-family-secondary};
+
   --sidebar: #0e131a;
   --sidebar-contrast: var(--fg);
   --sidebar-border: var(--border);

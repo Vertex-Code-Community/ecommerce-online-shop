@@ -75,6 +75,11 @@ $button-gap: 10px;
   gap: $button-gap;
 }
 
+.counter-wrapper {
+  max-width: 170px;
+  width: 100%;
+}
+
 .add-to-cart-button {
   @include button-base;
   font-family: var(--font-satoshi-medium);
@@ -116,12 +121,11 @@ hr {
   border-top: 1px solid $color-border-light;
 }
 
-// Проміжний breakpoint для кращої адаптивності
 @media (max-width: 1350px) {
   .product-detail {
     gap: $product-detail-gap-tablet;
   }
-  
+
   .product-detail app-image-gallery {
     width: 45%;
     max-width: 500px;
@@ -132,7 +136,7 @@ hr {
   .product-detail {
     gap: $product-detail-gap-tablet;
   }
-  
+
   .product-detail app-image-gallery {
     width: 48%;
     max-width: 450px;
@@ -160,16 +164,20 @@ hr {
     gap: $product-detail-gap-mobile;
   }
 
+  .counter-wrapper {
+    max-width: 110px;
+  }
+
   .product-detail app-image-gallery,
   .product-info {
     width: 100%;
     max-width: 100%;
   }
-    
+
   .product-title {
     font-size: 28px;
   }
-  
+
   .product-price {
     font-size: 20px;
   }
