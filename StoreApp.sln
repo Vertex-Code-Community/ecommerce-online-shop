@@ -17,6 +17,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.Angular", "Web\App
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{8FBA62F1-09A9-4B8B-8F4E-C2A57EA3160B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipelines", "Pipelines", "{AB77525F-D6DA-49D1-8F13-9773A253F2C4}"
+	ProjectSection(SolutionItems) = preProject
+		Pipelines\swa-store-app-admin.yaml = Pipelines\swa-store-app-admin.yaml
+		Pipelines\swa-store-app-angular.yaml = Pipelines\swa-store-app-angular.yaml
+		Pipelines\wa-store-app-api.yaml = Pipelines\wa-store-app-api.yaml
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.BLL", "API\StoreApp.BLL\StoreApp.BLL.csproj", "{88CA9F55-C835-78D9-ED4C-8297E4DAD299}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp.DAL", "API\StoreApp.DAL\StoreApp.DAL.csproj", "{8986BA72-504D-6217-D8CF-7FD517E0E709}"
