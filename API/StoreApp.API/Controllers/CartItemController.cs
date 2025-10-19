@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StoreApp.API.Extensions;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.Models;
+using StoreApp.SharedAPI.Extensions;
 
 namespace StoreApp.API.Controllers;
 

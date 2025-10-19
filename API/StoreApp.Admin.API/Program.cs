@@ -1,4 +1,3 @@
-using StoreApp.DAL.Data;
 using StoreApp.SharedAPI.Extensions;
 using StoreApp.SharedAPI.Middleware;
 
@@ -30,19 +29,5 @@ app.UseAuthorization();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
-
-using (var scope = app.Services.CreateScope())
-{
-    try
-    {
-        var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
-        await seeder.Seed();
-    }
-    catch (Exception e)
-    {
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogError(e, "An error occurred while seeding the database.");
-    }
-}
 
 app.Run();
