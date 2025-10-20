@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace StoreApp.DAL.Entities;
+namespace StoreApp.Entities.Entities;
 
 public class UserEntity : IdentityUser
 {

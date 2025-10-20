@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using StoreApp.DAL.Entities;
+using StoreApp.Entities.Entities;
 using StoreApp.Shared.Enums;
 
 namespace StoreApp.DAL.Data;

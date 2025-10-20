@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using StoreApp.BLL.Options;
-using StoreApp.DAL.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
+using StoreApp.Entities.Entities;
 
 namespace StoreApp.BLL.Security;
 

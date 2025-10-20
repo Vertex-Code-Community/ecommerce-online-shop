@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using StoreApp.DAL.Entities;
+using StoreApp.Entities.Entities;
 
 namespace StoreApp.DAL.Data.Configurations;
 

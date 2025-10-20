@@ -3,6 +3,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using StoreApp.BLL.Exceptions;
 using StoreApp.Models;
 using System.Text.RegularExpressions;
+using StoreApp.BLL.MediaStorage.Interfaces;
 
 namespace StoreApp.BLL.MediaStorage;
 

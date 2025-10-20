@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using StoreApp.DAL.Entities;
+using StoreApp.Entities.Entities;
 
 namespace StoreApp.DAL.Data.Configurations;
 

@@ -10,15 +10,16 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StoreApp.BLL.MapperProfiles;
 using StoreApp.BLL.MediaStorage;
+using StoreApp.BLL.MediaStorage.Interfaces;
 using StoreApp.BLL.Options;
 using StoreApp.BLL.Security;
 using StoreApp.BLL.Services;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Data;
-using StoreApp.DAL.Entities;
 using StoreApp.DAL.Exceptions.Handlers;
 using StoreApp.DAL.Repositories;
 using StoreApp.DAL.Repositories.Interfaces;
+using StoreApp.Entities.Entities;
 
 namespace StoreApp.SharedAPI.Extensions;
 

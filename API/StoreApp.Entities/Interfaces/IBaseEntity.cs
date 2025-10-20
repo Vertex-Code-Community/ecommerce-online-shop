@@ -1,4 +1,4 @@
-namespace StoreApp.DAL.Entities;
+namespace StoreApp.Entities.Interfaces;
 
 public interface IBaseEntity<TKey>
 {

@@ -1,8 +1,8 @@
 using AutoMapper;
 using StoreApp.BLL.Exceptions;
 using StoreApp.BLL.Services.Interfaces;
-using StoreApp.DAL.Entities;
 using StoreApp.DAL.Repositories.Interfaces;
+using StoreApp.Entities.Entities;
 using StoreApp.Models;
 
 namespace StoreApp.BLL.Services;

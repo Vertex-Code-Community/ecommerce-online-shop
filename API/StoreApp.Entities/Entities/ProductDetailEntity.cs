@@ -1,4 +1,6 @@
-namespace StoreApp.DAL.Entities;
+using StoreApp.Entities.Interfaces;
+
+namespace StoreApp.Entities.Entities;
 
 public class ProductDetailEntity : IBaseEntity<long>
 {

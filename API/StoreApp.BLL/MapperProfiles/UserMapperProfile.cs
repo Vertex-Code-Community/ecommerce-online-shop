@@ -1,5 +1,5 @@
 using AutoMapper;
-using StoreApp.DAL.Entities;
+using StoreApp.Entities.Entities;
 using StoreApp.Models;
 
 namespace StoreApp.BLL.MapperProfiles;
