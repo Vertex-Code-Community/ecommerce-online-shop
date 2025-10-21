@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\StoreApp.SharedAPI\StoreApp.SharedAPI.csproj" />
     <ProjectReference Include="..\StoreApp.BLL\StoreApp.BLL.csproj" />
     <ProjectReference Include="..\StoreApp.DAL\StoreApp.DAL.csproj" />
     <ProjectReference Include="..\..\Shared\StoreApp.Models\StoreApp.Models.csproj" />

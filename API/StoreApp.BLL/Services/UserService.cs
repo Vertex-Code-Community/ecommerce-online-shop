@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.BLL.Exceptions;
 using StoreApp.BLL.Services.Interfaces;
-using StoreApp.DAL.Entities;
+using StoreApp.Entities.Entities;
 using StoreApp.Models;
 
 namespace StoreApp.BLL.Services;

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\StoreApp.Shared\StoreApp.Shared.csproj" />
+    <ProjectReference Include="..\StoreApp.Entities\StoreApp.Entities.csproj" />
   </ItemGroup>
 
 </Project>

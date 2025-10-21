@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using StoreApp.DAL.Data.Configurations;
-using StoreApp.DAL.Entities;
+using StoreApp.Entities.Entities;
 
 namespace StoreApp.DAL.Data;
 

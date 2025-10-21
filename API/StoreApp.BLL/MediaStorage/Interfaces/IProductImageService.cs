@@ -1,6 +1,6 @@
 using StoreApp.Models;
 
-namespace StoreApp.BLL.MediaStorage;
+namespace StoreApp.BLL.MediaStorage.Interfaces;
 
 public interface IProductImageService
 {

@@ -3,10 +3,10 @@ using Microsoft.IdentityModel.Tokens;
 using StoreApp.BLL.Exceptions;
 using StoreApp.BLL.Security;
 using StoreApp.BLL.Services.Interfaces;
-using StoreApp.DAL.Entities;
 using StoreApp.Models;
 using StoreApp.Shared.Enums;
 using System.Security.Claims;
+using StoreApp.Entities.Entities;
 
 namespace StoreApp.BLL.Services;
 

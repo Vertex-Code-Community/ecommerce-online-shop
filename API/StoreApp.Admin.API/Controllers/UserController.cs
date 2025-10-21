@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.Shared.Enums;
 
-namespace StoreApp.API.Controllers;
+namespace StoreApp.Admin.API.Controllers;
 
 [ApiController]
 [Authorize(Roles = nameof(UserRole.Admin))]
-[Route("api/[controller]")]
+[Route("api/admin/[controller]")]
 public class UserController(IUserService userService) : ControllerBase
 {
     [HttpGet]

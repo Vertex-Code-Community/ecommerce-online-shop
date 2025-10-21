@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using StoreApp.BLL.MediaStorage;
-using StoreApp.DAL.Entities;
+using StoreApp.BLL.MediaStorage.Interfaces;
 using StoreApp.DAL.Repositories.Interfaces;
 using StoreApp.Models;
 using StoreApp.BLL.Services.Interfaces;
+using StoreApp.Entities.Entities;
 using StoreApp.Shared;
 
 namespace StoreApp.BLL.Services;

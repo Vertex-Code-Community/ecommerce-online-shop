@@ -1,9 +1,11 @@
+using System.Text.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using StoreApp.BLL.Exceptions;
 using StoreApp.DAL.Exceptions;
 using StoreApp.Models;
-using System.Text.Json;
 
-namespace StoreApp.API.Middleware;
+namespace StoreApp.SharedAPI.Middleware;
 
 public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 {

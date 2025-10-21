@@ -1,4 +1,4 @@
-namespace StoreApp.BLL.MediaStorage;
+namespace StoreApp.BLL.MediaStorage.Interfaces;
 
 public interface IBlobService
 {

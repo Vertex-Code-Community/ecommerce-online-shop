@@ -1,4 +1,5 @@
-using StoreApp.DAL.Entities;
+
+using StoreApp.Entities.Entities;
 
 namespace StoreApp.DAL.Repositories.Interfaces;
 

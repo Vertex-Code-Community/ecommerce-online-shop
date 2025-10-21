@@ -1,5 +1,5 @@
-﻿using StoreApp.DAL.Entities;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using StoreApp.Entities.Entities;
 
 namespace StoreApp.BLL.Security;
 

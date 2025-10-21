@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StoreApp.API.Extensions;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.Models;
-using StoreApp.Shared.Enums;
+using StoreApp.SharedAPI.Extensions;
 
 namespace StoreApp.API.Controllers;
 
@@ -45,14 +44,6 @@ public class ReviewController(IReviewService service) : ControllerBase
     public async Task<IActionResult> AddAsync([FromBody] CreateReview dto)
     {
         await service.AddReviewAsync(dto, User.GetUserId());
-        return NoContent();
-    }
-
-    [Authorize(Roles = nameof(UserRole.Admin))]
-    [HttpDelete("{id:long}")]
-    public async Task<IActionResult> DeleteByIdAsync(long id)
-    {
-        await service.DeleteReviewAsync(id);
         return NoContent();
     }
 }

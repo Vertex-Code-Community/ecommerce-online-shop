@@ -14,6 +14,7 @@ import { UpdateProduct } from '../../shared/models/product/updateProduct';
 })
 export class ProductService {
   private apiUrl = `${environment.apiUrl}/product`;
+  private adminApiUrl = `${environment.adminApiUrl}/product`;
 
   http: HttpClient = inject(HttpClient);
 
@@ -118,7 +119,7 @@ export class ProductService {
       return throwError(() => ({ message: 'Product ID is required for update', statusCode: 400 }));
     }
 
-    return this.http.put<void>(`${this.apiUrl}`, product)
+    return this.http.put<void>(`${this.adminApiUrl}`, product)
       .pipe(
         catchError(this.handleError.bind(this))
       );
@@ -131,7 +132,7 @@ export class ProductService {
       return throwError(() => ({ message: 'Invalid product ID', statusCode: 400 }));
     }
 
-    return this.http.delete<void>(`${this.apiUrl}/${id}`)
+    return this.http.delete<void>(`${this.adminApiUrl}/${id}`)
       .pipe(
         catchError(this.handleError.bind(this))
       );

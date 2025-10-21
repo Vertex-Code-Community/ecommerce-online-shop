@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using StoreApp.DAL.Entities;
 using StoreApp.DAL.Exceptions.Handlers;
 using StoreApp.DAL.Filtering;
 using StoreApp.DAL.Repositories.Interfaces;
+using StoreApp.Entities.Interfaces;
 using StoreApp.Shared;
 
 namespace StoreApp.DAL.Repositories;

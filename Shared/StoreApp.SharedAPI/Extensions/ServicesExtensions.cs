@@ -1,23 +1,27 @@
+using System.Text;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StoreApp.BLL.MapperProfiles;
 using StoreApp.BLL.MediaStorage;
+using StoreApp.BLL.MediaStorage.Interfaces;
 using StoreApp.BLL.Options;
 using StoreApp.BLL.Security;
 using StoreApp.BLL.Services;
 using StoreApp.BLL.Services.Interfaces;
 using StoreApp.DAL.Data;
-using StoreApp.DAL.Entities;
 using StoreApp.DAL.Exceptions.Handlers;
 using StoreApp.DAL.Repositories;
 using StoreApp.DAL.Repositories.Interfaces;
-using System.Text;
+using StoreApp.Entities.Entities;
 
-namespace StoreApp.API.Extensions;
+namespace StoreApp.SharedAPI.Extensions;
 
 
 public static class ServicesExtensions

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StoreApp.DAL.Data;
-using StoreApp.DAL.Entities;
 using StoreApp.DAL.Exceptions.Handlers;
 using StoreApp.DAL.Repositories.Interfaces;
+using StoreApp.Entities.Entities;
 
 namespace StoreApp.DAL.Repositories;
 
